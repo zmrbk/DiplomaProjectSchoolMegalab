@@ -2,14 +2,13 @@ package kg.megacom.diplomaprojectschoolmegalab.controller;
 
 
 import jakarta.persistence.EntityNotFoundException;
-import kg.megacom.diplomaprojectschoolmegalab.dto.EmployeeCreateRequest;
-import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
-import kg.megacom.diplomaprojectschoolmegalab.dto.UserDto;
+import kg.megacom.diplomaprojectschoolmegalab.dto.*;
 import kg.megacom.diplomaprojectschoolmegalab.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserServiceImpl userService;
+
+ //   @PreAuthorize("hasRole('ADMIN')")
 
 
     @GetMapping(value = "/get-user-by-id/{id}")
@@ -33,6 +34,7 @@ public class UserController {
         }
 
     }
+
     @GetMapping(value = "/get-all-user")
     public ResponseEntity<Response> getAllUser(@RequestParam(defaultValue = "0") int page,
                                                @RequestParam(defaultValue = "10") int size,
@@ -41,6 +43,16 @@ public class UserController {
         Response response = userService.getAllUsersWithPagination(page, size, sort);
         return ResponseEntity.ok(response);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(value = "/set-role/{id}")
+    public ResponseEntity<Response> setRole(@RequestParam String role, @PathVariable Long id) {
+        log.info("[#setRole] is calling");
+        Response response = userService.setRole(role, id);
+        return ResponseEntity.ok(response);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/update/{id}")
     public ResponseEntity<Response> updateEmployee(@RequestBody UserDto userDto, @PathVariable Long id) {
         log.info("[#updateEmployee] is calling");
@@ -48,10 +60,11 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<Response> deleteEmployee(@PathVariable Long id) {
         log.info("[#delete] is calling");
-        userService.delete(id);
+        userService.deleteUser(id);
         return ResponseEntity.ok(new Response("Deleted!", "ID: " + id));
     }
 }

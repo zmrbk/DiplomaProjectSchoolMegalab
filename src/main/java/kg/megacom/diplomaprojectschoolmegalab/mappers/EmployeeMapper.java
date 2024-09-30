@@ -24,7 +24,7 @@ public class EmployeeMapper {
         return employee;
     }
 
-    public EmployeeCreateRequest toStaffCreateRequest(Employee employee) {
+    public EmployeeCreateRequest toEmployeeCreateRequest(Employee employee) {
         EmployeeCreateRequest employeeCreateRequest = new EmployeeCreateRequest();
         employeeCreateRequest.setId(employee.getId());
         employeeCreateRequest.setSalary(employee.getSalary());
@@ -33,9 +33,9 @@ public class EmployeeMapper {
         return employeeCreateRequest;
     }
 
-    public List<EmployeeCreateRequest> toStaffCreateRequestList(List<Employee> all) {
+    public List<EmployeeCreateRequest> toEmployeeCreateRequestList(List<Employee> all) {
         return all.stream()
-                .map(this::toStaffCreateRequest)
+                .map(this::toEmployeeCreateRequest)
                 .collect(Collectors.toList());
 
     }

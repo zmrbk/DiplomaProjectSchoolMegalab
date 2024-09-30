@@ -11,7 +11,8 @@ public interface UserService {
     User getCurrentUser();
     Optional<User> getById(Long id);
     Response getUserResponseById(Long id);
-    User getAdmin();
     Response getAllUsersWithPagination(int firstPage, int pageSize, String[] sort);
+    Response setRole(String role, Long id);
     Response updateUser(Long id, UserDto userDto);
+    void deleteUser(Long id);
 }

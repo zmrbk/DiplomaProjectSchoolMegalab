@@ -32,7 +32,7 @@ public class AuthenticationServiceImpl {
         userService.create(user);
 
         var jwt = jwtService.generateToken(user);
-        return new JwtAuthenticationResponse(jwt);
+        return new JwtAuthenticationResponse(jwt, userService.getByUsername(user.getUsername()).getId());
     }
 
     // Аутентификация пользователя
@@ -47,6 +47,6 @@ public class AuthenticationServiceImpl {
                 .loadUserByUsername(request.getUsername());
 
         var jwt = jwtService.generateToken(user);
-        return new JwtAuthenticationResponse(jwt);
+        return new JwtAuthenticationResponse(jwt, userService.getByUsername(request.getUsername()).getId());
     }
 }

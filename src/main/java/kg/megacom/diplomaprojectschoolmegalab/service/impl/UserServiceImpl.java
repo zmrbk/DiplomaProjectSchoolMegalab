@@ -84,12 +84,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public Response setRole(String role, Long id) {
+        User user = userRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("User not found"));
+        user.setRole(Role.valueOf(role));
+        userRepository.save(user);
+        return new Response("User", userMapper.toUserDto(user));
+    }
+
+    @Override
     public Response updateUser(Long id, UserDto userDto) {
         User user = userRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("User not found"));
         User newUser = userMapper.updateUser(user, userDto);
         userRepository.save(newUser);
         UserDto newUserDto = userMapper.toUserDto(newUser);
         return new Response("User", newUserDto);
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("User not found"));
+        userRepository.delete(user);
     }
 
     public UserDetailsService userDetailsService() {

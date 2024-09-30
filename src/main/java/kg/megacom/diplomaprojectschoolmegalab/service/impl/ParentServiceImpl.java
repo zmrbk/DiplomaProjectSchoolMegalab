@@ -26,24 +26,23 @@ public class ParentServiceImpl implements ParentService {
     private final UserService userService;
 
     @Override
-    public Response createParent(ParentDto parentDto) throws AccountNotFoundException {
+    public Response createParent(ParentDto parentDto) throws EntityNotFoundException {
         if (userService.getById(parentDto.getUserId()).isEmpty()) {
-            throw new AccountNotFoundException("User not found");
+            throw new EntityNotFoundException("User not found");
         }
         Parent parent = new Parent();
-        parent.setUser(userService.getById(parentDto.getUserId()).orElseThrow(() -> new AccountNotFoundException("User not found")));
-
-        return new Response("Parent created", parentDto);
+        parent.setUser(userService.getById(parentDto.getUserId()).orElseThrow(() -> new EntityNotFoundException("User not found")));
+        return new Response("Parent created", parentRepository.save(parent));
     }
 
     @Override
-    public Response updateParent(ParentDto parentDto, Long userId) throws AccountNotFoundException {
+    public Response updateParent(ParentDto parentDto, Long userId) throws EntityNotFoundException {
         if (userService.getById(parentDto.getUserId()).isEmpty()) {
-            throw new AccountNotFoundException("User not found");
+            throw new EntityNotFoundException("User not found");
         }
         Parent parent = new Parent();
         parent.setId(parentDto.getId());
-        parent.setUser(userService.getById(parentDto.getUserId()).orElseThrow(() -> new AccountNotFoundException("User not found")));
+        parent.setUser(userService.getById(parentDto.getUserId()).orElseThrow(() -> new EntityNotFoundException("User not found")));
         parentRepository.save(parent);
         return new Response("Parent updated", parentMapper.toParentDto(parent));
     }

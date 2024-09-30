@@ -2,7 +2,6 @@ package kg.megacom.diplomaprojectschoolmegalab.service.impl;
 
 
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
-import kg.megacom.diplomaprojectschoolmegalab.dto.UserDto;
 import kg.megacom.diplomaprojectschoolmegalab.enams.Role;
 import kg.megacom.diplomaprojectschoolmegalab.entity.User;
 import kg.megacom.diplomaprojectschoolmegalab.mappers.UserMapper;
@@ -42,16 +41,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.save(user);
     }
 
-    @Override
-    public Optional<User> getById(Long id) {
-        return userRepository.findById(id);
-    }
 
-    @Override
-    public Response getUserResponseById(Long id) {
-        UserDto userDto = userMapper.toUserDto(userRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("User not found")));
-        return new Response("User", userDto);
-    }
 
     public User getByUsername(String username) {
         return userRepository.findByUsername(username)
@@ -73,38 +63,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return user;
     }
 
-    @Override
-    public Response getAllUsersWithPagination(int firstPage, int pageSize, String[] sort) {
-        Sort.Direction direction = Sort.Direction.fromString(sort[1]);
-        Pageable pageable = PageRequest.of(firstPage, pageSize, Sort.by(direction, sort[0]));
-        Page<User> pages = userRepository.findAll(pageable);
-        List<User> users = pages.getContent();
-        List<UserDto> usersDto = userMapper.toUserDtoList(users);
-        return new Response("Users", usersDto);
-    }
 
-    @Override
-    public Response setRole(String role, Long id) {
-        User user = userRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("User not found"));
-        user.setRole(Role.valueOf(role));
-        userRepository.save(user);
-        return new Response("User", userMapper.toUserDto(user));
-    }
-
-    @Override
-    public Response updateUser(Long id, UserDto userDto) {
-        User user = userRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("User not found"));
-        User newUser = userMapper.updateUser(user, userDto);
-        userRepository.save(newUser);
-        UserDto newUserDto = userMapper.toUserDto(newUser);
-        return new Response("User", newUserDto);
-    }
-
-    @Override
-    public void deleteUser(Long id) {
-        User user = userRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("User not found"));
-        userRepository.delete(user);
-    }
 
     public UserDetailsService userDetailsService() {
         return this::getByUsername;

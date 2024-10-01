@@ -27,7 +27,7 @@ create table if not exists parents (
 );
 
 --классы (10А)
-create table grades (
+create table student_class (
                         id bigserial primary key,
                         grade_title varchar not null,
                         teacher_id bigint references employees(id),
@@ -37,7 +37,7 @@ create table grades (
 create table if not exists students (
                                         id bigserial primary key,
                                         birthday date not null,
-                                        grade_id bigserial references grades(id) not null,
+                                        grade_id bigserial references studentClasses(id) not null,
                                         user_id bigserial references users(id) not null,
                                         parent_id bigint references parents(id) not null,
                                         parent_status varchar not null
@@ -67,7 +67,7 @@ create table if not exists schedules (
                                          year varchar not null,
                                          subject_id bigint references subjects(id),
                                          teacher_id bigint references employees(id),
-                                         grade_id bigint references grades(id),
+                                         grade_id bigint references studentClasses(id),
                                          is_approve boolean default false
 );
 

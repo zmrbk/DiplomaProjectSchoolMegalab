@@ -26,17 +26,17 @@ public class ParentServiceImpl implements ParentService {
     private final UserService userService;
 
     @Override
-    public Response createParent(ParentDto parentDto) throws EntityNotFoundException {
+    public void create(ParentDto parentDto) throws EntityNotFoundException {
         if (userService.getById(parentDto.getUserId()).isEmpty()) {
             throw new EntityNotFoundException("User not found");
         }
         Parent parent = new Parent();
         parent.setUser(userService.getById(parentDto.getUserId()).orElseThrow(() -> new EntityNotFoundException("User not found")));
-        return new Response("Parent created", parentRepository.save(parent));
+        parentRepository.save(parent);
     }
 
     @Override
-    public Response updateParent(ParentDto parentDto, Long userId) throws EntityNotFoundException {
+    public Response update(ParentDto parentDto, Long id) throws EntityNotFoundException {
         if (userService.getById(parentDto.getUserId()).isEmpty()) {
             throw new EntityNotFoundException("User not found");
         }
@@ -48,7 +48,7 @@ public class ParentServiceImpl implements ParentService {
     }
 
     @Override
-    public Response deleteParent(Long id) throws EntityNotFoundException {
+    public Response delete(Long id) throws EntityNotFoundException {
         if (!parentRepository.existsById(id)) {
             throw new EntityNotFoundException("Parent not found");
         }
@@ -56,13 +56,13 @@ public class ParentServiceImpl implements ParentService {
     }
 
     @Override
-    public Response getAllParents() {
+    public Response getAll() {
         List<ParentDto> list = parentMapper.toParentDtoList(parentRepository.findAll());
         return new Response("All parents", list);
     }
 
     @Override
-    public Response getParentById(Long id) {
+    public Response getById(Long id) {
         Parent parent = parentRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException("Parent not found"));
         return new Response("Get Parent ID", parentMapper.toParentDto(parent));

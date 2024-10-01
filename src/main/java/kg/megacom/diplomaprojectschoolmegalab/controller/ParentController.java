@@ -1,13 +1,8 @@
 package kg.megacom.diplomaprojectschoolmegalab.controller;
 
 
-import jakarta.servlet.ServletResponse;
-import kg.megacom.diplomaprojectschoolmegalab.dto.EmployeeCreateRequest;
 import kg.megacom.diplomaprojectschoolmegalab.dto.ParentDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
-import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
-import kg.megacom.diplomaprojectschoolmegalab.service.ParentService;
-import kg.megacom.diplomaprojectschoolmegalab.service.impl.EmployeeServiceImpl;
 import kg.megacom.diplomaprojectschoolmegalab.service.impl.ParentServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,42 +18,44 @@ public class ParentController {
 
     private final ParentServiceImpl parentService;
 
-    @PostMapping(value = "/create")
-    public ResponseEntity<Response> createEmployee(@RequestBody ParentDto parentDto) {
+    @PostMapping
+    public ResponseEntity<Response> create(@RequestBody ParentDto parentDto) {
         log.info("[#createParent] is calling");
         try {
-            return ResponseEntity.ok(parentService.createParent(parentDto));
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-
+            parentService.create(parentDto);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(new Response("Grade is created", parentDto));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new Response("Invalid input", e.getMessage()));
         }
     }
 
-    @GetMapping(value = "/get-parent-by-id/{id}")
-    public ResponseEntity<Response> getEmployeeById(@PathVariable Long id) {
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Response> getById(@PathVariable Long id) {
         log.info("[#getParentById] is calling");
-        Response response = parentService.getParentById(id);
+        Response response = parentService.getById(id);
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping(value = "/get-all-parents")
-    public ResponseEntity<Response> getAllEmployees(ServletResponse servletResponse) {
-        log.info("[#getAllParents] is calling");
-        Response response = parentService.getAllParents();
+    @GetMapping
+    public ResponseEntity<Response> getAll() {
+        log.info("[#getAll] is calling");
+        Response response = parentService.getAll();
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping(value = "/update-parent/{id}")
-    public ResponseEntity<Response> updateEmployee(@RequestBody ParentDto parentDto, @PathVariable Long id) {
-        log.info("[#updateEmployee] is calling");
-        Response response = parentService.updateParent(parentDto, id);
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Response> update(@RequestBody ParentDto parentDto, @PathVariable Long id) {
+        log.info("[#updateParent] is calling");
+        Response response = parentService.update(parentDto, id);
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<Response> deleteEmployee(@PathVariable Long id) {
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Response> delete(@PathVariable Long id) {
         log.info("[#delete] is calling");
-        parentService.deleteParent(id);
+        parentService.delete(id);
         return ResponseEntity.ok(new Response("Deleted!", "ID: " + id));
     }
 }

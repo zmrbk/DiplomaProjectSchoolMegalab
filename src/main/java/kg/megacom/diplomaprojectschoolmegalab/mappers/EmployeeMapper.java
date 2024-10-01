@@ -3,6 +3,7 @@ package kg.megacom.diplomaprojectschoolmegalab.mappers;
 import kg.megacom.diplomaprojectschoolmegalab.dto.EmployeeCreateRequest;
 import kg.megacom.diplomaprojectschoolmegalab.entity.Employee;
 import kg.megacom.diplomaprojectschoolmegalab.entity.User;
+import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
 import kg.megacom.diplomaprojectschoolmegalab.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,9 +16,12 @@ import java.util.stream.Collectors;
 public class EmployeeMapper {
 
     private final UserService userService;
-    public Employee toEmployee(EmployeeCreateRequest employeeCreateRequest, Employee employee) {
-        User user = userService.getById(employeeCreateRequest.getUserId()).orElseThrow();
-        employee.setId(employeeCreateRequest.getId());
+
+    public Employee toEmployee(EmployeeCreateRequest employeeCreateRequest) {
+        Employee employee = new Employee();
+        User user = userService.getById(employeeCreateRequest.getUserId()).orElseThrow(
+                () -> new EntityNotFoundException("User with id " + employeeCreateRequest.getUserId() + " not found")
+        );
         employee.setSalary(employeeCreateRequest.getSalary());
         employee.setPosition(employeeCreateRequest.getPosition());
         employee.setUser(user);

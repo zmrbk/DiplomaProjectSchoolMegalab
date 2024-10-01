@@ -6,47 +6,54 @@ import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.service.impl.EmployeeServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/employee")
+@RequestMapping(value = "/employees")
 @Slf4j
 public class EmployeeController {
 
     private final EmployeeServiceImpl employeeService;
 
-    @PostMapping(value = "/create")
-    public ResponseEntity<String> createEmployee(@RequestBody EmployeeCreateRequest employeeCreateRequest) {
+    @PostMapping
+    public ResponseEntity<Response> create(@RequestBody EmployeeCreateRequest employeeCreateRequest) {
         log.info("[#createEmployee] is calling");
-        employeeService.createEmployee(employeeCreateRequest);
-        return ResponseEntity.ok("Employee created");
+        try {
+            employeeService.create(employeeCreateRequest);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(new Response("Employee is created: ", employeeCreateRequest));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new Response("Invalid input", e.getMessage()));
+        }
     }
 
-    @GetMapping(value = "/get-employee-by-id/{id}")
-    public ResponseEntity<Response> getEmployeeById(@PathVariable Long id) {
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Response> getById(@PathVariable Long id) {
         log.info("[#getEmployeeById] is calling");
-        Response response = employeeService.findEmployeeById(id);
+        Response response = employeeService.findById(id);
         return ResponseEntity.ok(response);
     }
-    @GetMapping(value = "/get-all-employee")
-    public ResponseEntity<Response> getAllEmployees() {
+    @GetMapping
+    public ResponseEntity<Response> getAll() {
         log.info("[#getAllEmployees] is calling");
-        Response response = employeeService.getAllEmployees();
+        Response response = employeeService.getAll();
         return ResponseEntity.ok(response);
     }
-    @PostMapping(value = "/update-employee/{id}")
-    public ResponseEntity<Response> updateEmployee(@RequestBody EmployeeCreateRequest employeeCreateRequest, @PathVariable Long id) {
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Response> update(@RequestBody EmployeeCreateRequest employeeCreateRequest, @PathVariable Long id) {
         log.info("[#updateEmployee] is calling");
-        Response response = employeeService.updateEmployee(employeeCreateRequest, id);
+        Response response = employeeService.update(employeeCreateRequest, id);
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<Response> deleteEmployee(@PathVariable Long id) {
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Response> delete(@PathVariable Long id) {
         log.info("[#delete] is calling");
-        employeeService.deleteEmployee(id);
+        employeeService.delete(id);
         return ResponseEntity.ok(new Response("Deleted!", "ID: " + id));
     }
 }

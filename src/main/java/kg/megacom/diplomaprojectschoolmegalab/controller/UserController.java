@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/users")
 @Slf4j
 public class UserController {
 
@@ -22,8 +22,8 @@ public class UserController {
  //   @PreAuthorize("hasRole('ADMIN')")
 
 
-    @GetMapping(value = "/get-user-by-id/{id}")
-    public ResponseEntity<Response> getStaffById(@PathVariable Long id) {
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Response> getById(@PathVariable Long id) {
         log.info("[#getUserById] is calling");
 
         try {
@@ -35,8 +35,8 @@ public class UserController {
 
     }
 
-    @GetMapping(value = "/get-all-user")
-    public ResponseEntity<Response> getAllUser(@RequestParam(defaultValue = "0") int page,
+    @GetMapping
+    public ResponseEntity<Response> getAll(@RequestParam(defaultValue = "0") int page,
                                                @RequestParam(defaultValue = "10") int size,
                                                @RequestParam(defaultValue = "username,asc") String[] sort) {
         log.info("[#getAllUsers] is calling");
@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping(value = "/set-role/{id}")
+    @PostMapping(value = "/{id}/role")
     public ResponseEntity<Response> setRole(@RequestParam String role, @PathVariable Long id) {
         log.info("[#setRole] is calling");
         Response response = userService.setRole(role, id);
@@ -53,16 +53,16 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping(value = "/update/{id}")
-    public ResponseEntity<Response> updateEmployee(@RequestBody UserDto userDto, @PathVariable Long id) {
+    @PutMapping(value = "/update/{id}")
+    public ResponseEntity<Response> update(@RequestBody UserDto userDto, @PathVariable Long id) {
         log.info("[#updateEmployee] is calling");
         Response response = userService.updateUser( id,userDto);
         return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<Response> deleteEmployee(@PathVariable Long id) {
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Response> delete(@PathVariable Long id) {
         log.info("[#delete] is calling");
         userService.deleteUser(id);
         return ResponseEntity.ok(new Response("Deleted!", "ID: " + id));

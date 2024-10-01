@@ -22,41 +22,40 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
-    public void createEmployee(EmployeeCreateRequest request) {
-        if (userService.getById(request.getUserId()).isEmpty()){
+    public void create(EmployeeCreateRequest request) {
+        if (userService.getById(request.getUserId()).isEmpty()) {
             throw new EntityNotFoundException("User not found, please create new user first");
         }
-        Employee employee = employeeMapper.toEmployee(request, new Employee());
+        Employee employee = employeeMapper.toEmployee(request);
         employeeRepository.save(employee);
     }
 
     @Override
-    public Response findEmployeeById(Long id) {
-        Employee employee = employeeRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Employee not found"));
+    public Response findById(Long id) {
+        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee not found"));
         EmployeeCreateRequest employeeCreateRequest = employeeMapper.toEmployeeCreateRequest(employee);
-        return new Response("Find Employee by id", employeeCreateRequest);
+        return new Response("Find Employee by id: ", employeeCreateRequest);
 
     }
 
     @Override
-    public Response updateEmployee(EmployeeCreateRequest request, Long id) {
-        if (userService.getById(request.getUserId()).isEmpty()){
+    public Response update(EmployeeCreateRequest request, Long id) {
+        if (userService.getById(request.getUserId()).isEmpty()) {
             return new Response("Error: user_id " + request.getUserId() + " is not found", "Check user_id");
         }
-        Employee oldEmployee = employeeRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Staff not found"));
-        Employee newEmployee = employeeMapper.toEmployee(request, oldEmployee);
+        Employee newEmployee = employeeMapper.toEmployee(request);
         newEmployee.setId(id);
         employeeRepository.save(newEmployee);
-        return new Response("Update Employee", employeeMapper.toEmployeeCreateRequest(newEmployee));
+        return new Response("Update Employee: ", employeeMapper.toEmployeeCreateRequest(newEmployee));
     }
 
     @Override
-    public Response getAllEmployees() {
-        return new Response("Get all Employee", employeeMapper.toEmployeeCreateRequestList(employeeRepository.findAll()));
+    public Response getAll() {
+        return new Response("Get all Employee: ", employeeMapper.toEmployeeCreateRequestList(employeeRepository.findAll()));
     }
 
     @Override
-    public void deleteEmployee(Long id) {
+    public void delete(Long id) {
         employeeRepository.deleteById(id);
     }
 

@@ -29,7 +29,7 @@ public class AuthController {
     }
     //Вход
     @PostMapping(value = "/sign-in")
-    public ResponseEntity<JwtAuthenticationResponse> singIn(@RequestBody @Valid SignInRequest request) {
+    public ResponseEntity<JwtAuthenticationResponse> signIn(@RequestBody @Valid SignInRequest request) {
         log.info("[#signIn] is calling");
         JwtAuthenticationResponse response = authenticationService.signIn(request);
         return ResponseEntity.ok(response);

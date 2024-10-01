@@ -4,13 +4,13 @@ import kg.megacom.diplomaprojectschoolmegalab.dto.EmployeeCreateRequest;
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 
 public interface EmployeeService {
-    void createEmployee(EmployeeCreateRequest staffRequest);
+    void create(EmployeeCreateRequest staffRequest);
 
-    Response findEmployeeById(Long id);
+    Response findById(Long id);
 
-    Response updateEmployee(EmployeeCreateRequest staffRequest, Long id);
+    Response update(EmployeeCreateRequest staffRequest, Long id);
 
-    Response getAllEmployees();
+    Response getAll();
 
-    void deleteEmployee(Long id);
+    void delete(Long id);
 }

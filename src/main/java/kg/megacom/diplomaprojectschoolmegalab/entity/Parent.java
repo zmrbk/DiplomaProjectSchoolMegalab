@@ -1,7 +1,6 @@
 package kg.megacom.diplomaprojectschoolmegalab.entity;
 
 import jakarta.persistence.*;
-import kg.megacom.diplomaprojectschoolmegalab.enams.JobTitle;
 import lombok.*;
 
 @Entity

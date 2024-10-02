@@ -22,7 +22,7 @@ public class UserMapper {
         userDto.setMiddleName(user.getMiddleName());
         userDto.setPhone(user.getPhone());
         userDto.setEmail(user.getEmail());
-        userDto.setRole(user.getRole());
+//        userDto.setRole(user.getRole());
         userDto.setCreationDate(user.getCreationDate());
         userDto.setActive(user.isActive());
         return userDto;
@@ -41,7 +41,7 @@ public class UserMapper {
         user.setMiddleName(userDto.getMiddleName());
         user.setPhone(userDto.getPhone());
         user.setEmail(userDto.getEmail());
-        user.setRole(userDto.getRole());
+//        user.setRole(userDto.getRole());
         user.setCreationDate(userDto.getCreationDate());
         user.setActive(userDto.isActive());
         return user;

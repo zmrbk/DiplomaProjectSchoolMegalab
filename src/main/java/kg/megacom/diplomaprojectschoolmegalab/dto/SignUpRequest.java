@@ -1,6 +1,6 @@
 package kg.megacom.diplomaprojectschoolmegalab.dto;
 
-import kg.megacom.diplomaprojectschoolmegalab.enams.Role;
+import kg.megacom.diplomaprojectschoolmegalab.enums.Role;
 import lombok.Data;
 
 @Data

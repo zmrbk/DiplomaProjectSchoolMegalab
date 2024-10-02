@@ -6,7 +6,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "student_class")
+@Table(name = "student_classes")
 @Builder
 @Getter
 @Setter
@@ -16,7 +16,8 @@ public class StudentClass {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String gradeTitle;
+    @Column(name = "class_title")
+    private String classTitle;
     @OneToOne
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     private Employee employee;

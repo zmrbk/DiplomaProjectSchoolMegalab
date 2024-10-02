@@ -1,4 +1,5 @@
-package kg.megacom.diplomaprojectschoolmegalab.enams;
+package kg.megacom.diplomaprojectschoolmegalab.enums;
+
 public enum Role {
     ADMIN,
     DIRECTOR,

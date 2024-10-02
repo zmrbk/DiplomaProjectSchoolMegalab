@@ -2,7 +2,6 @@ package kg.megacom.diplomaprojectschoolmegalab.mappers;
 
 import kg.megacom.diplomaprojectschoolmegalab.dto.UserDto;
 import kg.megacom.diplomaprojectschoolmegalab.entity.User;
-import kg.megacom.diplomaprojectschoolmegalab.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

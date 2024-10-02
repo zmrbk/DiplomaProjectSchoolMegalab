@@ -3,7 +3,6 @@ package kg.megacom.diplomaprojectschoolmegalab.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 import java.util.Set;
 
 @Entity

@@ -1,6 +1,6 @@
-package kg.megacom.diplomaprojectschoolmegalab.enams;
+package kg.megacom.diplomaprojectschoolmegalab.enums;
 
-public enum JobTitle {
+public enum Position {
     DIRECTOR,
     SECRETARY,
     HEAD_TEACHER,

@@ -2,7 +2,6 @@ package kg.megacom.diplomaprojectschoolmegalab.mappers;
 
 import kg.megacom.diplomaprojectschoolmegalab.dto.UserDto;
 import kg.megacom.diplomaprojectschoolmegalab.entity.User;
-import kg.megacom.diplomaprojectschoolmegalab.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +21,7 @@ public class UserMapper {
         userDto.setMiddleName(user.getMiddleName());
         userDto.setPhone(user.getPhone());
         userDto.setEmail(user.getEmail());
-        userDto.setRole(user.getRole());
+//        userDto.setRole(user.getRole());
         userDto.setCreationDate(user.getCreationDate());
         userDto.setActive(user.isActive());
         return userDto;
@@ -41,7 +40,7 @@ public class UserMapper {
         user.setMiddleName(userDto.getMiddleName());
         user.setPhone(userDto.getPhone());
         user.setEmail(userDto.getEmail());
-        user.setRole(userDto.getRole());
+//        user.setRole(userDto.getRole());
         user.setCreationDate(userDto.getCreationDate());
         user.setActive(userDto.isActive());
         return user;

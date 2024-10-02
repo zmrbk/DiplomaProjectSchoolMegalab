@@ -3,7 +3,6 @@ package kg.megacom.diplomaprojectschoolmegalab.service.impl;
 
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.dto.UserDto;
-import kg.megacom.diplomaprojectschoolmegalab.enams.Role;
 import kg.megacom.diplomaprojectschoolmegalab.entity.User;
 import kg.megacom.diplomaprojectschoolmegalab.mappers.UserMapper;
 import kg.megacom.diplomaprojectschoolmegalab.repository.UserRepository;
@@ -68,7 +67,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Deprecated
     public User getAdmin() {
         var user = getCurrentUser();
-        user.setRole(Role.ADMIN);
+//        user.setRole(Role.ADMIN);
         userRepository.save(user);
         return user;
     }
@@ -86,7 +85,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public Response setRole(String role, Long id) {
         User user = userRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("User not found"));
-        user.setRole(Role.valueOf(role));
+//        user.setRole(Role.valueOf(role));
         userRepository.save(user);
         return new Response("User", userMapper.toUserDto(user));
     }

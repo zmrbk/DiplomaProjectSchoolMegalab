@@ -2,13 +2,10 @@ package kg.megacom.diplomaprojectschoolmegalab.entity;
 
 
 import jakarta.persistence.*;
-import kg.megacom.diplomaprojectschoolmegalab.enams.Role;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.security.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -24,34 +21,39 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "username")
     private String username;
-
     @Column(name = "first_name")
     private String firstName;
-
     @Column(name = "last_name")
     private String lastName;
-
     @Column(name = "middle_name")
     private String middleName;
-
+    @Column(name = "phone")
     private String phone;
+    @Column(name = "email")
     private String email;
+    @Column(name = "password")
     private String password;
-
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
     @Column(name = "creation_date")
     private LocalDateTime creationDate  = LocalDateTime.now();
-
-    @Column(name = "isactive")
+    @Column(name = "is_active")
     private boolean isActive = true;
 
+    @ManyToMany(mappedBy = "usersList", fetch = FetchType.EAGER)
+    private List<Role> roleList;
+
+//    @Enumerated(EnumType.STRING)
+//    private Role role;
+//
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+        return List.of();
     }
 
     @Override

@@ -1,7 +1,7 @@
 package kg.megacom.diplomaprojectschoolmegalab.entity;
 
 import jakarta.persistence.*;
-import kg.megacom.diplomaprojectschoolmegalab.enams.JobTitle;
+import kg.megacom.diplomaprojectschoolmegalab.enums.Position;
 import lombok.*;
 
 @Entity
@@ -15,8 +15,10 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "position")
     @Enumerated(EnumType.STRING)
-    private JobTitle position;
+    private Position position;
+    @Column(name = "salary")
     private Integer salary;
     @OneToOne
     @JoinColumn(referencedColumnName = "id")

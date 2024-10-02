@@ -18,7 +18,7 @@ public class StudentClassMapper {
     public StudentClassDto toGradeDto(StudentClass studentClass) {
         StudentClassDto studentClassDto = new StudentClassDto();
         studentClassDto.setId(studentClass.getId());
-        studentClassDto.setGradeTitle(studentClass.getGradeTitle());
+        studentClassDto.setGradeTitle(studentClass.getClassTitle());
         studentClassDto.setEmployeeId(studentClass.getEmployee().getId());
         studentClassDto.setCreationDate(studentClass.getCreationDate());
         return studentClassDto;
@@ -28,7 +28,7 @@ public class StudentClassMapper {
         Employee employee = employeeRepository.findById(studentClassDto.getEmployeeId()).orElseThrow(
                 () -> new EntityNotFoundException("Employee not found")
         );
-        studentClass.setGradeTitle(studentClassDto.getGradeTitle());
+        studentClass.setClassTitle(studentClassDto.getGradeTitle());
         studentClass.setEmployee(employee);
         studentClass.setCreationDate(studentClass.getCreationDate());
         return studentClass;

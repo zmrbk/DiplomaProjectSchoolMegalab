@@ -26,7 +26,7 @@ public class User implements UserDetails {
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
-    private String lastName;
+    private String lastName; // фамилия человека
     @Column(name = "middle_name")
     private String middleName;
     @Column(name = "phone")

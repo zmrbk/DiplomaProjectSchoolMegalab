@@ -22,9 +22,9 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "username")
-    private String username;
+    private String username; // имя пользователя
     @Column(name = "first_name")
-    private String firstName;
+    private String firstName; // имя человека
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "middle_name")

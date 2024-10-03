@@ -4,6 +4,7 @@ import kg.megacom.diplomaprojectschoolmegalab.enums.Role;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.*;
 
 @Data
 public class UserDto {
@@ -14,7 +15,7 @@ public class UserDto {
     private String middleName;
     private String phone;
     private String email;
-    private Role role;
+    private List<String> roles;
     private LocalDateTime creationDate;
     private boolean isActive;
 }

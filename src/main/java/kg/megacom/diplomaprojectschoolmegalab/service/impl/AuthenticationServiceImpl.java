@@ -28,7 +28,7 @@ public class AuthenticationServiceImpl {
         user.setMiddleName(request.getMiddleName());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-//        user.setRole(request.getRole());
+        user.setRole(request.getRole());
         userService.create(user);
 
         var jwt = jwtService.generateToken(user);

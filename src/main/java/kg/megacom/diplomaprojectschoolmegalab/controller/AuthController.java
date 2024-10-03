@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final AuthenticationServiceImpl authenticationService;
 
-    //Регастрация
+    //Регистрация
     @PostMapping(value = "/sign-up")
     public ResponseEntity<JwtAuthenticationResponse> signUp(@RequestBody SignUpRequest request) {
         log.info("[#signUp] is calling");

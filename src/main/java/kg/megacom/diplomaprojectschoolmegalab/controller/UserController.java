@@ -37,8 +37,8 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<Response> getAll(@RequestParam(defaultValue = "0") int page,
-                                               @RequestParam(defaultValue = "10") int size,
-                                               @RequestParam(defaultValue = "username,asc") String[] sort) {
+                                           @RequestParam(defaultValue = "10") int size,
+                                           @RequestParam(defaultValue = "username,asc") String[] sort) {
         log.info("[#getAllUsers] is calling");
         Response response = userService.getAllUsersWithPagination(page, size, sort);
         return ResponseEntity.ok(response);

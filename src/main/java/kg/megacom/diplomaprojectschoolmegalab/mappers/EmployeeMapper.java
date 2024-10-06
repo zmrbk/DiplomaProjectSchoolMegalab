@@ -1,6 +1,6 @@
 package kg.megacom.diplomaprojectschoolmegalab.mappers;
 
-import kg.megacom.diplomaprojectschoolmegalab.dto.EmployeeCreateRequest;
+import kg.megacom.diplomaprojectschoolmegalab.dto.EmployeeDto;
 import kg.megacom.diplomaprojectschoolmegalab.entity.Employee;
 import kg.megacom.diplomaprojectschoolmegalab.entity.User;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
@@ -17,7 +17,7 @@ public class EmployeeMapper {
 
     private final UserService userService;
 
-    public Employee toEmployee(EmployeeCreateRequest employeeCreateRequest) {
+    public Employee toEmployee(EmployeeDto employeeCreateRequest) {
         Employee employee = new Employee();
         User user = userService.getById(employeeCreateRequest.getUserId()).orElseThrow(
                 () -> new EntityNotFoundException("User with id " + employeeCreateRequest.getUserId() + " not found")
@@ -28,8 +28,8 @@ public class EmployeeMapper {
         return employee;
     }
 
-    public EmployeeCreateRequest toEmployeeCreateRequest(Employee employee) {
-        EmployeeCreateRequest employeeCreateRequest = new EmployeeCreateRequest();
+    public EmployeeDto toEmployeeCreateRequest(Employee employee) {
+        EmployeeDto employeeCreateRequest = new EmployeeDto();
         employeeCreateRequest.setId(employee.getId());
         employeeCreateRequest.setSalary(employee.getSalary());
         employeeCreateRequest.setPosition(employee.getPosition());
@@ -37,7 +37,7 @@ public class EmployeeMapper {
         return employeeCreateRequest;
     }
 
-    public List<EmployeeCreateRequest> toEmployeeCreateRequestList(List<Employee> all) {
+    public List<EmployeeDto> toEmployeeCreateRequestList(List<Employee> all) {
         return all.stream()
                 .map(this::toEmployeeCreateRequest)
                 .collect(Collectors.toList());

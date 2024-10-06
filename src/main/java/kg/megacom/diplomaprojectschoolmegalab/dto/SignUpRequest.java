@@ -1,6 +1,6 @@
 package kg.megacom.diplomaprojectschoolmegalab.dto;
 
-import kg.megacom.diplomaprojectschoolmegalab.enums.Role;
+import kg.megacom.diplomaprojectschoolmegalab.entity.Role;
 import lombok.Data;
 
 import java.util.Set;

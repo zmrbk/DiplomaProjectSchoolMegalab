@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmployeeCreateRequest {
+public class EmployeeDto {
     private Long id;
     private Position position;
     private Integer salary;

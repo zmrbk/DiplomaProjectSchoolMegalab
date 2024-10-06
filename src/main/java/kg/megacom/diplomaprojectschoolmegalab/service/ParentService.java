@@ -5,11 +5,12 @@ import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
 
 import javax.security.auth.login.AccountNotFoundException;
+import java.util.List;
 
 public interface ParentService {
     void create(ParentDto parent) throws AccountNotFoundException;
-    Response update(ParentDto parentDto, Long id) throws AccountNotFoundException;
-    Response delete(Long id)throws EntityNotFoundException;
-    Response getAll();
-    Response getById(Long id);
+    Response<ParentDto> update(ParentDto parentDto, Long id) throws AccountNotFoundException;
+    Response<String> delete(Long id)throws EntityNotFoundException;
+    Response<List<ParentDto>> getAll();
+    Response<ParentDto> getById(Long id);
 }

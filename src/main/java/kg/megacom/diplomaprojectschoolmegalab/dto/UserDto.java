@@ -1,10 +1,9 @@
 package kg.megacom.diplomaprojectschoolmegalab.dto;
 
-import kg.megacom.diplomaprojectschoolmegalab.enums.Role;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
 
 @Data
 public class UserDto {

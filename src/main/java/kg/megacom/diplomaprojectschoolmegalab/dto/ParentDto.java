@@ -1,6 +1,5 @@
 package kg.megacom.diplomaprojectschoolmegalab.dto;
 
-
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 

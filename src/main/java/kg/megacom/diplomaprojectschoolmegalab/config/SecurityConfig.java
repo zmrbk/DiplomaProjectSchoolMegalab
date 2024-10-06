@@ -1,6 +1,8 @@
 package kg.megacom.diplomaprojectschoolmegalab.config;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import kg.megacom.diplomaprojectschoolmegalab.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +34,16 @@ public class SecurityConfig {
     private final
     JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserServiceImpl userService;
+
+    // Конфигурация Jackson, чтобы без ошибок выводил LocalDateTime
+    public class JacksonConfig {
+        @Bean
+        public ObjectMapper objectMapper() {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+            return mapper;
+        }
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

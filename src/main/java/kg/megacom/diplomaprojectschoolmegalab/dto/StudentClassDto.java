@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class StudentClassDto {
 
     private Long id;
-    private String gradeTitle;
+    private String classTitle;
     private Long employeeId;
     private LocalDateTime creationDate;
 }

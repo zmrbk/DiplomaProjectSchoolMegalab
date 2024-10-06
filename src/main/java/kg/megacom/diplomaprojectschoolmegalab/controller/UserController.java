@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/users")
@@ -23,48 +25,48 @@ public class UserController {
 
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Response> getById(@PathVariable Long id) {
+    public ResponseEntity<Response<UserDto>> getById(@PathVariable Long id) {
         log.info("[#getUserById] is calling");
 
         try {
-            Response response = userService.getUserResponseById(id);
+            Response<UserDto> response = userService.getUserResponseById(id);
             return ResponseEntity.ok(response);
         }catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response(e.getMessage(), null));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>(e.getMessage(), null));
         }
 
     }
 
     @GetMapping
-    public ResponseEntity<Response> getAll(@RequestParam(defaultValue = "0") int page,
-                                               @RequestParam(defaultValue = "10") int size,
-                                               @RequestParam(defaultValue = "username,asc") String[] sort) {
+    public ResponseEntity<Response<List<UserDto>>> getAll(@RequestParam(defaultValue = "0") int page,
+                                                          @RequestParam(defaultValue = "10") int size,
+                                                          @RequestParam(defaultValue = "username,asc") String[] sort) {
         log.info("[#getAllUsers] is calling");
-        Response response = userService.getAllUsersWithPagination(page, size, sort);
+        Response<List<UserDto>> response = userService.getAllUsersWithPagination(page, size, sort);
         return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/{id}/role")
-    public ResponseEntity<Response> setRole(@RequestParam String role, @PathVariable Long id) {
+    public ResponseEntity<Response<UserDto>> setRole(@RequestParam String role, @PathVariable Long id) {
         log.info("[#setRole] is calling");
-        Response response = userService.setRole(role, id);
+        Response<UserDto> response = userService.setRole(role, id);
         return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = "/update/{id}")
-    public ResponseEntity<Response> update(@RequestBody UserDto userDto, @PathVariable Long id) {
+    public ResponseEntity<Response<UserDto>> update(@RequestBody UserDto userDto, @PathVariable Long id) {
         log.info("[#updateEmployee] is calling");
-        Response response = userService.updateUser( id,userDto);
+        Response<UserDto> response = userService.updateUser( id,userDto);
         return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Response> delete(@PathVariable Long id) {
+    public ResponseEntity<Response<String>> delete(@PathVariable Long id) {
         log.info("[#delete] is calling");
         userService.deleteUser(id);
-        return ResponseEntity.ok(new Response("Deleted!", "ID: " + id));
+        return ResponseEntity.ok(new Response<>("Deleted!", "ID: " + id));
     }
 }

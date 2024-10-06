@@ -12,14 +12,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
 @RequiredArgsConstructor
 public class StudentClassServiceImpl implements StudentClassService {
 
     private final StudentClassRepository studentClassRepository;
     private final StudentClassMapper studentClassMapper;
-
 
     @Override
     public void create(StudentClassDto studentClassDto) {
@@ -28,10 +26,11 @@ public class StudentClassServiceImpl implements StudentClassService {
     }
 
     @Override
-    public Response update(StudentClassDto studentClassDto, Long id) {
-        StudentClass studentClass = studentClassMapper.toStudentClass (studentClassDto);
+    public Response<StudentClassDto> update(StudentClassDto studentClassDto, Long id) {
+        StudentClass studentClass = studentClassMapper.toStudentClass(studentClassDto);
         studentClass.setId(id);
-        return new Response("Grade is updated", studentClassRepository.save(studentClass));
+        return new Response<>("Student class is updated", studentClassMapper
+                .toStudentClassDto(studentClassRepository.save(studentClass)));
     }
 
     @Override
@@ -40,17 +39,18 @@ public class StudentClassServiceImpl implements StudentClassService {
     }
 
     @Override
-    public Response getAll() {
+    public Response<List<StudentClassDto>> getAll() {
         List<StudentClass> studentClasses = studentClassRepository.findAll();
         List<StudentClassDto> studentClassDtoList = studentClassMapper.toStudentClassDtoList(studentClasses);
-        return new Response("All grades are retrieved", studentClassDtoList);
+        return new Response<>("All student classes are retrieved", studentClassDtoList);
     }
 
     @Override
-    public Response getById(Long id) {
-        StudentClassDto studentClassDto = studentClassMapper.toGradeDto(studentClassRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Grade not found")
+    public Response<StudentClassDto> getById(Long id) {
+        StudentClassDto studentClassDto = studentClassMapper
+                .toStudentClassDto(studentClassRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Student class not found")
         ));
-        return new Response("Grade is retrieved", studentClassDto);
+        return new Response<>("Student class is retrieved", studentClassDto);
     }
 }

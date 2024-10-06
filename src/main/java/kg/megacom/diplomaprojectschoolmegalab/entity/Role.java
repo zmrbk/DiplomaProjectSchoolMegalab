@@ -1,7 +1,10 @@
 package kg.megacom.diplomaprojectschoolmegalab.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Set;
 
@@ -12,16 +15,19 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Role {
+@Slf4j
+public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "role_name")
+    @Column(name = "role_name", nullable = false, unique = true)
     private String roleName;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "m2m_users_roles",
-            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
-    private Set<User> usersList;
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<User> users;
+    @Override
+    public String getAuthority() {
+        log.info("[#getAuthority()] is calling for role: {}", this.roleName);
+        return "ROLE_" + this.roleName.toUpperCase();
+    }
 }

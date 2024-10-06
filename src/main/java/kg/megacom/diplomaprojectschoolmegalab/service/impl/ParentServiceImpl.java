@@ -36,7 +36,7 @@ public class ParentServiceImpl implements ParentService {
     }
 
     @Override
-    public Response update(ParentDto parentDto, Long id) throws EntityNotFoundException {
+    public Response<ParentDto> update(ParentDto parentDto, Long id) throws EntityNotFoundException {
         if (userService.getById(parentDto.getUserId()).isEmpty()) {
             throw new EntityNotFoundException("User not found");
         }
@@ -44,27 +44,27 @@ public class ParentServiceImpl implements ParentService {
         parent.setId(parentDto.getId());
         parent.setUser(userService.getById(parentDto.getUserId()).orElseThrow(() -> new EntityNotFoundException("User not found")));
         parentRepository.save(parent);
-        return new Response("Parent updated", parentMapper.toParentDto(parent));
+        return new Response<>("Parent updated", parentMapper.toParentDto(parent));
     }
 
     @Override
-    public Response delete(Long id) throws EntityNotFoundException {
+    public Response<String> delete(Long id) throws EntityNotFoundException {
         if (!parentRepository.existsById(id)) {
             throw new EntityNotFoundException("Parent not found");
         }
-        return new Response("Parent deleted", null);
+        return new Response<>("Parent deleted", null);
     }
 
     @Override
-    public Response getAll() {
+    public Response<List<ParentDto>> getAll() {
         List<ParentDto> list = parentMapper.toParentDtoList(parentRepository.findAll());
-        return new Response("All parents", list);
+        return new Response<>("All parents", list);
     }
 
     @Override
-    public Response getById(Long id) {
+    public Response<ParentDto> getById(Long id) {
         Parent parent = parentRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException("Parent not found"));
-        return new Response("Get Parent ID", parentMapper.toParentDto(parent));
+        return new Response<>("Get Parent ID", parentMapper.toParentDto(parent));
     }
 }

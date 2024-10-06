@@ -1,7 +1,9 @@
 package kg.megacom.diplomaprojectschoolmegalab.dto;
 
-import kg.megacom.diplomaprojectschoolmegalab.enums.Role;
+import kg.megacom.diplomaprojectschoolmegalab.entity.Role;
 import lombok.Data;
+
+import java.util.Set;
 
 @Data
 public class SignUpRequest {
@@ -12,5 +14,5 @@ public class SignUpRequest {
     private String phone;
     private String email;
     private String password;
-    private Role role;
+    private Set<Role> roles;
 }

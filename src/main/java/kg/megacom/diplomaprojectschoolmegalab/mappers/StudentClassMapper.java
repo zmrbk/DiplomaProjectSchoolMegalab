@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class StudentClassMapper {
     private final EmployeeRepository employeeRepository;
-    public StudentClassDto toGradeDto(StudentClass studentClass) {
+    public StudentClassDto toStudentClassDto(StudentClass studentClass) {
         StudentClassDto studentClassDto = new StudentClassDto();
         studentClassDto.setId(studentClass.getId());
-        studentClassDto.setGradeTitle(studentClass.getClassTitle());
+        studentClassDto.setClassTitle(studentClass.getClassTitle());
         studentClassDto.setEmployeeId(studentClass.getEmployee().getId());
         studentClassDto.setCreationDate(studentClass.getCreationDate());
         return studentClassDto;
@@ -26,9 +26,9 @@ public class StudentClassMapper {
     public StudentClass toStudentClass (StudentClassDto studentClassDto) {
         StudentClass studentClass = new StudentClass();
         Employee employee = employeeRepository.findById(studentClassDto.getEmployeeId()).orElseThrow(
-                () -> new EntityNotFoundException("Employee not found")
+                () -> new EntityNotFoundException("Student class not found")
         );
-        studentClass.setClassTitle(studentClassDto.getGradeTitle());
+        studentClass.setClassTitle(studentClassDto.getClassTitle());
         studentClass.setEmployee(employee);
         studentClass.setCreationDate(studentClass.getCreationDate());
         return studentClass;
@@ -36,7 +36,7 @@ public class StudentClassMapper {
 
     public List<StudentClassDto> toStudentClassDtoList(List<StudentClass> all) {
         return all.stream()
-                .map(this::toGradeDto)
+                .map(this::toStudentClassDto)
                 .collect(Collectors.toList());
 
     }

@@ -38,6 +38,5 @@ public class StudentClassMapper {
         return all.stream()
                 .map(this::toStudentClassDto)
                 .collect(Collectors.toList());
-
     }
 }

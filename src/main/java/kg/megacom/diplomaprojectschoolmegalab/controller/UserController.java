@@ -1,6 +1,5 @@
 package kg.megacom.diplomaprojectschoolmegalab.controller;
 
-
 import jakarta.persistence.EntityNotFoundException;
 import kg.megacom.diplomaprojectschoolmegalab.dto.*;
 import kg.megacom.diplomaprojectschoolmegalab.service.impl.UserServiceImpl;
@@ -23,7 +22,6 @@ public class UserController {
 
  //   @PreAuthorize("hasRole('ADMIN')")
 
-
     @GetMapping(value = "/{id}")
     public ResponseEntity<Response<UserDto>> getById(@PathVariable Long id) {
         log.info("[#getUserById] is calling");
@@ -34,7 +32,6 @@ public class UserController {
         }catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>(e.getMessage(), null));
         }
-
     }
 
     @GetMapping

@@ -1,8 +1,6 @@
 package kg.megacom.diplomaprojectschoolmegalab.mappers;
 
-import kg.megacom.diplomaprojectschoolmegalab.dto.ParentDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.SubjectsDto;
-import kg.megacom.diplomaprojectschoolmegalab.entity.Parent;
 import kg.megacom.diplomaprojectschoolmegalab.entity.Subject;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +21,6 @@ public class SubjectMapper {
         return all.stream()
                 .map(this::toSubjectDto)
                 .collect(Collectors.toList());
-
     }
 
     public Subject toSubject(SubjectsDto subjectsDto) {

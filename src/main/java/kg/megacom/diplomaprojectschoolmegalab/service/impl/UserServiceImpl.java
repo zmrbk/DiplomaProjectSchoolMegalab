@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Page<User> pages = userRepository.findAll(pageable);
         List<User> users = pages.getContent();
         List<UserDto> usersDto = userMapper.toUserDtoList(users);
-        return new Response<>("Users", usersDto);
+        return new Response<>("All users", usersDto);
     }
 
     @Override

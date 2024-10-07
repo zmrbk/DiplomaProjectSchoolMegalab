@@ -1,10 +1,7 @@
 package kg.megacom.diplomaprojectschoolmegalab.controller;
 
-
-import kg.megacom.diplomaprojectschoolmegalab.dto.ParentDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.dto.SubjectsDto;
-import kg.megacom.diplomaprojectschoolmegalab.service.impl.ParentServiceImpl;
 import kg.megacom.diplomaprojectschoolmegalab.service.impl.SubjectServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

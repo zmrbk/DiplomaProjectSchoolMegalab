@@ -39,7 +39,6 @@ public class SubjectServiceImpl implements SubjectService {
         Subject subject = subjectMapper.toSubject(subjectsDto);
         log.info("Create subject with username: {}", subjectsDto.getTitle());
         subjectRepository.save(subject);
-
     }
 
     @Override

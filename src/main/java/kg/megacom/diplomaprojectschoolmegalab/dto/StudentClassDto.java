@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 
 @Data
 public class StudentClassDto {
-
     private Long id;
     private String classTitle;
     private Long employeeId;

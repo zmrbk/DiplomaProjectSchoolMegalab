@@ -39,7 +39,7 @@ public class User implements UserDetails {
     @Column(name = "creation_date", nullable = false)
     private LocalDateTime creationDate = LocalDateTime.now();
     @Column(name = "is_active", nullable = false)
-    private boolean isActive = true;
+    private boolean isActive = false;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "m2m_users_roles",
@@ -50,7 +50,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        log.info("[#getAuthorities()] is calling for user: {}", this.username);
+        log.info("[#getAuthority] is calling for user: {}", this.username);
         return this.roles;
     }
 

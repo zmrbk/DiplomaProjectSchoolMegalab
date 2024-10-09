@@ -23,14 +23,13 @@ public class StudentClassMapper {
         studentClassDto.setCreationDate(studentClass.getCreationDate());
         return studentClassDto;
     }
-    public StudentClass toStudentClass (StudentClassDto studentClassDto) {
+    public StudentClass toStudentClass(StudentClassDto studentClassDto) {
         StudentClass studentClass = new StudentClass();
-        Employee employee = employeeRepository.findById(studentClassDto.getEmployeeId()).orElseThrow(
-                () -> new EntityNotFoundException("Student class not found")
-        );
+        Employee employee = employeeRepository.findById(studentClassDto.getEmployeeId())
+                .orElseThrow(() -> new EntityNotFoundException("Employee not found"));
         studentClass.setClassTitle(studentClassDto.getClassTitle());
         studentClass.setEmployee(employee);
-        studentClass.setCreationDate(studentClass.getCreationDate());
+        studentClass.setCreationDate(studentClassDto.getCreationDate());
         return studentClass;
     }
 

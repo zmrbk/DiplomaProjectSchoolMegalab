@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "students")
 @Builder
@@ -13,8 +15,27 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor
 @Slf4j
 public class Student {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private LocalDate birthday;
+
+    @ManyToOne
+    @JoinColumn(name = "class_id", nullable = false)
+    private StudentClass studentClass;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id", nullable = false)
+    private Parent parent;
+
+    @Column(name = "parent_status", nullable = false)
+    private String parentStatus;
 }
+

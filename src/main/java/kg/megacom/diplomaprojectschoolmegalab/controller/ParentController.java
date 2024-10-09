@@ -1,14 +1,13 @@
 package kg.megacom.diplomaprojectschoolmegalab.controller;
 
-
 import kg.megacom.diplomaprojectschoolmegalab.dto.ParentDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.service.impl.ParentServiceImpl;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class ParentController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<Response<ParentDto>> getById(@PathVariable Long id) {
         log.info("[#getParentById] is calling");
-        Response<ParentDto> response = parentService.getById(id);
+        Response<ParentDto> response = parentService.getParentDtoById(id); // Call the new method
         return ResponseEntity.ok(response);
     }
 

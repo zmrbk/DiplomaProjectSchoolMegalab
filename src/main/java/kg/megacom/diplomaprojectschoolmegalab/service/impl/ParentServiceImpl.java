@@ -12,9 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.security.auth.login.AccountNotFoundException;
 import java.util.List;
-
 
 @Service
 @RequiredArgsConstructor
@@ -62,9 +60,14 @@ public class ParentServiceImpl implements ParentService {
     }
 
     @Override
-    public Response<ParentDto> getById(Long id) {
-        Parent parent = parentRepository.findById(id).orElseThrow(() ->
+    public Parent getById(Long id) {
+        return parentRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException("Parent not found"));
-        return new Response<>("Get Parent ID", parentMapper.toParentDto(parent));
+    }
+
+    public Response<ParentDto> getParentDtoById(Long id) {
+        Parent parent = getById(id); // Fetch Parent entity
+        ParentDto parentDto = parentMapper.toParentDto(parent); // Convert to DTO
+        return new Response<>("Parent found", parentDto);
     }
 }

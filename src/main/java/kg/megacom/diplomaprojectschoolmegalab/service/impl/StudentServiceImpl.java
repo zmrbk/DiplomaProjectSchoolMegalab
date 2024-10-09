@@ -6,6 +6,7 @@ import kg.megacom.diplomaprojectschoolmegalab.entity.Student;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
 import kg.megacom.diplomaprojectschoolmegalab.mappers.StudentMapper;
 import kg.megacom.diplomaprojectschoolmegalab.repository.StudentRepository;
+import kg.megacom.diplomaprojectschoolmegalab.service.MarkService;
 import kg.megacom.diplomaprojectschoolmegalab.service.StudentService;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
     private final StudentMapper studentMapper;
+    private final MarkService markService;
 
     @Override
     public Response<StudentDto> create(StudentDto studentDto) {
@@ -62,7 +64,13 @@ public class StudentServiceImpl implements StudentService {
         if (!studentRepository.existsById(id)) {
             throw new EntityNotFoundException("Student with ID " + id + " not found");
         }
+        deleteMarksByStudentId(id);
         studentRepository.deleteById(id);
         return new Response<>("Student deleted successfully", null);
+    }
+
+    @Override
+    public void deleteMarksByStudentId(Long studentId) {
+        markService.deleteMarksByStudentId(studentId);
     }
 }

@@ -44,7 +44,7 @@ public class StudentMapper {
         studentDto.setBirthday(student.getBirthday());
         studentDto.setClassId(student.getStudentClass().getId());
         studentDto.setUserId(student.getUser().getId());
-        studentDto.setParentId(student.getParent().getId()); // This gets the ID from the Parent entity
+        studentDto.setParentId(student.getParent().getId());
         studentDto.setParentStatus(student.getParentStatus());
         return studentDto;
     }

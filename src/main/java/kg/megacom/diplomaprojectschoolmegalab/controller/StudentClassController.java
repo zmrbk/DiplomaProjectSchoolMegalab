@@ -1,14 +1,15 @@
 package kg.megacom.diplomaprojectschoolmegalab.controller;
 
-
 import kg.megacom.diplomaprojectschoolmegalab.dto.StudentClassDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
+import kg.megacom.diplomaprojectschoolmegalab.entity.StudentClass;
+import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
 import kg.megacom.diplomaprojectschoolmegalab.service.StudentClassService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -35,10 +36,14 @@ public class StudentClassController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Response<StudentClassDto>> getById(@PathVariable Long id) {
+    public ResponseEntity<Response<StudentClass>> getById(@PathVariable Long id) {
         log.info("[#getGradeById] is calling");
-        Response<StudentClassDto> response = studentClassService.getById(id);
-        return ResponseEntity.ok(response);
+        try {
+            StudentClass studentClass = studentClassService.getById(id);  // Fetch the entity directly
+            return ResponseEntity.ok(new Response<>("Student class found", studentClass));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>(e.getMessage(), null));
+        }
     }
 
     @GetMapping

@@ -66,4 +66,18 @@ public class AuthenticationServiceImpl {
         var jwt = jwtService.generateToken(user);
         return new JwtAuthenticationResponse(jwt, userService.getByUsername(request.getUsername()).getId());
     }
+
+//    public JwtAuthenticationResponse signIn(SignInRequest request) {
+//        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+//                request.getUsername(),
+//                request.getPassword()
+//        ));
+//
+//        var user = userService
+//                .userDetailsService()
+//                .loadUserByUsername(request.getUsername());
+//
+//        var jwt = jwtService.generateToken(user);
+//        return new JwtAuthenticationResponse(jwt);
+//    }
 }

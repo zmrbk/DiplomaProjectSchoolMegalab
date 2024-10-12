@@ -20,7 +20,7 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    @PostMapping(value = "/create")
+    @PostMapping
     public ResponseEntity<Response<StudentDto>> create(@RequestBody StudentDto studentDto) {
         log.info("[#createStudent] is calling with data: {}", studentDto);
         try {
@@ -48,7 +48,7 @@ public class StudentController {
         }
     }
 
-    @GetMapping(value = "/all")
+    @GetMapping
     public ResponseEntity<Response<List<StudentDto>>> getAll() {
         log.info("[#getAllStudents] is calling");
         try {
@@ -59,7 +59,7 @@ public class StudentController {
         }
     }
 
-    @PutMapping(value = "/update")
+    @PutMapping
     public ResponseEntity<Response<StudentDto>> update(@RequestBody StudentDto studentDto) {
         log.info("[#updateStudent] is calling");
         try {
@@ -72,7 +72,7 @@ public class StudentController {
         }
     }
 
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Response<Void>> delete(@PathVariable Long id) {
         log.info("[#deleteStudent] is calling");
         try {

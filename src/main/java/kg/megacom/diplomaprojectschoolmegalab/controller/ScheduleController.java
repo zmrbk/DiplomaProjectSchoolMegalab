@@ -19,14 +19,14 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
-    @PostMapping(value = "/create")
+    @PostMapping
     public ResponseEntity<Response<Void>> create(@RequestBody ScheduleDto scheduleDto) {
         log.info("[#createSchedule] is calling");
         scheduleService.create(scheduleDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(new Response<>("Schedule created successfully", null));
     }
 
-    @GetMapping(value = "/get-all")
+    @GetMapping
     public ResponseEntity<Response<List<ScheduleDto>>> getAll() {
         log.info("[#getAllSchedules] is calling");
         Response<List<ScheduleDto>> response = scheduleService.getAll();

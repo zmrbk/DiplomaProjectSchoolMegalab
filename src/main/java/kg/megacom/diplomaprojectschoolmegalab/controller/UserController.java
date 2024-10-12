@@ -52,7 +52,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping(value = "/update/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<Response<UserDto>> update(@RequestBody UserDto userDto, @PathVariable Long id) {
         log.info("[#updateEmployee] is calling");
         Response<UserDto> response = userService.updateUser( id,userDto);

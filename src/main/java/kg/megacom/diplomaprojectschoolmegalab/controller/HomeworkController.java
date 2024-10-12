@@ -19,7 +19,7 @@ public class HomeworkController {
 
     private final HomeworkService homeworkService;
 
-    @PostMapping(value = "/create")
+    @PostMapping
     public ResponseEntity<Response<Void>> createHomework(@RequestBody HomeworkDto homeworkDto) {
         log.info("[#createHomework] is calling");
         homeworkService.create(homeworkDto);

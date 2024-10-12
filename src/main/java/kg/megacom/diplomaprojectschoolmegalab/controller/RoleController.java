@@ -23,7 +23,7 @@ public class RoleController {
     private final RoleServiceImpl roleService;
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping(value = "/create")
+    @PostMapping
     public ResponseEntity<Response<String>> create(@RequestBody RoleDto roleDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) authentication.getPrincipal();
@@ -33,7 +33,7 @@ public class RoleController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Response<String>> update(@PathVariable Long id, @RequestBody RoleDto roleDto) {
         Role roleToUpdate = RoleMapper.toEntity(roleDto);
         if (roleToUpdate == null) {
@@ -44,14 +44,14 @@ public class RoleController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping(value = "/get-all")
+    @GetMapping
     public ResponseEntity<Response<List<Role>>> getAll() {
         Response<List<Role>> response = roleService.getAll();
         return ResponseEntity.ok(response);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Response<String>> delete(@PathVariable Long id) {
         Role role = roleService.getById(id);
         roleService.delete(role);

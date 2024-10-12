@@ -19,7 +19,7 @@ public class MarkController {
 
     private final MarkService markService;
 
-    @PostMapping(value = "/create")
+    @PostMapping
     public ResponseEntity<Response<MarkDto>> create(@RequestBody MarkDto markDto) {
         log.info("[#createMark] is calling");
         try {
@@ -40,7 +40,7 @@ public class MarkController {
         return ResponseEntity.ok(new Response<>("Mark retrieved successfully", markDto));
     }
 
-    @GetMapping(value = "/get-all")
+    @GetMapping
     public ResponseEntity<Response<List<MarkDto>>> getAll() {
         log.info("[#getAllMarks] is calling");
         Response<List<MarkDto>> response = markService.getAll();

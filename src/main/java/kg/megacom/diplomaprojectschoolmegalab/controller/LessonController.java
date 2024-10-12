@@ -19,14 +19,14 @@ public class LessonController {
 
     private final LessonService lessonService;
 
-    @PostMapping(value = "/create")
+    @PostMapping
     public ResponseEntity<Response<Void>> create(@RequestBody LessonDto lessonDto) {
         log.info("[#createLesson] is calling");
         lessonService.create(lessonDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(new Response<>("Lesson created successfully", null));
     }
 
-    @GetMapping(value = "/get-all")
+    @GetMapping
     public ResponseEntity<Response<List<LessonDto>>> getAll() {
         log.info("[#getAllLessons] is calling");
         Response<List<LessonDto>> response = lessonService.getAll();

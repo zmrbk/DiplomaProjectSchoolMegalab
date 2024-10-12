@@ -26,7 +26,7 @@ public class HomeworkController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new Response<>("Homework created successfully", null));
     }
 
-    @GetMapping(value = "/get-all")
+    @GetMapping
     public ResponseEntity<Response<List<HomeworkDto>>> getAllHomeworks() {
         log.info("[#getAllHomeworks] is calling");
         Response<List<HomeworkDto>> response = homeworkService.getAll();

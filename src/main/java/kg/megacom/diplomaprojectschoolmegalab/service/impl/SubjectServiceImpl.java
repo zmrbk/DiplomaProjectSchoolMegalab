@@ -29,7 +29,6 @@ public class SubjectServiceImpl implements SubjectService {
 
     private final SubjectRepository subjectRepository;
     private final SubjectMapper subjectMapper;
-    private final MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter;
 
     @Override
     public void create(SubjectsDto subjectsDto) throws EntityNotFoundException {

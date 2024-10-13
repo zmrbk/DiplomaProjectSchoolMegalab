@@ -1,8 +1,10 @@
 package kg.megacom.diplomaprojectschoolmegalab.controller;
 
+import kg.megacom.diplomaprojectschoolmegalab.dto.CharterDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.dto.ReviewDto;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
+import kg.megacom.diplomaprojectschoolmegalab.service.CharterService;
 import kg.megacom.diplomaprojectschoolmegalab.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,16 +15,16 @@ import javax.security.auth.login.AccountNotFoundException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/reviews")
+@RequestMapping("/charters")
 @RequiredArgsConstructor
-public class ReviewController {
+public class CharterController {
 
-    private final ReviewService reviewService;
+    private final CharterService charterService;
 
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody ReviewDto reviewDto) throws AccountNotFoundException {
+    public ResponseEntity<String> create(@RequestBody CharterDto charterDto) throws AccountNotFoundException {
         try {
-            reviewService.create(reviewDto);
+            charterService.create(charterDto);
             return ResponseEntity.ok().build();
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -30,22 +32,22 @@ public class ReviewController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Response<ReviewDto>> update(@RequestBody ReviewDto reviewDto, @PathVariable Long id) throws AccountNotFoundException {
-        return ResponseEntity.ok(reviewService.update(reviewDto, id));
+    public ResponseEntity<Response<CharterDto>> update(@RequestBody CharterDto charterDto, @PathVariable Long id) throws AccountNotFoundException {
+        return ResponseEntity.ok(charterService.update(charterDto, id));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Response<String>> delete(@PathVariable Long id) throws EntityNotFoundException {
-        return ResponseEntity.ok(reviewService.delete(id));
+        return ResponseEntity.ok(charterService.delete(id));
     }
 
     @GetMapping
-    public ResponseEntity<Response<List<ReviewDto>>> getAll() {
-        return ResponseEntity.ok(reviewService.getAll());
+    public ResponseEntity<Response<List<CharterDto>>> getAll() {
+        return ResponseEntity.ok(charterService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response<ReviewDto>> getById(@PathVariable Long id) throws EntityNotFoundException {
-        return ResponseEntity.ok(reviewService.getById(id));
+    public ResponseEntity<Response<CharterDto>> getById(@PathVariable Long id) throws EntityNotFoundException {
+        return ResponseEntity.ok(charterService.getById(id));
     }
 }

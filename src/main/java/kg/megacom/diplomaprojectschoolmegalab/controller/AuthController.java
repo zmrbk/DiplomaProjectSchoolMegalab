@@ -3,7 +3,9 @@ package kg.megacom.diplomaprojectschoolmegalab.controller;
 import kg.megacom.diplomaprojectschoolmegalab.dto.JwtAuthenticationResponse;
 import kg.megacom.diplomaprojectschoolmegalab.dto.SignInRequest;
 import kg.megacom.diplomaprojectschoolmegalab.dto.SignUpRequest;
+import kg.megacom.diplomaprojectschoolmegalab.service.PasswordResetService;
 import kg.megacom.diplomaprojectschoolmegalab.service.impl.AuthenticationServiceImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AuthController {
     private final AuthenticationServiceImpl authenticationService;
+    private final PasswordResetService passwordResetService;
 
     //Регистрация
     @PostMapping(value = "/sign-up")
@@ -30,5 +33,24 @@ public class AuthController {
         log.info("[#signIn] is calling");
         JwtAuthenticationResponse response = authenticationService.signIn(request);
         return ResponseEntity.ok(response);
+    }
+
+    // Эндпоинт для запроса восстановления пароля
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
+        passwordResetService.sendResetPasswordEmail(email);
+        return ResponseEntity.ok("Password reset link has been sent to your email.");
+    }
+
+    // Эндпоинт для сброса пароля
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestParam String newPassword) {
+        try{
+            passwordResetService.resetPassword(token, newPassword);
+            return ResponseEntity.ok("Password has been successfully reset.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
     }
 }

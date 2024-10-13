@@ -20,7 +20,6 @@ public class ScheduleMapper {
     private final EmployeeRepository employeeRepository;
     private final StudentClassRepository studentClassRepository;
 
-    // Convert Schedule entity to ScheduleDto
     public ScheduleDto toScheduleDto(Schedule schedule) {
         ScheduleDto scheduleDto = new ScheduleDto();
         scheduleDto.setId(schedule.getId());
@@ -35,7 +34,6 @@ public class ScheduleMapper {
         return scheduleDto;
     }
 
-    // Convert ScheduleDto to Schedule entity
     public Schedule toSchedule(ScheduleDto scheduleDto) {
         Schedule schedule = new Schedule();
         schedule.setDayOfWeek(scheduleDto.getDayOfWeek());
@@ -49,19 +47,16 @@ public class ScheduleMapper {
         return schedule;
     }
 
-    // Retrieve Subject entity based on subjectId
     public Subject toSubject(Long subjectId) {
         return subjectRepository.findById(subjectId)
                 .orElseThrow(() -> new EntityNotFoundException("Subject not found with ID: " + subjectId));
     }
 
-    // Retrieve Employee entity based on teacherId
     public Employee toTeacher(Long teacherId) {
         return employeeRepository.findById(teacherId)
                 .orElseThrow(() -> new EntityNotFoundException("Teacher not found with ID: " + teacherId));
     }
 
-    // Retrieve StudentClass entity based on classId
     public StudentClass toStudentClass(Long classId) {
         return studentClassRepository.findById(classId)
                 .orElseThrow(() -> new EntityNotFoundException("Class not found with ID: " + classId));

@@ -9,10 +9,9 @@ import kg.megacom.diplomaprojectschoolmegalab.mappers.AnnouncementMapper;
 import kg.megacom.diplomaprojectschoolmegalab.repository.AnnouncementRepository;
 import kg.megacom.diplomaprojectschoolmegalab.service.AnnouncementService;
 import kg.megacom.diplomaprojectschoolmegalab.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 

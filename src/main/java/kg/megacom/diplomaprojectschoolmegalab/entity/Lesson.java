@@ -20,11 +20,12 @@ public class Lesson {
     private String topic;
     @Column(name = "homework")
     private String homework;
+    @Column(name = "creation_date", nullable = false)
+    private LocalDateTime creationDate = LocalDateTime.now();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "schedule_id", referencedColumnName = "id", nullable = false)
     private Schedule schedule;
-    @Column(name = "creation_date", nullable = false)
-    private LocalDateTime creationDate = LocalDateTime.now();
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Mark> marks;
 }

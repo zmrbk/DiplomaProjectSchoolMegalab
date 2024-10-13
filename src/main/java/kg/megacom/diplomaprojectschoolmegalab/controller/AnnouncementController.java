@@ -1,17 +1,14 @@
 package kg.megacom.diplomaprojectschoolmegalab.controller;
 
-
 import kg.megacom.diplomaprojectschoolmegalab.dto.AnnouncementDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
-import kg.megacom.diplomaprojectschoolmegalab.dto.StudentClassDto;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
 import kg.megacom.diplomaprojectschoolmegalab.service.AnnouncementService;
-import kg.megacom.diplomaprojectschoolmegalab.service.StudentClassService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 

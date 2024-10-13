@@ -8,9 +8,9 @@ import kg.megacom.diplomaprojectschoolmegalab.mappers.ParentMapper;
 import kg.megacom.diplomaprojectschoolmegalab.repository.ParentRepository;
 import kg.megacom.diplomaprojectschoolmegalab.service.ParentService;
 import kg.megacom.diplomaprojectschoolmegalab.service.UserService;
+import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -66,8 +66,8 @@ public class ParentServiceImpl implements ParentService {
     }
 
     public Response<ParentDto> getParentDtoById(Long id) {
-        Parent parent = getById(id); // Fetch Parent entity
-        ParentDto parentDto = parentMapper.toParentDto(parent); // Convert to DTO
+        Parent parent = getById(id);
+        ParentDto parentDto = parentMapper.toParentDto(parent);
         return new Response<>("Parent found", parentDto);
     }
 }

@@ -1,7 +1,8 @@
 package kg.megacom.diplomaprojectschoolmegalab.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
+import lombok.NoArgsConstructor;
+import lombok.Data;
 
 import java.time.LocalDate;
 

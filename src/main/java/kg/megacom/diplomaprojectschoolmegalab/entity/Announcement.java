@@ -1,6 +1,5 @@
 package kg.megacom.diplomaprojectschoolmegalab.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 

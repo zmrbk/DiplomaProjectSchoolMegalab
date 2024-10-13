@@ -7,9 +7,9 @@ import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException
 import kg.megacom.diplomaprojectschoolmegalab.mappers.AssignmentMapper;
 import kg.megacom.diplomaprojectschoolmegalab.repository.AssignmentRepository;
 import kg.megacom.diplomaprojectschoolmegalab.service.AssignmentService;
+import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;

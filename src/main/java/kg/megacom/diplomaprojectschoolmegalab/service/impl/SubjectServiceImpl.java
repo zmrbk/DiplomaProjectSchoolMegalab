@@ -1,26 +1,18 @@
 package kg.megacom.diplomaprojectschoolmegalab.service.impl;
 
-import kg.megacom.diplomaprojectschoolmegalab.dto.ParentDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.dto.SubjectsDto;
-import kg.megacom.diplomaprojectschoolmegalab.entity.Parent;
 import kg.megacom.diplomaprojectschoolmegalab.entity.Subject;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityAlreadyExistsException;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
-import kg.megacom.diplomaprojectschoolmegalab.mappers.ParentMapper;
 import kg.megacom.diplomaprojectschoolmegalab.mappers.SubjectMapper;
-import kg.megacom.diplomaprojectschoolmegalab.repository.ParentRepository;
 import kg.megacom.diplomaprojectschoolmegalab.repository.SubjectRepository;
-import kg.megacom.diplomaprojectschoolmegalab.service.ParentService;
 import kg.megacom.diplomaprojectschoolmegalab.service.SubjectService;
-import kg.megacom.diplomaprojectschoolmegalab.service.UserService;
+import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 
 @Service
 @RequiredArgsConstructor

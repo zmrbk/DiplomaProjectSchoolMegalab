@@ -18,7 +18,6 @@ public class UserMapper {
 
     private final RoleService roleService;
 
-    // Преобразовать сущность User в UserDto
     public UserDto toUserDto(User user) {
         if (user == null) {
             return null;
@@ -32,7 +31,6 @@ public class UserMapper {
         userDto.setPhone(user.getPhone());
         userDto.setEmail(user.getEmail());
 
-        // Преобразовать роли в имена ролей
         List<String> roleNames = user.getRoles().stream()
                 .map(Role::getRoleName)
                 .collect(Collectors.toList());
@@ -42,7 +40,6 @@ public class UserMapper {
         return userDto;
     }
 
-    // Преобразовать список сущностей User в список UserDto
     public List<UserDto> toUserDtoList(List<User> users) {
         return users.stream()
                 .map(this::toUserDto)
@@ -50,7 +47,6 @@ public class UserMapper {
                 .collect(Collectors.toList());
     }
 
-    // Обновление сущности пользователя на основе UserDto
     public User updateUser(User user, UserDto userDto) {
         if (user == null || userDto == null) {
             throw new IllegalArgumentException("User or UserDto cannot be null");
@@ -61,7 +57,6 @@ public class UserMapper {
         user.setPhone(userDto.getPhone());
         user.setEmail(userDto.getEmail());
 
-        // Преобразовать имена ролей в сущности ролей и задать их пользователю
         Set<Role> roles = userDto.getRoles().stream()
                 .map(roleService::getRoleByName)
                 .collect(Collectors.toSet());

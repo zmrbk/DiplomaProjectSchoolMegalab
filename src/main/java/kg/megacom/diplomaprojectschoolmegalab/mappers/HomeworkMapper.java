@@ -17,7 +17,6 @@ public class HomeworkMapper {
     private final LessonRepository lessonRepository;
     private final StudentRepository studentRepository;
 
-    // Convert Homework entity to HomeworkDto
     public HomeworkDto toDto(Homework homework) {
         HomeworkDto homeworkDto = new HomeworkDto();
         homeworkDto.setId(homework.getId());
@@ -30,7 +29,6 @@ public class HomeworkMapper {
         return homeworkDto;
     }
 
-    // Convert HomeworkDto to Homework entity
     public Homework toEntity(HomeworkDto homeworkDto) {
         Homework homework = new Homework();
         homework.setId(homeworkDto.getId());

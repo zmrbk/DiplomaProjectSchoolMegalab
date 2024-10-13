@@ -9,12 +9,8 @@ import java.util.List;
 
 public interface ReviewService {
     void create(ReviewDto reviewDto) throws AccountNotFoundException;
-
     Response<ReviewDto> update(ReviewDto reviewDto, Long id) throws AccountNotFoundException;
-
     Response<String> delete(Long id) throws EntityNotFoundException;
-
     Response<List<ReviewDto>> getAll();
-
     Response<ReviewDto> getById(Long id) throws EntityNotFoundException;
 }

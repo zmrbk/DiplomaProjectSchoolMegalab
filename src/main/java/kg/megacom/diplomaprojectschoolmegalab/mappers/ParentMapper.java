@@ -20,6 +20,5 @@ public class ParentMapper {
         return all.stream()
                 .map(this::toParentDto)
                 .collect(Collectors.toList());
-
     }
 }

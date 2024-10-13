@@ -4,11 +4,11 @@ import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.dto.StudentDto;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
 import kg.megacom.diplomaprojectschoolmegalab.service.StudentService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class StudentController {
     private final StudentService studentService;
 
     @PostMapping
-    public ResponseEntity<Response<StudentDto>> create(@RequestBody StudentDto studentDto) {
+    public ResponseEntity<Response<StudentDto>> createStudent(@RequestBody StudentDto studentDto) {
         log.info("[#createStudent] is calling with data: {}", studentDto);
         try {
             Response<StudentDto> response = studentService.create(studentDto);
@@ -31,25 +31,13 @@ public class StudentController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>(e.getMessage(), null));
         } catch (Exception e) {
             log.error("An error occurred while creating the student: {}", e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response<>("An error occurred while creating the student", null));
-        }
-    }
-
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<Response<StudentDto>> findById(@PathVariable Long id) {
-        log.info("[#getStudentById] is calling");
-        try {
-            Response<StudentDto> response = studentService.findById(id);
-            return ResponseEntity.ok(response);
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>(e.getMessage(), null));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response<>("An error occurred while retrieving the student", null));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new Response<>("An error occurred while creating the student", null));
         }
     }
 
     @GetMapping
-    public ResponseEntity<Response<List<StudentDto>>> getAll() {
+    public ResponseEntity<Response<List<StudentDto>>> getAllStudents() {
         log.info("[#getAllStudents] is calling");
         try {
             Response<List<StudentDto>> response = studentService.getAll();
@@ -59,8 +47,22 @@ public class StudentController {
         }
     }
 
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Response<StudentDto>> findStudentById(@PathVariable Long id) {
+        log.info("[#getStudentById] is calling");
+        try {
+            Response<StudentDto> response = studentService.findById(id);
+            return ResponseEntity.ok(response);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>(e.getMessage(), null));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new Response<>("An error occurred while retrieving the student", null));
+        }
+    }
+
     @PutMapping
-    public ResponseEntity<Response<StudentDto>> update(@RequestBody StudentDto studentDto) {
+    public ResponseEntity<Response<StudentDto>> updateStudent(@RequestBody StudentDto studentDto) {
         log.info("[#updateStudent] is calling");
         try {
             Response<StudentDto> response = studentService.update(studentDto);
@@ -68,12 +70,13 @@ public class StudentController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>(e.getMessage(), null));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response<>("An error occurred while updating the student", null));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new Response<>("An error occurred while updating the student", null));
         }
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Response<Void>> delete(@PathVariable Long id) {
+    public ResponseEntity<Response<Void>> deleteStudent(@PathVariable Long id) {
         log.info("[#deleteStudent] is calling");
         try {
             Response<Void> response = studentService.delete(id);
@@ -81,7 +84,8 @@ public class StudentController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>(e.getMessage(), null));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response<>("An error occurred while deleting the student", null));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new Response<>("An error occurred while deleting the student", null));
         }
     }
 }

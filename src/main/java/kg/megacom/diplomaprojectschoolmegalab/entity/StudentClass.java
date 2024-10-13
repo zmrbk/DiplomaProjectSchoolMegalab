@@ -18,9 +18,10 @@ public class StudentClass {
     private Long id;
     @Column(name = "class_title")
     private String classTitle;
+    @Column(name = "creation_date")
+    private LocalDateTime creationDate  = LocalDateTime.now();
+
     @OneToOne
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     private Employee employee;
-    @Column(name = "creation_date")
-    private LocalDateTime creationDate  = LocalDateTime.now();
 }

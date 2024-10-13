@@ -21,6 +21,9 @@ public class Student {
     private Long id;
     @Column(nullable = false)
     private LocalDate birthday;
+    @Column(name = "parent_status", nullable = false)
+    private String parentStatus;
+
     @ManyToOne
     @JoinColumn(name = "class_id", nullable = false)
     private StudentClass studentClass;
@@ -32,6 +35,4 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "parent_id", nullable = false)
     private Parent parent;
-    @Column(name = "parent_status", nullable = false)
-    private String parentStatus;
 }

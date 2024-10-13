@@ -17,7 +17,6 @@ public class AssignmentMapper {
     private final EmployeeRepository employeeRepository;
     private final UserRepository userRepository;
 
-    // Convert Assignment entity to AssignmentDto
     public AssignmentDto toDto(Assignment assignment) {
         AssignmentDto assignmentDto = new AssignmentDto();
         assignmentDto.setId(assignment.getId());
@@ -29,7 +28,6 @@ public class AssignmentMapper {
         return assignmentDto;
     }
 
-    // Convert AssignmentDto to Assignment entity
     public Assignment toEntity(AssignmentDto assignmentDto) {
         Assignment assignment = new Assignment();
         assignment.setId(assignmentDto.getId());

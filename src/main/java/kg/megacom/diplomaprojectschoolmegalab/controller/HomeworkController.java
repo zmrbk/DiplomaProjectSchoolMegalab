@@ -23,7 +23,8 @@ public class HomeworkController {
     public ResponseEntity<Response<Void>> createHomework(@RequestBody HomeworkDto homeworkDto) {
         log.info("[#createHomework] is calling");
         homeworkService.create(homeworkDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new Response<>("Homework created successfully", null));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new Response<>("Homework created successfully", null));
     }
 
     @GetMapping
@@ -41,7 +42,8 @@ public class HomeworkController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Response<HomeworkDto>> updateHomework(@PathVariable Long id, @RequestBody HomeworkDto homeworkDto) {
+    public ResponseEntity<Response<HomeworkDto>> updateHomework(@PathVariable Long id,
+                                                                @RequestBody HomeworkDto homeworkDto) {
         log.info("[#updateHomework] is calling with ID: {}", id);
         Response<HomeworkDto> response = homeworkService.update(id, homeworkDto);
         return ResponseEntity.ok(response);

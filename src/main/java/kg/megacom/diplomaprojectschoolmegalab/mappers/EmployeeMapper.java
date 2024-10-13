@@ -5,8 +5,8 @@ import kg.megacom.diplomaprojectschoolmegalab.entity.Employee;
 import kg.megacom.diplomaprojectschoolmegalab.entity.User;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
 import kg.megacom.diplomaprojectschoolmegalab.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,6 +41,5 @@ public class EmployeeMapper {
         return all.stream()
                 .map(this::toEmployeeCreateRequest)
                 .collect(Collectors.toList());
-
     }
 }

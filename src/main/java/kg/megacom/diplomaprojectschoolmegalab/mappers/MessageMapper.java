@@ -7,8 +7,8 @@ import kg.megacom.diplomaprojectschoolmegalab.entity.User;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
 import kg.megacom.diplomaprojectschoolmegalab.repository.EmployeeRepository;
 import kg.megacom.diplomaprojectschoolmegalab.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
@@ -17,7 +17,6 @@ public class MessageMapper {
     private final EmployeeRepository employeeRepository;
     private final UserRepository userRepository;
 
-    // Convert Message entity to MessageDto
     public MessageDto toDto(Message message) {
         MessageDto messageDto = new MessageDto();
         messageDto.setId(message.getId());
@@ -29,7 +28,6 @@ public class MessageMapper {
         return messageDto;
     }
 
-    // Convert MessageDto to Message entity
     public Message toEntity(MessageDto messageDto) {
         Message message = new Message();
         message.setId(messageDto.getId());
@@ -40,7 +38,6 @@ public class MessageMapper {
         return message;
     }
 
-    // Helper methods to fetch the related entities
     public Employee toAuthor(Long authorId) {
         return employeeRepository.findById(authorId)
                 .orElseThrow(() -> new EntityNotFoundException("Author not found with ID: " + authorId));

@@ -16,6 +16,7 @@ public class Attendance {
     private Long id;
     @Column(nullable = false)
     private Boolean attended;
+
     @ManyToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id")
     private Student student;

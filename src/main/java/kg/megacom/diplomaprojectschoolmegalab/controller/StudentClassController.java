@@ -39,7 +39,7 @@ public class StudentClassController {
     public ResponseEntity<Response<StudentClass>> getById(@PathVariable Long id) {
         log.info("[#getGradeById] is calling");
         try {
-            StudentClass studentClass = studentClassService.getById(id);  // Fetch the entity directly
+            StudentClass studentClass = studentClassService.getById(id);
             return ResponseEntity.ok(new Response<>("Student class found", studentClass));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>(e.getMessage(), null));
@@ -54,7 +54,8 @@ public class StudentClassController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Response<StudentClassDto>> update(@RequestBody StudentClassDto studentClassDto, @PathVariable Long id) {
+    public ResponseEntity<Response<StudentClassDto>> update(@RequestBody StudentClassDto studentClassDto,
+                                                            @PathVariable Long id) {
         log.info("[#updateParent] is calling");
         Response<StudentClassDto> response = studentClassService.update(studentClassDto, id);
         return ResponseEntity.ok(response);

@@ -1,6 +1,5 @@
 package kg.megacom.diplomaprojectschoolmegalab.service.impl;
 
-
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.dto.UserDto;
 import kg.megacom.diplomaprojectschoolmegalab.entity.Role;
@@ -105,7 +104,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userRepository.save(user);
         return new Response<>("User", userMapper.toUserDto(user));
     }
-
 
     @Override
     public Response<UserDto> updateUser(Long id, UserDto userDto) {

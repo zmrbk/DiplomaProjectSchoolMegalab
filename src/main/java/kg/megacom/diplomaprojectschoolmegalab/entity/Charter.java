@@ -2,7 +2,6 @@ package kg.megacom.diplomaprojectschoolmegalab.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;

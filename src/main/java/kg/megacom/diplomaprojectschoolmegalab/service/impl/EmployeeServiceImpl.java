@@ -1,6 +1,5 @@
 package kg.megacom.diplomaprojectschoolmegalab.service.impl;
 
-
 import kg.megacom.diplomaprojectschoolmegalab.dto.EmployeeDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.entity.Employee;
@@ -9,8 +8,8 @@ import kg.megacom.diplomaprojectschoolmegalab.mappers.EmployeeMapper;
 import kg.megacom.diplomaprojectschoolmegalab.repository.EmployeeRepository;
 import kg.megacom.diplomaprojectschoolmegalab.service.EmployeeService;
 import kg.megacom.diplomaprojectschoolmegalab.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -21,7 +20,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final UserService userService;
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
-
 
     @Override
     public void create(EmployeeDto request) {
@@ -38,7 +36,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElseThrow(() -> new EntityNotFoundException("Employee not found"));
         EmployeeDto employeeCreateRequest = employeeMapper.toEmployeeCreateRequest(employee);
         return new Response<>("Find Employee by id: ", employeeCreateRequest);
-
     }
 
     @Override
@@ -61,5 +58,4 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void delete(Long id) {
         employeeRepository.deleteById(id);
     }
-
 }

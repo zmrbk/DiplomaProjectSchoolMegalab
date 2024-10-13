@@ -19,14 +19,15 @@ public class AttendanceController {
 
     private final AttendanceService attendanceService;
 
-    @PostMapping(value = "/create")
+    @PostMapping
     public ResponseEntity<Response<Void>> createAttendance(@RequestBody AttendanceDto attendanceDto) {
         log.info("[#createAttendance] is calling");
         attendanceService.create(attendanceDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new Response<>("Attendance created successfully", null));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new Response<>("Attendance created successfully", null));
     }
 
-    @GetMapping(value = "/get-all")
+    @GetMapping
     public ResponseEntity<Response<List<AttendanceDto>>> getAllAttendances() {
         log.info("[#getAllAttendances] is calling");
         Response<List<AttendanceDto>> response = attendanceService.getAll();
@@ -41,7 +42,8 @@ public class AttendanceController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Response<AttendanceDto>> updateAttendance(@PathVariable Long id, @RequestBody AttendanceDto attendanceDto) {
+    public ResponseEntity<Response<AttendanceDto>> updateAttendance(@PathVariable Long id,
+                                                                    @RequestBody AttendanceDto attendanceDto) {
         log.info("[#updateAttendance] is calling with ID: {}", id);
         Response<AttendanceDto> response = attendanceService.update(id, attendanceDto);
         return ResponseEntity.ok(response);

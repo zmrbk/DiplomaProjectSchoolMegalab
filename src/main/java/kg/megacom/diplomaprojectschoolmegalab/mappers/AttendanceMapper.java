@@ -17,7 +17,6 @@ public class AttendanceMapper {
     private final LessonRepository lessonRepository;
     private final StudentRepository studentRepository;
 
-    // Convert Attendance entity to AttendanceDto
     public AttendanceDto toDto(Attendance attendance) {
         AttendanceDto attendanceDto = new AttendanceDto();
         attendanceDto.setId(attendance.getId());
@@ -27,7 +26,6 @@ public class AttendanceMapper {
         return attendanceDto;
     }
 
-    // Convert AttendanceDto to Attendance entity
     public Attendance toEntity(AttendanceDto attendanceDto) {
         Attendance attendance = new Attendance();
         attendance.setId(attendanceDto.getId());
@@ -37,13 +35,11 @@ public class AttendanceMapper {
         return attendance;
     }
 
-    // Retrieve Lesson entity based on lessonId
     public Lesson toLesson(Long lessonId) {
         return lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new EntityNotFoundException("Lesson not found with ID: " + lessonId));
     }
 
-    // Retrieve Student entity based on studentId
     public Student toStudent(Long studentId) {
         return studentRepository.findById(studentId)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found with ID: " + studentId));

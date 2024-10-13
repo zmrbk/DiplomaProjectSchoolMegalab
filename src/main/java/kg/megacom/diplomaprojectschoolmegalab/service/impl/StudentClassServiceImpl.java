@@ -1,16 +1,14 @@
 package kg.megacom.diplomaprojectschoolmegalab.service.impl;
 
-import kg.megacom.diplomaprojectschoolmegalab.dto.ParentDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.StudentClassDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
-import kg.megacom.diplomaprojectschoolmegalab.entity.Parent;
 import kg.megacom.diplomaprojectschoolmegalab.entity.StudentClass;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
 import kg.megacom.diplomaprojectschoolmegalab.mappers.StudentClassMapper;
 import kg.megacom.diplomaprojectschoolmegalab.repository.StudentClassRepository;
 import kg.megacom.diplomaprojectschoolmegalab.service.StudentClassService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -54,8 +52,8 @@ public class StudentClassServiceImpl implements StudentClassService {
     }
 
     public Response<StudentClassDto> getStudentClassDtoById(Long id) {
-        StudentClass studentClass = getById(id);  // Fetch the entity
-        StudentClassDto studentClassDto = studentClassMapper.toStudentClassDto(studentClass);  // Convert to DTO
+        StudentClass studentClass = getById(id);
+        StudentClassDto studentClassDto = studentClassMapper.toStudentClassDto(studentClass);
         return new Response<>("Student class found", studentClassDto);
     }
 }

@@ -3,12 +3,12 @@ package kg.megacom.diplomaprojectschoolmegalab.controller;
 import jakarta.persistence.EntityNotFoundException;
 import kg.megacom.diplomaprojectschoolmegalab.dto.*;
 import kg.megacom.diplomaprojectschoolmegalab.service.impl.UserServiceImpl;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -19,8 +19,6 @@ import java.util.List;
 public class UserController {
 
     private final UserServiceImpl userService;
-
- //   @PreAuthorize("hasRole('ADMIN')")
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Response<UserDto>> getById(@PathVariable Long id) {

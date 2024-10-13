@@ -9,11 +9,10 @@ import kg.megacom.diplomaprojectschoolmegalab.mappers.CharterMapper;
 import kg.megacom.diplomaprojectschoolmegalab.repository.CharterRepository;
 import kg.megacom.diplomaprojectschoolmegalab.repository.EmployeeRepository;
 import kg.megacom.diplomaprojectschoolmegalab.service.CharterService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
 import javax.security.auth.login.AccountNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

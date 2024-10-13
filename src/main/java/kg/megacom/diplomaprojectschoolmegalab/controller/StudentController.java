@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Контроллер для управления студентами.
+ * Предоставляет RESTful API для создания, получения, обновления и удаления студентов.
+ */
 @RestController
 @RequestMapping("/students")
 @RequiredArgsConstructor
@@ -20,6 +24,12 @@ public class StudentController {
 
     private final StudentService studentService;
 
+    /**
+     * Создает нового студента.
+     *
+     * @param studentDto DTO с данными студента.
+     * @return ResponseEntity с сообщением об успешном создании студента.
+     */
     @PostMapping
     public ResponseEntity<Response<StudentDto>> create(@RequestBody StudentDto studentDto) {
         log.info("[#createStudent] is calling with data: {}", studentDto);
@@ -35,6 +45,12 @@ public class StudentController {
         }
     }
 
+    /**
+     * Получает студента по его ID.
+     *
+     * @param id ID студента, которого нужно получить.
+     * @return ResponseEntity с найденным студентом.
+     */
     @GetMapping(value = "/{id}")
     public ResponseEntity<Response<StudentDto>> findById(@PathVariable Long id) {
         log.info("[#getStudentById] is calling");
@@ -48,6 +64,11 @@ public class StudentController {
         }
     }
 
+    /**
+     * Получает список всех студентов.
+     *
+     * @return ResponseEntity со списком студентов.
+     */
     @GetMapping
     public ResponseEntity<Response<List<StudentDto>>> getAll() {
         log.info("[#getAllStudents] is calling");
@@ -59,6 +80,12 @@ public class StudentController {
         }
     }
 
+    /**
+     * Обновляет информацию о студенте.
+     *
+     * @param studentDto DTO с новыми данными студента.
+     * @return ResponseEntity с обновленным студентом.
+     */
     @PutMapping
     public ResponseEntity<Response<StudentDto>> update(@RequestBody StudentDto studentDto) {
         log.info("[#updateStudent] is calling");
@@ -72,6 +99,12 @@ public class StudentController {
         }
     }
 
+    /**
+     * Удаляет студента по его ID.
+     *
+     * @param id ID студента, которого нужно удалить.
+     * @return ResponseEntity с сообщением об успешном удалении студента.
+     */
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Response<Void>> delete(@PathVariable Long id) {
         log.info("[#deleteStudent] is calling");

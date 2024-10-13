@@ -10,6 +10,13 @@ import kg.megacom.diplomaprojectschoolmegalab.repository.StudentRepository;
 import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Mapper для преобразования между сущностью {@link Homework} и DTO {@link HomeworkDto}.
+ * <p>
+ * Этот класс предоставляет методы для конвертации объектов {@link HomeworkDto} в {@link Homework}
+ * и наоборот, а также для получения списка DTO из списка сущностей.
+ * </p>
+ */
 @Component
 @RequiredArgsConstructor
 public class HomeworkMapper {
@@ -17,7 +24,12 @@ public class HomeworkMapper {
     private final LessonRepository lessonRepository;
     private final StudentRepository studentRepository;
 
-    // Convert Homework entity to HomeworkDto
+    /**
+     * Преобразует объект {@link Homework} в объект {@link HomeworkDto}.
+     *
+     * @param homework Сущность, которую нужно преобразовать.
+     * @return Преобразованный объект {@link HomeworkDto}.
+     */
     public HomeworkDto toDto(Homework homework) {
         HomeworkDto homeworkDto = new HomeworkDto();
         homeworkDto.setId(homework.getId());
@@ -30,7 +42,13 @@ public class HomeworkMapper {
         return homeworkDto;
     }
 
-    // Convert HomeworkDto to Homework entity
+    /**
+     * Преобразует объект {@link HomeworkDto} в сущность {@link Homework}.
+     *
+     * @param homeworkDto DTO, которое нужно преобразовать.
+     * @return Преобразованная сущность {@link Homework}.
+     * @throws EntityNotFoundException Если ученик или урок с указанными ID не найдены.
+     */
     public Homework toEntity(HomeworkDto homeworkDto) {
         Homework homework = new Homework();
         homework.setId(homeworkDto.getId());
@@ -42,11 +60,25 @@ public class HomeworkMapper {
         return homework;
     }
 
+    /**
+     * Получает сущность {@link Lesson} по ID урока.
+     *
+     * @param lessonId ID урока.
+     * @return Сущность {@link Lesson}.
+     * @throws EntityNotFoundException Если урок с указанным ID не найден.
+     */
     public Lesson toLesson(Long lessonId) {
         return lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new EntityNotFoundException("Lesson not found with ID: " + lessonId));
     }
 
+    /**
+     * Получает сущность {@link Student} по ID студента.
+     *
+     * @param studentId ID студента.
+     * @return Сущность {@link Student}.
+     * @throws EntityNotFoundException Если студент с указанным ID не найден.
+     */
     public Student toStudent(Long studentId) {
         return studentRepository.findById(studentId)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found with ID: " + studentId));

@@ -15,14 +15,25 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Реализация сервиса для управления домашними заданиями.
+ *
+ * Этот класс предоставляет функциональность для создания, обновления, поиска и удаления
+ * записей о домашних заданиях.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class HomeworkServiceImpl implements HomeworkService {
 
-    private final HomeworkRepository homeworkRepository; // Assume HomeworkRepository is created
+    private final HomeworkRepository homeworkRepository; // Предполагается, что HomeworkRepository создан
     private final HomeworkMapper homeworkMapper;
 
+    /**
+     * Создание нового домашнего задания.
+     *
+     * @param homeworkDto объект, содержащий информацию о домашнем задании.
+     */
     @Override
     public void create(HomeworkDto homeworkDto) {
         log.info("[#createHomework] is calling");
@@ -32,6 +43,14 @@ public class HomeworkServiceImpl implements HomeworkService {
         log.info("[#createHomework] successfully created");
     }
 
+    /**
+     * Обновление информации о домашнем задании.
+     *
+     * @param id идентификатор домашнего задания для обновления.
+     * @param homeworkDto объект, содержащий обновленную информацию о домашнем задании.
+     * @return объект Response с информацией о обновленном домашнем задании.
+     * @throws RuntimeException если домашнее задание не найдено.
+     */
     @Override
     public Response<HomeworkDto> update(Long id, HomeworkDto homeworkDto) {
         log.info("[#updateHomework] is calling with ID: {}", id);
@@ -50,6 +69,11 @@ public class HomeworkServiceImpl implements HomeworkService {
         return new Response<>("Homework updated successfully", homeworkMapper.toDto(homework));
     }
 
+    /**
+     * Получение списка всех домашних заданий.
+     *
+     * @return объект Response со списком всех домашних заданий.
+     */
     @Override
     public Response<List<HomeworkDto>> getAll() {
         log.info("[#getAllHomeworks] is calling");
@@ -59,6 +83,13 @@ public class HomeworkServiceImpl implements HomeworkService {
         return new Response<>("All homeworks", homeworks);
     }
 
+    /**
+     * Поиск домашнего задания по идентификатору.
+     *
+     * @param id идентификатор домашнего задания.
+     * @return объект HomeworkDto с информацией о найденном домашнем задании.
+     * @throws EntityNotFoundException если домашнее задание не найдено.
+     */
     @Override
     public HomeworkDto getById(Long id) {
         log.info("[#getHomeworkById] is calling with ID: {}", id);
@@ -67,6 +98,12 @@ public class HomeworkServiceImpl implements HomeworkService {
         return homeworkMapper.toDto(homework);
     }
 
+    /**
+     * Удаление домашнего задания по идентификатору.
+     *
+     * @param id идентификатор домашнего задания для удаления.
+     * @throws RuntimeException если домашнее задание не найдено.
+     */
     @Override
     public void delete(Long id) {
         log.info("[#deleteHomework] is calling with ID: {}", id);

@@ -14,6 +14,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Реализация сервиса для управления сотрудниками.
+ *
+ * Этот класс предоставляет функциональность для создания, обновления, поиска и удаления
+ * записей о сотрудниках.
+ */
 @Service
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
@@ -22,7 +28,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
 
-
+    /**
+     * Создание нового сотрудника.
+     *
+     * @param request объект, содержащий информацию о новом сотруднике.
+     * @throws EntityNotFoundException если пользователь, связанный с сотрудником, не найден.
+     */
     @Override
     public void create(EmployeeDto request) {
         if (userService.getById(request.getUserId()).isEmpty()) {
@@ -32,15 +43,29 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.save(employee);
     }
 
+    /**
+     * Поиск сотрудника по идентификатору.
+     *
+     * @param id идентификатор сотрудника.
+     * @return объект Response с информацией о найденном сотруднике.
+     * @throws EntityNotFoundException если сотрудник не найден.
+     */
     @Override
     public Response<EmployeeDto> findById(Long id) {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Employee not found"));
         EmployeeDto employeeCreateRequest = employeeMapper.toEmployeeCreateRequest(employee);
         return new Response<>("Find Employee by id: ", employeeCreateRequest);
-
     }
 
+    /**
+     * Обновление информации о сотруднике.
+     *
+     * @param request объект, содержащий обновленную информацию о сотруднике.
+     * @param id идентификатор сотрудника для обновления.
+     * @return объект Response с информацией о обновленном сотруднике.
+     * @throws EntityNotFoundException если пользователь не найден.
+     */
     @Override
     public Response<EmployeeDto> update(EmployeeDto request, Long id) {
         if (userService.getById(request.getUserId()).isEmpty()) {
@@ -52,14 +77,23 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new Response<>("Update Employee: ", employeeMapper.toEmployeeCreateRequest(newEmployee));
     }
 
+    /**
+     * Получение списка всех сотрудников.
+     *
+     * @return объект Response со списком всех сотрудников.
+     */
     @Override
     public Response<List<EmployeeDto>> getAll() {
         return new Response<>("Get all employees: ", employeeMapper.toEmployeeCreateRequestList(employeeRepository.findAll()));
     }
 
+    /**
+     * Удаление сотрудника по идентификатору.
+     *
+     * @param id идентификатор сотрудника для удаления.
+     */
     @Override
     public void delete(Long id) {
         employeeRepository.deleteById(id);
     }
-
 }

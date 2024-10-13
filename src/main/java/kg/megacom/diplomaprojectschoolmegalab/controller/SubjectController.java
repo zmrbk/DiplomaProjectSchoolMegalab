@@ -10,7 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+/**
+ * Контроллер для управления предметами.
+ * Предоставляет RESTful API для создания, получения, обновления и удаления предметов.
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/subjects")
@@ -19,6 +22,12 @@ public class SubjectController {
 
     private final SubjectServiceImpl subjectService;
 
+    /**
+     * Создает новый предмет.
+     *
+     * @param subjectsDto DTO с данными предмета.
+     * @return ResponseEntity с сообщением об успешном создании предмета.
+     */
     @PostMapping
     public ResponseEntity<Response<SubjectsDto>> create(@RequestBody SubjectsDto subjectsDto) {
         log.info("[#create] is calling");
@@ -32,6 +41,12 @@ public class SubjectController {
         }
     }
 
+    /**
+     * Получает предмет по его ID.
+     *
+     * @param id ID предмета, который нужно получить.
+     * @return ResponseEntity с найденным предметом.
+     */
     @GetMapping(value = "/{id}")
     public ResponseEntity<Response<SubjectsDto>> getById(@PathVariable Long id) {
         log.info("[#getById] is calling");
@@ -39,6 +54,11 @@ public class SubjectController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * Получает список всех предметов.
+     *
+     * @return ResponseEntity со списком предметов.
+     */
     @GetMapping
     public ResponseEntity<Response<List<SubjectsDto>>> getAll() {
         log.info("[#getAll] is calling");
@@ -46,6 +66,13 @@ public class SubjectController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * Обновляет информацию о предмете.
+     *
+     * @param subjectsDto DTO с новыми данными предмета.
+     * @param id ID предмета, который нужно обновить.
+     * @return ResponseEntity с обновленным предметом.
+     */
     @PutMapping(value = "/{id}")
     public ResponseEntity<Response<SubjectsDto>> update(@RequestBody SubjectsDto subjectsDto, @PathVariable Long id) {
         log.info("[#update] is calling");
@@ -53,6 +80,12 @@ public class SubjectController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * Удаляет предмет по его ID.
+     *
+     * @param id ID предмета, который нужно удалить.
+     * @return ResponseEntity с сообщением об успешном удалении предмета.
+     */
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Response<String>> delete(@PathVariable Long id) {
         log.info("[#delete] is calling");

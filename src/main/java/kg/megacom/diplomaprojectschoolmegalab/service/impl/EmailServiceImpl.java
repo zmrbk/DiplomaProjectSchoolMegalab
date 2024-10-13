@@ -1,20 +1,22 @@
 package kg.megacom.diplomaprojectschoolmegalab.service.impl;
 
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
+
 import kg.megacom.diplomaprojectschoolmegalab.service.EmailService;
 import kg.megacom.diplomaprojectschoolmegalab.utils.email.EmailDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
+
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
+
 import org.springframework.stereotype.Service;
-
-import java.io.File;
-
+/**
+ * Реализация сервиса для отправки электронных писем.
+ *
+ * Этот класс предоставляет функциональность для отправки простых электронных писем
+ * с использованием SMTP-сервера.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -24,28 +26,34 @@ public class EmailServiceImpl implements EmailService {
     @Value("${spring.mail.username}")
     private String sender;
 
+    /**
+     * Отправка простого электронного письма.
+     *
+     * @param details объект, содержащий информацию о получателе, теме и содержимом письма.
+     * @return строка с сообщением об успехе или ошибке.
+     */
     public String sendSimpleMail(EmailDetails details) {
         log.info("[#sendSimpleMail] to: {}", details.getRecipient());
-        // Try block to check for exceptions
+        // Попытка отправить электронное письмо
         try {
-            // Creating a simple mail message
+            // Создание простого сообщения электронной почты
             SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-            // Setting up necessary details
+            // Установка необходимых данных
             mailMessage.setFrom(sender);
             mailMessage.setTo(details.getRecipient());
             mailMessage.setText(details.getMessageBody());
             mailMessage.setSubject(details.getSubject());
 
-            // Sending the mail
+            // Отправка письма
             javaMailSender.send(mailMessage);
             return "Mail Sent Successfully...";
         }
 
-        // Catch block to handle the exceptions
+        // Обработка исключений
         catch (Exception e) {
+            log.error("Error while sending mail: {}", e.getMessage());
             return "Error while Sending Mail";
         }
     }
-
 }

@@ -14,6 +14,12 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Реализация сервиса для работы с уроками.
+ *
+ * Этот класс предоставляет функциональность для создания, обновления,
+ * получения и удаления уроков.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -22,6 +28,11 @@ public class LessonServiceImpl implements LessonService {
     private final LessonRepository lessonRepository;
     private final LessonMapper lessonMapper;
 
+    /**
+     * Создание нового урока.
+     *
+     * @param lessonDto объект, содержащий данные урока для создания.
+     */
     @Override
     public void create(LessonDto lessonDto) {
         Lesson lesson = lessonMapper.toLesson(lessonDto);
@@ -29,6 +40,11 @@ public class LessonServiceImpl implements LessonService {
         log.info("Created lesson: {}", lesson);
     }
 
+    /**
+     * Получение списка всех уроков.
+     *
+     * @return список всех уроков в виде Response с сообщением и списком LessonDto.
+     */
     @Override
     public Response<List<LessonDto>> getAll() {
         List<Lesson> lessons = lessonRepository.findAll();
@@ -38,6 +54,13 @@ public class LessonServiceImpl implements LessonService {
         return new Response<>("Lessons retrieved successfully", lessonDtoList);
     }
 
+    /**
+     * Получение урока по его идентификатору.
+     *
+     * @param id идентификатор урока.
+     * @return объект LessonDto с данными найденного урока.
+     * @throws EntityNotFoundException если урок с указанным идентификатором не найден.
+     */
     @Override
     public LessonDto getById(Long id) {
         Lesson lesson = lessonRepository.findById(id)
@@ -45,6 +68,14 @@ public class LessonServiceImpl implements LessonService {
         return lessonMapper.toLessonDto(lesson);
     }
 
+    /**
+     * Обновление данных урока.
+     *
+     * @param id идентификатор урока, который нужно обновить.
+     * @param lessonDto объект, содержащий обновленные данные урока.
+     * @return Response с сообщением об успешном обновлении и обновленным LessonDto.
+     * @throws EntityNotFoundException если урок с указанным идентификатором не найден.
+     */
     @Override
     public Response<LessonDto> update(Long id, LessonDto lessonDto) {
         Lesson existingLesson = lessonRepository.findById(id)
@@ -58,6 +89,12 @@ public class LessonServiceImpl implements LessonService {
         return new Response<>("Lesson updated successfully", lessonMapper.toLessonDto(updatedLesson));
     }
 
+    /**
+     * Удаление урока по его идентификатору.
+     *
+     * @param id идентификатор урока, который нужно удалить.
+     * @throws EntityNotFoundException если урок с указанным идентификатором не найден.
+     */
     @Override
     public void delete(Long id) {
         Lesson lesson = lessonRepository.findById(id)

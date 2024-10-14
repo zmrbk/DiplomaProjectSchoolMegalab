@@ -24,6 +24,18 @@ import java.util.List;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
+/**
+ * Конфигурация безопасности приложения, которая настраивает фильтры,
+ * управление доступом и методы аутентификации.
+ *
+ * <p>Этот класс включает в себя настройку JWT аутентификации и
+ * управление CORS. Он также определяет политику создания сессий
+ * и параметры для аутентификации пользователей.
+ *
+ * <p>Класс помечен аннотациями {@link Configuration}, {@link EnableWebSecurity},
+ * и {@link EnableGlobalMethodSecurity} для активации конфигурации Spring Security
+ * и глобальной настройки метода безопасности.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)

@@ -17,6 +17,12 @@ import lombok.RequiredArgsConstructor;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Реализация сервиса аутентификации пользователей.
+ *
+ * Этот класс отвечает за регистрацию и аутентификацию пользователей с использованием
+ * JWT (JSON Web Token).
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl {
@@ -27,7 +33,13 @@ public class AuthenticationServiceImpl {
     private final AuthenticationManager authenticationManager;
     private final RoleRepository roleRepository;
 
-    // Регистрация пользователя
+    /**
+     * Регистрация нового пользователя.
+     *
+     * @param request объект запроса для регистрации пользователя, содержащий данные о пользователе и его ролях.
+     * @return объект JwtAuthenticationResponse с JWT токеном и идентификатором пользователя.
+     * @throws RuntimeException если роль не найдена в репозитории ролей.
+     */
     public JwtAuthenticationResponse signUp(SignUpRequest request) {
         log.info("Sign up request: {}", request);
         Set<Role> roles = new HashSet<>();
@@ -51,7 +63,12 @@ public class AuthenticationServiceImpl {
         return new JwtAuthenticationResponse(jwt, userService.getByUsername(user.getUsername()).getId());
     }
 
-    // Аутентификация пользователя
+    /**
+     * Аутентификация пользователя.
+     *
+     * @param request объект запроса для аутентификации пользователя, содержащий имя пользователя и пароль.
+     * @return объект JwtAuthenticationResponse с JWT токеном и идентификатором пользователя.
+     */
     public JwtAuthenticationResponse signIn(SignInRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 request.getUsername(),

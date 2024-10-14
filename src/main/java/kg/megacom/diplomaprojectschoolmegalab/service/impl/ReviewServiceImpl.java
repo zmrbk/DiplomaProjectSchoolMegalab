@@ -17,7 +17,11 @@ import javax.security.auth.login.AccountNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-
+/**
+ * Реализация сервиса для работы с отзывами.
+ *
+ * Этот класс предоставляет функциональность для создания, обновления, удаления и получения отзывов.
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -28,6 +32,12 @@ public class ReviewServiceImpl implements ReviewService {
     private final UserRepository userRepository;
     private final ReviewMapper reviewMapper;
 
+    /**
+     * Создание нового отзыва.
+     *
+     * @param reviewDto объект данных отзыва, который нужно создать.
+     * @throws AccountNotFoundException если студент или автор отзыва не найдены.
+     */
     @Override
     public void create(ReviewDto reviewDto) throws AccountNotFoundException {
         Review review = new Review();
@@ -40,6 +50,15 @@ public class ReviewServiceImpl implements ReviewService {
         reviewRepository.save(review);
     }
 
+    /**
+     * Обновление существующего отзыва.
+     *
+     * @param reviewDto объект данных отзыва с обновленной информацией.
+     * @param id        идентификатор отзыва, который нужно обновить.
+     * @throws AccountNotFoundException если студент или автор отзыва не найдены.
+     * @throws EntityNotFoundException   если отзыв не найден.
+     * @return ответ с обновленным объектом отзыва.
+     */
     @Override
     public Response<ReviewDto> update(ReviewDto reviewDto, Long id) throws AccountNotFoundException {
         Review review = reviewRepository.findById(id)
@@ -52,9 +71,16 @@ public class ReviewServiceImpl implements ReviewService {
                 .orElseThrow(() -> new AccountNotFoundException("Author not found")));
 
         reviewRepository.save(review);
-        return new Response<>("Review updated successfully",reviewMapper.toDto(review));
+        return new Response<>("Review updated successfully", reviewMapper.toDto(review));
     }
 
+    /**
+     * Удаление отзыва по его идентификатору.
+     *
+     * @param id идентификатор отзыва, который нужно удалить.
+     * @throws EntityNotFoundException если отзыв не найден.
+     * @return ответ о результате операции удаления.
+     */
     @Override
     public Response<String> delete(Long id) throws EntityNotFoundException {
         Review review = reviewRepository.findById(id)
@@ -63,18 +89,30 @@ public class ReviewServiceImpl implements ReviewService {
         return new Response<>("Review deleted successfully", null);
     }
 
+    /**
+     * Получение всех отзывов.
+     *
+     * @return список всех отзывов.
+     */
     @Override
     public Response<List<ReviewDto>> getAll() {
         List<ReviewDto> reviews = reviewRepository.findAll()
                 .stream().map(reviewMapper::toDto)
                 .collect(Collectors.toList());
-        return new Response<>("All reviews retrieved successfully",reviews);
+        return new Response<>("All reviews retrieved successfully", reviews);
     }
 
+    /**
+     * Получение отзыва по его идентификатору.
+     *
+     * @param id идентификатор отзыва, который нужно получить.
+     * @throws EntityNotFoundException если отзыв не найден.
+     * @return ответ с найденным объектом отзыва.
+     */
     @Override
     public Response<ReviewDto> getById(Long id) throws EntityNotFoundException {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Review not found"));
-        return new Response<>("Review retrieved successfully",reviewMapper.toDto(review));
+        return new Response<>("Review retrieved successfully", reviewMapper.toDto(review));
     }
 }

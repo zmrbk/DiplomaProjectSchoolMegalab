@@ -13,11 +13,24 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+/**
+ * Реализация сервиса для работы с ролями.
+ *
+ * Этот класс предоставляет функциональность для создания, обновления, удаления и получения ролей.
+ */
 @Service
 @RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
 
+    /**
+     * Создание новой роли.
+     *
+     * @param role        объект роли, который нужно создать.
+     * @param currentUser текущий пользователь, выполняющий действие.
+     * @throws UnauthorizedAccessException если текущий пользователь не имеет прав ADMIN.
+     * @throws EntityAlreadyExistsException если роль с таким именем уже существует.
+     */
     @Override
     public void create(Role role, User currentUser) {
         if (currentUser == null || currentUser.getRoles()
@@ -33,6 +46,14 @@ public class RoleServiceImpl implements RoleService {
         roleRepository.save(role);
     }
 
+    /**
+     * Обновление существующей роли.
+     *
+     * @param role объект роли с обновленной информацией.
+     * @throws EntityNotFoundException если роль не найдена.
+     * @throws EntityAlreadyExistsException если роль с таким именем уже существует.
+     * @return ответ о результате операции обновления.
+     */
     @Override
     public Response<String> update(Role role) {
         Role existingRole = roleRepository.findById(role.getId())
@@ -46,23 +67,47 @@ public class RoleServiceImpl implements RoleService {
         return new Response<>("Role updated successfully", "Success");
     }
 
+    /**
+     * Получение роли по имени.
+     *
+     * @param roleName имя роли, которую нужно получить.
+     * @throws EntityNotFoundException если роль не найдена.
+     * @return объект роли.
+     */
     @Override
     public Role getRoleByName(String roleName) {
         return roleRepository.findByRoleName(roleName)
                 .orElseThrow(() -> new EntityNotFoundException("Role not found"));
     }
 
+    /**
+     * Получение всех ролей.
+     *
+     * @return список всех ролей.
+     */
     @Override
     public Response<List<Role>> getAll() {
         List<Role> roles = roleRepository.findAll();
         return new Response<>("All roles", roles);
     }
 
+    /**
+     * Удаление роли.
+     *
+     * @param role объект роли, которую нужно удалить.
+     */
     @Override
     public void delete(Role role) {
         roleRepository.delete(role);
     }
 
+    /**
+     * Получение роли по её идентификатору.
+     *
+     * @param id идентификатор роли, которую нужно получить.
+     * @throws EntityNotFoundException если роль не найдена.
+     * @return объект роли.
+     */
     public Role getById(Long id) {
         return roleRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Role not found with ID: " + id));

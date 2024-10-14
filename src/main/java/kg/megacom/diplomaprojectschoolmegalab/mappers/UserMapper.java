@@ -11,13 +11,25 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+/**
+ * Mapper для преобразования между сущностью {@link User} и DTO {@link UserDto}.
+ * <p>
+ * Этот класс предоставляет методы для конвертации объектов {@link User} в {@link UserDto},
+ * преобразования списков пользователей и обновления существующего пользователя на основе {@link UserDto}.
+ * </p>
+ */
 @Component
 @RequiredArgsConstructor
 public class UserMapper {
 
     private final RoleService roleService;
 
+    /**
+     * Преобразует объект {@link User} в объект {@link UserDto}.
+     *
+     * @param user Сущность, которую нужно преобразовать. Может быть null.
+     * @return Преобразованный объект {@link UserDto} или null, если входной объект user равен null.
+     */
     public UserDto toUserDto(User user) {
         if (user == null) {
             return null;
@@ -31,6 +43,7 @@ public class UserMapper {
         userDto.setPhone(user.getPhone());
         userDto.setEmail(user.getEmail());
 
+        // Преобразовать роли в имена ролей
         List<String> roleNames = user.getRoles().stream()
                 .map(Role::getRoleName)
                 .collect(Collectors.toList());
@@ -40,13 +53,27 @@ public class UserMapper {
         return userDto;
     }
 
+    /**
+     * Преобразует список объектов {@link User} в список объектов {@link UserDto}.
+     *
+     * @param users Список сущностей, которые нужно преобразовать. Может содержать null значения.
+     * @return Список преобразованных объектов {@link UserDto}, игнорируя null значения.
+     */
     public List<UserDto> toUserDtoList(List<User> users) {
         return users.stream()
                 .map(this::toUserDto)
-                .filter(Objects::nonNull) // Ignore null values
+                .filter(Objects::nonNull) // Игнорировать null значения
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Обновляет сущность пользователя на основе {@link UserDto}.
+     *
+     * @param user   Сущность пользователя, которую нужно обновить.
+     * @param userDto DTO, содержащий новые значения для обновления пользователя.
+     * @return Обновленная сущность {@link User}.
+     * @throws IllegalArgumentException Если user или userDto равны null.
+     */
     public User updateUser(User user, UserDto userDto) {
         if (user == null || userDto == null) {
             throw new IllegalArgumentException("User or UserDto cannot be null");
@@ -57,6 +84,7 @@ public class UserMapper {
         user.setPhone(userDto.getPhone());
         user.setEmail(userDto.getEmail());
 
+        // Преобразовать имена ролей в сущности ролей и задать их пользователю
         Set<Role> roles = userDto.getRoles().stream()
                 .map(roleService::getRoleByName)
                 .collect(Collectors.toSet());

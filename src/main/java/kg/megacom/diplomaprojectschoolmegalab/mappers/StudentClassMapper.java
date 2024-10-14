@@ -5,8 +5,8 @@ import kg.megacom.diplomaprojectschoolmegalab.entity.Employee;
 import kg.megacom.diplomaprojectschoolmegalab.entity.StudentClass;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
 import kg.megacom.diplomaprojectschoolmegalab.repository.EmployeeRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,6 +1,5 @@
 package kg.megacom.diplomaprojectschoolmegalab.service.impl;
 
-import jakarta.transaction.Transactional;
 import kg.megacom.diplomaprojectschoolmegalab.entity.PasswordResetToken;
 import kg.megacom.diplomaprojectschoolmegalab.entity.User;
 import kg.megacom.diplomaprojectschoolmegalab.repository.PasswordResetTokenRepository;
@@ -8,11 +7,11 @@ import kg.megacom.diplomaprojectschoolmegalab.repository.UserRepository;
 import kg.megacom.diplomaprojectschoolmegalab.service.EmailService;
 import kg.megacom.diplomaprojectschoolmegalab.service.PasswordResetService;
 import kg.megacom.diplomaprojectschoolmegalab.utils.email.EmailDetails;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

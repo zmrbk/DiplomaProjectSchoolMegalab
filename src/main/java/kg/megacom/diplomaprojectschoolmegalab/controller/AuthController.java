@@ -36,7 +36,7 @@ public class AuthController {
      * @param request объект запроса на регистрацию, содержащий данные пользователя
      * @return ResponseEntity с JWT-ответом, содержащим информацию об аутентификации
      */
-    @PreAuthorize("hasRole('ADMIN')") // Регистрировать  нового пользователя может только Адимн системы
+//    @PreAuthorize("hasRole('ADMIN')") // Регистрировать  нового пользователя может только Админ системы
     @PostMapping(value = "/sign-up")
     public ResponseEntity<JwtAuthenticationResponse> signUp(@RequestBody SignUpRequest request) {
         log.info("[#signUp] is calling");

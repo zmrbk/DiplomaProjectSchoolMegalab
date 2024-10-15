@@ -2,14 +2,12 @@ package kg.megacom.diplomaprojectschoolmegalab.controller;
 
 import kg.megacom.diplomaprojectschoolmegalab.dto.CharterDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
-import kg.megacom.diplomaprojectschoolmegalab.dto.ReviewDto;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
 import kg.megacom.diplomaprojectschoolmegalab.service.CharterService;
-import kg.megacom.diplomaprojectschoolmegalab.service.ReviewService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
 
 import javax.security.auth.login.AccountNotFoundException;
 import java.util.List;
@@ -56,7 +54,8 @@ public class CharterController {
      * @throws AccountNotFoundException если учетная запись не найдена
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Response<CharterDto>> update(@RequestBody CharterDto charterDto, @PathVariable Long id) throws AccountNotFoundException {
+    public ResponseEntity<Response<CharterDto>> update(@RequestBody CharterDto charterDto,
+                                                       @PathVariable Long id) throws AccountNotFoundException {
         return ResponseEntity.ok(charterService.update(charterDto, id));
     }
 

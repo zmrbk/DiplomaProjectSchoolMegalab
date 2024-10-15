@@ -1,18 +1,11 @@
 package kg.megacom.diplomaprojectschoolmegalab.mappers;
 
 import kg.megacom.diplomaprojectschoolmegalab.dto.AnnouncementDto;
-import kg.megacom.diplomaprojectschoolmegalab.dto.StudentClassDto;
 import kg.megacom.diplomaprojectschoolmegalab.entity.Announcement;
-import kg.megacom.diplomaprojectschoolmegalab.entity.Employee;
-import kg.megacom.diplomaprojectschoolmegalab.entity.StudentClass;
 import kg.megacom.diplomaprojectschoolmegalab.entity.User;
-import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
-import kg.megacom.diplomaprojectschoolmegalab.repository.EmployeeRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,7 +50,6 @@ public class AnnouncementMapper {
         announcement.setTitle(announcementDto.getTitle());
         announcement.setDescription(announcementDto.getDescription());
         announcement.setAuthor(user.getFirstName() + " " + user.getLastName());
-
         return announcement;
     }
 

@@ -2,7 +2,6 @@ package kg.megacom.diplomaprojectschoolmegalab.service;
 
 import kg.megacom.diplomaprojectschoolmegalab.dto.CharterDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
-import kg.megacom.diplomaprojectschoolmegalab.dto.SubjectsDto;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
 
 import javax.security.auth.login.AccountNotFoundException;

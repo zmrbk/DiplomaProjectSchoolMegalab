@@ -7,15 +7,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kg.megacom.diplomaprojectschoolmegalab.service.impl.JwtService;
 import kg.megacom.diplomaprojectschoolmegalab.service.impl.UserServiceImpl;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
+import lombok.NonNull;
 
 import java.io.IOException;
 

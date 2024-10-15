@@ -1,5 +1,6 @@
 package kg.megacom.diplomaprojectschoolmegalab.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -35,5 +36,6 @@ public class ReviewDto {
     /**
      * Дата и время создания отзыва.
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime creationDate;
 }

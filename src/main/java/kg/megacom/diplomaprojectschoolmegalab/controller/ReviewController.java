@@ -4,10 +4,10 @@ import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.dto.ReviewDto;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
 import kg.megacom.diplomaprojectschoolmegalab.service.ReviewService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
 
 import javax.security.auth.login.AccountNotFoundException;
 import java.util.List;

@@ -1,14 +1,12 @@
 package kg.megacom.diplomaprojectschoolmegalab.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Set;
-
-
 
 /**
  * Класс, представляющий роль пользователя в системе.

@@ -6,6 +6,7 @@ import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException
 import kg.megacom.diplomaprojectschoolmegalab.service.AnnouncementService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,7 @@ public class AnnouncementController {
      * @return ResponseEntity с созданным объявлением и сообщением об успехе
      * @throws IllegalArgumentException если входные данные некорректны
      */
+    @PreAuthorize("hasAnyRole('DIRECTOR')")
     @PostMapping
     public ResponseEntity<Response<AnnouncementDto>> create(@RequestBody AnnouncementDto announcementDto) {
         log.info("[#createAnnouncement] is calling");

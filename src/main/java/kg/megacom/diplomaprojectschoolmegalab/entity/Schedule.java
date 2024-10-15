@@ -3,8 +3,6 @@ package kg.megacom.diplomaprojectschoolmegalab.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-
-
 /**
  * Класс, представляющий расписание занятий в учебном заведении.
  * <p>

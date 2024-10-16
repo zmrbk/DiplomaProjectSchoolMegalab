@@ -1,6 +1,6 @@
 package kg.megacom.diplomaprojectschoolmegalab.dto;
 
-import kg.megacom.diplomaprojectschoolmegalab.enums.Position;
+import kg.megacom.diplomaprojectschoolmegalab.enums.EmployeeStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +21,7 @@ public class EmployeeDto {
     /**
      * Должность сотрудника.
      */
-    private Position position;
+    private EmployeeStatus employeeStatus;
 
     /**
      * Заработная плата сотрудника.

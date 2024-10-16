@@ -139,7 +139,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Page<User> pages = userRepository.findAll(pageable);
         List<User> users = pages.getContent();
         List<UserDto> usersDto = userMapper.toUserDtoList(users);
-        return new Response<>("All users", usersDto);
+        return new Response<>("All users retrieved successfully", usersDto);
     }
 
     /**
@@ -180,7 +180,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User newUser = userMapper.updateUser(user, userDto);
         userRepository.save(newUser);
         UserDto newUserDto = userMapper.toUserDto(newUser);
-        return new Response<>("User", newUserDto);
+        return new Response<>("User updated successfully", newUserDto);
     }
 
     /**

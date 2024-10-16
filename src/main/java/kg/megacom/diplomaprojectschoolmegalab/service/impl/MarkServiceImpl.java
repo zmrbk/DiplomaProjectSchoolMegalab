@@ -50,7 +50,7 @@ public class MarkServiceImpl implements MarkService {
         List<MarkDto> markDtoList = marks.stream()
                 .map(markMapper::toMarkDto)
                 .collect(Collectors.toList());
-        return new Response<>("Marks retrieved successfully", markDtoList);
+        return new Response<>("All marks retrieved successfully", markDtoList);
     }
 
     /**

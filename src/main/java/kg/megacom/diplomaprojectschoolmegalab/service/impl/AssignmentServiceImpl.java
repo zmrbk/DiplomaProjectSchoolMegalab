@@ -75,7 +75,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         List<AssignmentDto> assignments = assignmentRepository.findAll().stream()
                 .map(assignmentMapper::toDto)
                 .collect(Collectors.toList());
-        return new Response<>("All assignments", assignments);
+        return new Response<>("All assignments retrieved successfully", assignments);
     }
 
     /**

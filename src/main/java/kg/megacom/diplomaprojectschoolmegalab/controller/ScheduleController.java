@@ -34,7 +34,7 @@ public class ScheduleController {
         log.info("[#createSchedule] is calling");
         scheduleService.create(scheduleDto);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new Response<>("Schedule created successfully", null));
+                .body(new Response<>("Schedule is created successfully", null));
     }
 
     /**
@@ -87,6 +87,6 @@ public class ScheduleController {
     public ResponseEntity<Response<Void>> deleteSchedule(@PathVariable Long id) {
         log.info("[#deleteSchedule] is calling with ID: {}", id);
         scheduleService.delete(id);
-        return ResponseEntity.ok(new Response<>("Schedule deleted successfully", null));
+        return ResponseEntity.ok(new Response<>("Schedule deleted successfully!", null));
     }
 }

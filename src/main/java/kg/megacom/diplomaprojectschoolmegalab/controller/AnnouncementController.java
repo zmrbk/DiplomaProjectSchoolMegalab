@@ -46,10 +46,10 @@ public class AnnouncementController {
             AnnouncementDto newAnnouncement = announcementService.create(announcementDto);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body(new Response<>("Объявление создано", newAnnouncement));
+                    .body(new Response<>("Announcement is created successfully", newAnnouncement));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest()
-                    .body(new Response<>("Некорректный ввод", null));
+                    .body(new Response<>("Incorrect input", null));
         }
     }
 
@@ -108,7 +108,7 @@ public class AnnouncementController {
         log.info("[#delete] is calling");
         try {
             announcementService.delete(id);
-            return ResponseEntity.ok(("Удалено!"));
+            return ResponseEntity.ok(("Announcement deleted successfully!"));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }

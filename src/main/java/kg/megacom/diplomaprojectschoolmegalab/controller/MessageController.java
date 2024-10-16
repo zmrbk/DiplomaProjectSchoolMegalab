@@ -32,7 +32,7 @@ public class MessageController {
     public ResponseEntity<Response<Void>> createMessage(@RequestBody MessageDto messageDto) {
         log.info("[#createMessage] is calling");
         messageService.create(messageDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new Response<>("Сообщение успешно создано", null));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new Response<>("Message is created successfully", null));
     }
 
     /**
@@ -84,6 +84,6 @@ public class MessageController {
     public ResponseEntity<Response<Void>> deleteMessage(@PathVariable Long id) {
         log.info("[#deleteMessage] is calling with ID: {}", id);
         messageService.delete(id);
-        return ResponseEntity.ok(new Response<>("Сообщение успешно удалено", null));
+        return ResponseEntity.ok(new Response<>("Message deleted successfully!", null));
     }
 }

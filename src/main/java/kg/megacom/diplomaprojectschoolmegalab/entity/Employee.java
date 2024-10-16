@@ -1,7 +1,7 @@
 package kg.megacom.diplomaprojectschoolmegalab.entity;
 
 import jakarta.persistence.*;
-import kg.megacom.diplomaprojectschoolmegalab.enums.Position;
+import kg.megacom.diplomaprojectschoolmegalab.enums.EmployeeStatus;
 import lombok.*;
 
 /**
@@ -37,13 +37,13 @@ public class Employee {
     /**
      * Позиция сотрудника.
      * <p>
-     * Хранится в формате строки. Используется перечисление {@link Position}
+     * Хранится в формате строки. Используется перечисление {@link EmployeeStatus}
      * для указания позиции.
      * </p>
      */
-    @Column(name = "position")
+    @Column(name = "employee_status")
     @Enumerated(EnumType.STRING)
-    private Position position;
+    private EmployeeStatus employeeStatus;
 
     /**
      * Зарплата сотрудника.

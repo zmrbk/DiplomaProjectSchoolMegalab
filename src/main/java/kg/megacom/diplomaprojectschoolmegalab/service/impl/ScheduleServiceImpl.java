@@ -50,7 +50,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         List<ScheduleDto> schedules = scheduleRepository.findAll().stream()
                 .map(scheduleMapper::toScheduleDto)
                 .collect(Collectors.toList());
-        return new Response<>("All schedules", schedules);
+        return new Response<>("All schedules retrieved successfully", schedules);
     }
 
     /**

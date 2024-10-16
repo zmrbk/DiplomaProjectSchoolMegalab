@@ -35,8 +35,9 @@ public class EmployeeMapper {
         User user = userService.getById(employeeCreateRequest.getUserId()).orElseThrow(
                 () -> new EntityNotFoundException("User with id " + employeeCreateRequest.getUserId() + " not found")
         );
+        employee.setId(employeeCreateRequest.getId());
         employee.setSalary(employeeCreateRequest.getSalary());
-        employee.setPosition(employeeCreateRequest.getPosition());
+        employee.setEmployeeStatus(employeeCreateRequest.getEmployeeStatus());
         employee.setUser(user);
         return employee;
     }
@@ -51,7 +52,7 @@ public class EmployeeMapper {
         EmployeeDto employeeCreateRequest = new EmployeeDto();
         employeeCreateRequest.setId(employee.getId());
         employeeCreateRequest.setSalary(employee.getSalary());
-        employeeCreateRequest.setPosition(employee.getPosition());
+        employeeCreateRequest.setEmployeeStatus(employee.getEmployeeStatus());
         employeeCreateRequest.setUserId(employee.getUser().getId());
         return employeeCreateRequest;
     }

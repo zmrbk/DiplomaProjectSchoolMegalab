@@ -32,7 +32,7 @@ public class LessonController {
     public ResponseEntity<Response<Void>> create(@RequestBody LessonDto lessonDto) {
         log.info("[#createLesson] is calling");
         lessonService.create(lessonDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new Response<>("Урок успешно создан", null));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new Response<>("Lesson is created successfully", null));
     }
 
     /**
@@ -84,6 +84,6 @@ public class LessonController {
     public ResponseEntity<Response<Void>> delete(@PathVariable Long id) {
         log.info("[#deleteLesson] is calling with ID: {}", id);
         lessonService.delete(id);
-        return ResponseEntity.ok(new Response<>("Урок успешно удален", null));
+        return ResponseEntity.ok(new Response<>("Lesson deleted successfully!", null));
     }
 }

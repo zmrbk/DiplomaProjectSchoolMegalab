@@ -37,7 +37,7 @@ public class AssignmentController {
     public ResponseEntity<Response<Void>> createAssignment(@RequestBody AssignmentDto assignmentDto) {
         log.info("[#createAssignment] is calling");
         assignmentService.create(assignmentDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new Response<>("Задание успешно создано", null));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new Response<>("Assignment is created successfully", null));
     }
 
     /**
@@ -89,6 +89,6 @@ public class AssignmentController {
     public ResponseEntity<Response<Void>> deleteAssignment(@PathVariable Long id) {
         log.info("[#deleteAssignment] is calling with ID: {}", id);
         assignmentService.delete(id);
-        return ResponseEntity.ok(new Response<>("Задание успешно удалено", null));
+        return ResponseEntity.ok(new Response<>("Assignment deleted successfully!", null));
     }
 }

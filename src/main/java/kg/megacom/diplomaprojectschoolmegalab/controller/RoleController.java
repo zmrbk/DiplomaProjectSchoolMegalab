@@ -39,7 +39,7 @@ public class RoleController {
         User currentUser = (User) authentication.getPrincipal();
 
         roleService.create(RoleMapper.toEntitySet(roleDto).iterator().next(), currentUser);
-        return ResponseEntity.ok(new Response<>("Role created successfully", "Success"));
+        return ResponseEntity.ok(new Response<>("Role is created successfully", "Success"));
     }
 
     /**
@@ -85,6 +85,6 @@ public class RoleController {
     public ResponseEntity<Response<String>> delete(@PathVariable Long id) {
         Role role = roleService.getById(id);
         roleService.delete(role);
-        return ResponseEntity.ok(new Response<>("Role deleted successfully", "Success"));
+        return ResponseEntity.ok(new Response<>("Role deleted successfully!", "Success"));
     }
 }

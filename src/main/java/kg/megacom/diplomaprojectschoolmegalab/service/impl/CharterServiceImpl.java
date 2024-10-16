@@ -64,7 +64,7 @@ public class CharterServiceImpl implements CharterService {
         charterDto.setId(id);
         Charter charter = charterMapper.toCharter(charterDto, employee);
         charterRepository.save(charter);
-        return new Response<>("Charter updated", charterDto);
+        return new Response<>("Charter updated successfully", charterDto);
     }
 
     /**
@@ -92,7 +92,7 @@ public class CharterServiceImpl implements CharterService {
     public Response<List<CharterDto>> getAll() {
         List<Charter> charters = charterRepository.findAll();
         List<CharterDto> charterDtoList = charterMapper.toCharterDtoList(charters);
-        return new Response<>("Charters", charterDtoList);
+        return new Response<>("All charters retrieved successfully", charterDtoList);
     }
 
     /**

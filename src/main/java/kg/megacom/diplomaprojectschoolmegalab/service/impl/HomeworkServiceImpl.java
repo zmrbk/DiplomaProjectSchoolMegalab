@@ -80,7 +80,7 @@ public class HomeworkServiceImpl implements HomeworkService {
         List<HomeworkDto> homeworks = homeworkRepository.findAll().stream()
                 .map(homeworkMapper::toDto)
                 .collect(Collectors.toList());
-        return new Response<>("All homeworks", homeworks);
+        return new Response<>("All homeworks retrieved successfully", homeworks);
     }
 
     /**

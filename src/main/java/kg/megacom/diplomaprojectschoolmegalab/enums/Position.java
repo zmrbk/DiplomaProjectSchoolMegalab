@@ -5,5 +5,8 @@ public enum Position {
     SECRETARY,
     HEAD_TEACHER,
     CLASS_TEACHER,
-    TEACHER
+    SUBJECT_TEACHER,
+    CLASS_LEAD,
+    STUDENT,
+    PARENT
 }

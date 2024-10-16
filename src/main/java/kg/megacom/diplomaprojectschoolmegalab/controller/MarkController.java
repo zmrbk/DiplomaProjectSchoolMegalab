@@ -36,10 +36,10 @@ public class MarkController {
             markService.create(markDto);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body(new Response<>("Оценка успешно создана", markDto));
+                    .body(new Response<>("Mark is created successfully", markDto));
         } catch (IllegalArgumentException e) {
-            log.error("Ошибка при создании оценки: {}", e.getMessage());
-            return ResponseEntity.badRequest().body(new Response<>("Некорректный ввод", null));
+            log.error("Error creating rating: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(new Response<>("Incorrect input", null));
         }
     }
 
@@ -92,6 +92,6 @@ public class MarkController {
     public ResponseEntity<Response<String>> delete(@PathVariable Long id) {
         log.info("[#deleteMark] is calling");
         markService.delete(id);
-        return ResponseEntity.ok(new Response<>("Оценка успешно удалена", "ID: " + id));
+        return ResponseEntity.ok(new Response<>("Mark deleted successfully!", "ID: " + id));
     }
 }

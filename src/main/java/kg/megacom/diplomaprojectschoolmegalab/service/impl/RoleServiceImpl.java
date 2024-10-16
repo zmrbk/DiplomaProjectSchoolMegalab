@@ -88,7 +88,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Response<List<Role>> getAll() {
         List<Role> roles = roleRepository.findAll();
-        return new Response<>("All roles", roles);
+        return new Response<>("All roles retrieved successfully", roles);
     }
 
     /**

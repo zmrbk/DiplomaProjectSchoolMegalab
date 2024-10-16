@@ -5,6 +5,7 @@ import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.service.impl.EmployeeServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ public class EmployeeController {
      * @param employeeCreateRequest DTO с данными нового сотрудника.
      * @return ResponseEntity с сообщением об успешном создании и информацией о созданном сотруднике.
      */
+    @PreAuthorize("hasAnyRole('DIRECTOR')")
     @PostMapping
     public ResponseEntity<Response<EmployeeDto>> create(@RequestBody EmployeeDto employeeCreateRequest) {
         log.info("[#createEmployee] is calling");
@@ -36,9 +38,9 @@ public class EmployeeController {
             employeeService.create(employeeCreateRequest);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body(new Response<>("Сотрудник создан: ", employeeCreateRequest));
+                    .body(new Response<>("Employee is created successfully", employeeCreateRequest));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(new Response<>("Недопустимый ввод", null));
+            return ResponseEntity.badRequest().body(new Response<>("Incorrect input", null));
         }
     }
 
@@ -48,6 +50,7 @@ public class EmployeeController {
      * @param id ID сотрудника.
      * @return ResponseEntity с данными сотрудника.
      */
+    @PreAuthorize("hasAnyRole('DIRECTOR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<Response<EmployeeDto>> getById(@PathVariable Long id) {
         log.info("[#getEmployeeById] is calling");
@@ -60,6 +63,7 @@ public class EmployeeController {
      *
      * @return ResponseEntity с списком сотрудников.
      */
+    @PreAuthorize("hasAnyRole('DIRECTOR')")
     @GetMapping
     public ResponseEntity<Response<List<EmployeeDto>>> getAll() {
         log.info("[#getAllEmployees] is calling");
@@ -74,6 +78,7 @@ public class EmployeeController {
      * @param id ID сотрудника, информацию о котором нужно обновить.
      * @return ResponseEntity с обновленной информацией о сотруднике.
      */
+    @PreAuthorize("hasAnyRole('DIRECTOR')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<Response<EmployeeDto>> update(@RequestBody EmployeeDto employeeCreateRequest, @PathVariable Long id) {
         log.info("[#updateEmployee] is calling");
@@ -87,11 +92,12 @@ public class EmployeeController {
      * @param id ID сотрудника, которого нужно удалить.
      * @return ResponseEntity с сообщением об успешном удалении.
      */
+    @PreAuthorize("hasAnyRole('DIRECTOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Response<String>> delete(@PathVariable Long id) {
         log.info("[#delete] is calling");
         employeeService.delete(id);
-        return ResponseEntity.ok(new Response<>("Удалено!", "ID: " + id));
+        return ResponseEntity.ok(new Response<>("Employee deleted successfully!", "ID: " + id));
     }
 }
 

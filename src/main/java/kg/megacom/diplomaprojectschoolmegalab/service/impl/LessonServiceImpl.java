@@ -51,7 +51,7 @@ public class LessonServiceImpl implements LessonService {
         List<LessonDto> lessonDtoList = lessons.stream()
                 .map(lessonMapper::toLessonDto)
                 .collect(Collectors.toList());
-        return new Response<>("Lessons retrieved successfully", lessonDtoList);
+        return new Response<>("All lessons retrieved successfully:", lessonDtoList);
     }
 
     /**

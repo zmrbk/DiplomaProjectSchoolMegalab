@@ -58,7 +58,7 @@ public class SubjectServiceImpl implements SubjectService {
         Subject subject = subjectMapper.toSubject(subjectsDto);
         subject.setId(id);
         subjectRepository.save(subject);
-        return new Response<>("Subject updated", subjectMapper.toSubjectDto(subject));
+        return new Response<>("Subject updated successfully", subjectMapper.toSubjectDto(subject));
     }
 
     /**
@@ -85,7 +85,7 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public Response<List<SubjectsDto>> getAll() {
         List<SubjectsDto> list = subjectMapper.toSubjectsDtoList(subjectRepository.findAll());
-        return new Response<>("All Subjects", list);
+        return new Response<>("All subjects retrieved successfully", list);
     }
 
     /**

@@ -40,6 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new EntityNotFoundException("Employee not found, please create new employee first");
         }
         Employee employee = employeeMapper.toEmployee(request);
+//        employee.setId(employee.getId());
         employeeRepository.save(employee);
     }
 
@@ -55,7 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Employee not found"));
         EmployeeDto employeeCreateRequest = employeeMapper.toEmployeeCreateRequest(employee);
-        return new Response<>("Find Employee by id: ", employeeCreateRequest);
+        return new Response<>("Found employee by id: "  + id, employeeCreateRequest);
     }
 
     /**
@@ -74,7 +75,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee newEmployee = employeeMapper.toEmployee(request);
         newEmployee.setId(id);
         employeeRepository.save(newEmployee);
-        return new Response<>("Update Employee: ", employeeMapper.toEmployeeCreateRequest(newEmployee));
+        return new Response<>("Employee updated successfully", employeeMapper.toEmployeeCreateRequest(newEmployee));
     }
 
     /**
@@ -84,7 +85,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public Response<List<EmployeeDto>> getAll() {
-        return new Response<>("Get all employees: ", employeeMapper.toEmployeeCreateRequestList(employeeRepository.findAll()));
+        return new Response<>("All employees retrieved successfully",
+                employeeMapper.toEmployeeCreateRequestList(employeeRepository.findAll()));
     }
 
     /**

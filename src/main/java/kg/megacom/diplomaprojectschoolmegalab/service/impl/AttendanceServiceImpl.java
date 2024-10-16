@@ -51,7 +51,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         List<AttendanceDto> attendances = attendanceRepository.findAll().stream()
                 .map(attendanceMapper::toDto)
                 .collect(Collectors.toList());
-        return new Response<>("All attendances", attendances);
+        return new Response<>("All attendances retrieved successfully", attendances);
     }
 
     /**

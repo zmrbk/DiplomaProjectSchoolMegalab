@@ -38,10 +38,10 @@ public class StudentClassController {
             studentClassService.create(studentClassDto);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body(new Response<>("Student class is created", studentClassDto));
+                    .body(new Response<>("Student class is created successfully", studentClassDto));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest()
-                    .body(new Response<>("Invalid input", null));
+                    .body(new Response<>("Incorrect input", null));
         }
     }
 
@@ -98,6 +98,6 @@ public class StudentClassController {
     public ResponseEntity<Response<String>> delete(@PathVariable Long id) {
         log.info("[#delete] is calling");
         studentClassService.delete(id);
-        return ResponseEntity.ok(new Response<>("Deleted!", "ID: " + id));
+        return ResponseEntity.ok(new Response<>("Student class deleted successfully!", "ID: " + id));
     }
 }

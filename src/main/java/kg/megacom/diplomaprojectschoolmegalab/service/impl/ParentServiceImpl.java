@@ -62,7 +62,7 @@ public class ParentServiceImpl implements ParentService {
         parent.setId(parentDto.getId());
         parent.setUser(userService.getById(parentDto.getUserId()).orElseThrow(() -> new EntityNotFoundException("User not found")));
         parentRepository.save(parent);
-        return new Response<>("Parent updated", parentMapper.toParentDto(parent));
+        return new Response<>("Parent updated successfully", parentMapper.toParentDto(parent));
     }
 
     /**
@@ -89,7 +89,7 @@ public class ParentServiceImpl implements ParentService {
     @Override
     public Response<List<ParentDto>> getAll() {
         List<ParentDto> list = parentMapper.toParentDtoList(parentRepository.findAll());
-        return new Response<>("All parents", list);
+        return new Response<>("All parents retrieved successfully", list);
     }
 
     /**

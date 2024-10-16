@@ -45,7 +45,7 @@ public class StudentClassServiceImpl implements StudentClassService {
     public Response<StudentClassDto> update(StudentClassDto studentClassDto, Long id) {
         StudentClass studentClass = studentClassMapper.toStudentClass(studentClassDto);
         studentClass.setId(id);
-        return new Response<>("Student class is updated", studentClassMapper
+        return new Response<>("Student class updated successfully", studentClassMapper
                 .toStudentClassDto(studentClassRepository.save(studentClass)));
     }
 
@@ -68,7 +68,7 @@ public class StudentClassServiceImpl implements StudentClassService {
     public Response<List<StudentClassDto>> getAll() {
         List<StudentClass> studentClasses = studentClassRepository.findAll();
         List<StudentClassDto> studentClassDtoList = studentClassMapper.toStudentClassDtoList(studentClasses);
-        return new Response<>("All student classes are retrieved", studentClassDtoList);
+        return new Response<>("All student classes are retrieved successfully", studentClassDtoList);
     }
 
     /**

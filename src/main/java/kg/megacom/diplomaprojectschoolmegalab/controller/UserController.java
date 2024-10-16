@@ -82,7 +82,7 @@ public class UserController {
      * @param id ID пользователя, информацию о котором нужно обновить.
      * @return ResponseEntity с обновленным пользователем.
      */
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','DIRECTOR')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<Response<UserDto>> update(@RequestBody UserDto userDto, @PathVariable Long id) {
         log.info("[#updateEmployee] is calling");
@@ -101,6 +101,6 @@ public class UserController {
     public ResponseEntity<Response<String>> delete(@PathVariable Long id) {
         log.info("[#delete] is calling");
         userService.deleteUser(id);
-        return ResponseEntity.ok(new Response<>("Deleted!", "ID: " + id));
+        return ResponseEntity.ok(new Response<>("User deleted successfully!", "ID: " + id));
     }
 }

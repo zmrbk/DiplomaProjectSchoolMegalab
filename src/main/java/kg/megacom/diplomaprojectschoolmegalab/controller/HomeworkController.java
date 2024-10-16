@@ -32,7 +32,7 @@ public class HomeworkController {
     public ResponseEntity<Response<Void>> createHomework(@RequestBody HomeworkDto homeworkDto) {
         log.info("[#createHomework] is calling");
         homeworkService.create(homeworkDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new Response<>("Домашнее задание успешно создано", null));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new Response<>("Homework is created successfully", null));
     }
 
     /**
@@ -84,6 +84,6 @@ public class HomeworkController {
     public ResponseEntity<Response<Void>> deleteHomework(@PathVariable Long id) {
         log.info("[#deleteHomework] is calling with ID: {}", id);
         homeworkService.delete(id);
-        return ResponseEntity.ok(new Response<>("Домашнее задание успешно удалено", null));
+        return ResponseEntity.ok(new Response<>("Homework deleted successfully!", null));
     }
 }

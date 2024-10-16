@@ -35,9 +35,9 @@ public class SubjectController {
             subjectService.create(subjectsDto);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body(new Response<>("Subject is created", subjectsDto));
+                    .body(new Response<>("Subject is created successfully", subjectsDto));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(new Response<>("Invalid input", null));
+            return ResponseEntity.badRequest().body(new Response<>("Incorrect input", null));
         }
     }
 
@@ -90,6 +90,6 @@ public class SubjectController {
     public ResponseEntity<Response<String>> delete(@PathVariable Long id) {
         log.info("[#delete] is calling");
         subjectService.delete(id);
-        return ResponseEntity.ok(new Response<>("Deleted!", "ID: " + id));
+        return ResponseEntity.ok(new Response<>("Subject deleted successfully!", "ID: " + id));
     }
 }

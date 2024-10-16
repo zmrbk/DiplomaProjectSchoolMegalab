@@ -68,7 +68,7 @@ public class StudentServiceImpl implements StudentService {
         List<Student> students = studentRepository.findAll();
         log.info("Get all students: {}", students);
         List<StudentDto> studentDtos = studentMapper.toStudentDtoList(students);
-        return new Response<>("All students", studentDtos);
+        return new Response<>("All students retrieved successfully", studentDtos);
     }
 
     /**

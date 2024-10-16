@@ -65,7 +65,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         announcement = mapper.toAnnouncement(announcementDto, user);
         announcement.setId(id);
         announcement.setCreationDate(announcement.getCreationDate()); // сохранение даты создания
-        return new Response<>("Announcement is updated", mapper.toAnnouncementDto(announcementRepository.save(announcement)));
+        return new Response<>("Announcement updated successfully", mapper.toAnnouncementDto(announcementRepository.save(announcement)));
     }
 
     /**
@@ -91,7 +91,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     public Response<List<AnnouncementDto>> getAll() {
         List<Announcement> announcements = announcementRepository.findAll();
         List<AnnouncementDto> announcementDtoList = mapper.toAnnouncementDtoList(announcements);
-        return new Response<>("All Announcements are retrieved", announcementDtoList);
+        return new Response<>("All announcements retrieved successfully", announcementDtoList);
     }
 
     /**

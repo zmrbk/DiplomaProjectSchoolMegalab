@@ -36,9 +36,9 @@ public class ParentController {
             parentService.create(parentDto);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body(new Response<>("Родитель создан", parentDto));
+                    .body(new Response<>("Parent is created successfully", parentDto));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(new Response<>("Некорректный ввод", null));
+            return ResponseEntity.badRequest().body(new Response<>("Incorrect input", null));
         }
     }
 
@@ -91,6 +91,6 @@ public class ParentController {
     public ResponseEntity<Response<String>> delete(@PathVariable Long id) {
         log.info("[#delete] is calling");
         parentService.delete(id);
-        return ResponseEntity.ok(new Response<>("Удалено!", "ID: " + id));
+        return ResponseEntity.ok(new Response<>("Parent deleted successfully!", "ID: " + id));
     }
 }

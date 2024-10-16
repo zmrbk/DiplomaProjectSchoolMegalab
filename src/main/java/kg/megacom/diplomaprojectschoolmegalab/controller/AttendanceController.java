@@ -37,7 +37,7 @@ public class AttendanceController {
     public ResponseEntity<Response<Void>> createAttendance(@RequestBody AttendanceDto attendanceDto) {
         log.info("[#createAttendance] is calling");
         attendanceService.create(attendanceDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new Response<>("Запись о посещаемости успешно создана", null));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new Response<>("Attendance is created successfully", null));
     }
 
     /**
@@ -89,6 +89,6 @@ public class AttendanceController {
     public ResponseEntity<Response<Void>> deleteAttendance(@PathVariable Long id) {
         log.info("[#deleteAttendance] is calling with ID: {}", id);
         attendanceService.delete(id);
-        return ResponseEntity.ok(new Response<>("Запись о посещаемости успешно удалена", null));
+        return ResponseEntity.ok(new Response<>("Attendance deleted successfully!", null));
     }
 }

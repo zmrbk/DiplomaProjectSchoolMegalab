@@ -76,7 +76,7 @@ public class MessageServiceImpl implements MessageService {
         List<MessageDto> messages = messageRepository.findAll().stream()
                 .map(messageMapper::toDto)
                 .collect(Collectors.toList());
-        return new Response<>("All messages", messages);
+        return new Response<>("All messages retrieved successfully", messages);
     }
 
     /**

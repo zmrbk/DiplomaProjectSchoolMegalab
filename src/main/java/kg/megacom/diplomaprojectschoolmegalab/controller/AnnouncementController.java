@@ -1,5 +1,11 @@
 package kg.megacom.diplomaprojectschoolmegalab.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.megacom.diplomaprojectschoolmegalab.dto.AnnouncementDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
@@ -27,6 +33,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(value = "/announcements")
 @Slf4j
+@Tag(name = "Announcement", description = "APIs for managing announcements")
 public class AnnouncementController {
 
     private final AnnouncementService announcementService;
@@ -38,6 +45,12 @@ public class AnnouncementController {
      * @return ResponseEntity с созданным объявлением и сообщением об успехе
      * @throws IllegalArgumentException если входные данные некорректны
      */
+    @Operation(summary = "Create a new announcement", description = "Create a new announcement with the provided details")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Announcement created successfully",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = AnnouncementDto.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content)
+    })
     @PreAuthorize("hasAnyRole('DIRECTOR')")
     @PostMapping
     public ResponseEntity<Response<AnnouncementDto>> create(@RequestBody AnnouncementDto announcementDto) {
@@ -59,6 +72,13 @@ public class AnnouncementController {
      * @param id идентификатор объявления
      * @return ResponseEntity с данными объявления
      */
+    @Operation(summary = "Get announcement by ID", description = "Retrieve an announcement by its ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Announcement found",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = AnnouncementDto.class))),
+            @ApiResponse(responseCode = "404", description = "Announcement not found", content = @Content)
+    })
+    @PreAuthorize("hasAnyRole('DIRECTOR', 'SECRETARY')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<Response<AnnouncementDto>> getById(@PathVariable Long id) {
         log.info("[#getGradeById] is calling");
@@ -71,6 +91,12 @@ public class AnnouncementController {
      *
      * @return ResponseEntity со списком всех объявлений
      */
+    @Operation(summary = "Get all announcements", description = "Retrieve a list of all announcements")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Announcements retrieved",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = List.class)))
+    })
+    @PreAuthorize("hasAnyRole('DIRECTOR', 'SECRETARY')")
     @GetMapping
     public ResponseEntity<Response<List<AnnouncementDto>>> getAll() {
         log.info("[#getAllGrades] is calling");
@@ -86,6 +112,13 @@ public class AnnouncementController {
      * @return ResponseEntity с обновленным объявлением
      * @throws RuntimeException если обновление объявления невозможно
      */
+    @Operation(summary = "Update an announcement", description = "Update an existing announcement")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Announcement updated successfully",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = AnnouncementDto.class))),
+            @ApiResponse(responseCode = "409", description = "Conflict in updating the announcement", content = @Content)
+    })
+    @PreAuthorize("hasAnyRole('DIRECTOR', 'SECRETARY')")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAnnouncement(@RequestBody AnnouncementDto announcementDto, @PathVariable Long id) {
         try {
@@ -103,6 +136,12 @@ public class AnnouncementController {
      * @return ResponseEntity с сообщением об успехе, если удаление успешно
      * @throws EntityNotFoundException если объявление не существует
      */
+    @Operation(summary = "Delete an announcement", description = "Delete an announcement by its ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Announcement deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Announcement not found", content = @Content)
+    })
+    @PreAuthorize("hasAnyRole('DIRECTOR', 'SECRETARY')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         log.info("[#delete] is calling");

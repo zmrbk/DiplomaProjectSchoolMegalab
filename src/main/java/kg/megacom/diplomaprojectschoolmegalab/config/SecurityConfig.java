@@ -2,6 +2,8 @@ package kg.megacom.diplomaprojectschoolmegalab.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
 import kg.megacom.diplomaprojectschoolmegalab.service.impl.UserServiceImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -56,6 +58,15 @@ public class SecurityConfig {
     }
 
     @Bean
+    public OpenAPI settingSwagger() {
+        Info info = new Info();
+        info.setTitle("Mega-lab School");
+        info.setDescription("All APIs for School Megalab");
+        info.version("1.0");
+        return new OpenAPI().info(info);
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 // Своего рода отключение CORS (разрешение запросов со всех доменов)
@@ -71,8 +82,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         // Можно указать конкретный путь, * - 1 уровень вложенности, ** - любое количество уровней вложенности
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/endpoint", "/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/roles/**").hasRole("ADMIN")
+                        .requestMatchers("/users/**","/roles/**").hasAnyRole("ADMIN", "DIRECTOR")
                         .requestMatchers("/employees/**").hasRole("DIRECTOR")
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))

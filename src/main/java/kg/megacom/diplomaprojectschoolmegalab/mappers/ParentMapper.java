@@ -27,6 +27,7 @@ public class ParentMapper {
         ParentDto parentDto = new ParentDto();
         parentDto.setId(parent.getId());
         parentDto.setUserId(parent.getUser().getId());
+        parentDto.setStatus(parent.getStatus());
         return parentDto;
     }
 

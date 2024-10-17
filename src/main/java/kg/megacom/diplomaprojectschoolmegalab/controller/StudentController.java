@@ -86,11 +86,11 @@ public class StudentController {
      * @param studentDto DTO с новыми данными студента.
      * @return ResponseEntity с обновленным студентом.
      */
-    @PutMapping
-    public ResponseEntity<Response<StudentDto>> update(@RequestBody StudentDto studentDto) {
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Response<StudentDto>> update(@RequestBody StudentDto studentDto, Long id) {
         log.info("[#updateStudent] is calling");
         try {
-            Response<StudentDto> response = studentService.update(studentDto);
+            Response<StudentDto> response = studentService.update(studentDto, id);
             return ResponseEntity.ok(response);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>(e.getMessage(), null));

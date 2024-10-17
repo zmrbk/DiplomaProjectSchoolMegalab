@@ -110,4 +110,24 @@ public class ScheduleServiceImpl implements ScheduleService {
         scheduleRepository.delete(schedule);
         log.info("[#deleteSchedule] deleted successfully");
     }
+
+    @Override
+    public Response<ScheduleDto> setApprove(Long id, boolean isApprove) {
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Schedule not found with ID: " + id)
+        );
+        schedule.setIsApprove(isApprove);
+        return new Response<>("Schedule updated successfully", scheduleMapper.toScheduleDto(schedule));
+    }
+
+    @Override
+    public List<ScheduleDto> getScheduleByTeacherId(Long teacherId) {
+        // Получаем список расписаний по teacherId
+        List<Schedule> schedules = scheduleRepository.findByTeacherId(teacherId);
+
+        // Преобразуем список сущностей в список DTO
+        return schedules.stream()
+                .map(scheduleMapper::toScheduleDto)
+                .collect(Collectors.toList());
+    }
 }

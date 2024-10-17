@@ -38,7 +38,8 @@ create table if not exists employees (
 -- Родители
 create table if not exists parents (
                                        id bigserial primary key,
-                                       user_id bigserial references users(id) not null
+                                       user_id bigserial references users(id) not null,
+                                   status varchar
     );
 
 -- Классы
@@ -56,7 +57,8 @@ create table if not exists students (
                                         class_id bigserial references student_classes(id) not null,
     user_id bigserial references users(id) not null,
     parent_id bigint references parents(id) not null,
-    parent_status varchar not null
+    parent_status varchar not null,
+    class_captain boolean not null default false
     );
 
 -- Предметы

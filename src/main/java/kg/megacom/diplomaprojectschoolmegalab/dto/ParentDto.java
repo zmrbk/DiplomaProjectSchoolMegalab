@@ -19,4 +19,5 @@ public class ParentDto {
      * Уникальный идентификатор пользователя, связанного с родителем.
      */
     private Long userId;
+    private String status;
 }

@@ -1,11 +1,15 @@
 package kg.megacom.diplomaprojectschoolmegalab.service.impl;
 
 import kg.megacom.diplomaprojectschoolmegalab.dto.HomeworkDto;
+import kg.megacom.diplomaprojectschoolmegalab.dto.MarkDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.entity.Homework;
+import kg.megacom.diplomaprojectschoolmegalab.entity.Mark;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
 import kg.megacom.diplomaprojectschoolmegalab.mappers.HomeworkMapper;
+import kg.megacom.diplomaprojectschoolmegalab.mappers.MarkMapper;
 import kg.megacom.diplomaprojectschoolmegalab.repository.HomeworkRepository; // Assume HomeworkRepository exists
+import kg.megacom.diplomaprojectschoolmegalab.repository.MarkRepository;
 import kg.megacom.diplomaprojectschoolmegalab.service.HomeworkService;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -28,19 +32,23 @@ public class HomeworkServiceImpl implements HomeworkService {
 
     private final HomeworkRepository homeworkRepository; // Предполагается, что HomeworkRepository создан
     private final HomeworkMapper homeworkMapper;
+    private final MarkMapper markMapper;
+    private final MarkRepository markRepository;
 
     /**
      * Создание нового домашнего задания.
      *
      * @param homeworkDto объект, содержащий информацию о домашнем задании.
+     * @return
      */
     @Override
-    public void create(HomeworkDto homeworkDto) {
+    public HomeworkDto create(HomeworkDto homeworkDto) {
         log.info("[#createHomework] is calling");
         Homework homework = homeworkMapper.toEntity(homeworkDto);
         homework.setCreationDate(LocalDateTime.now());
         homeworkRepository.save(homework);
         log.info("[#createHomework] successfully created");
+        return homeworkMapper.toDto(homework);
     }
 
     /**
@@ -111,5 +119,37 @@ public class HomeworkServiceImpl implements HomeworkService {
                 .orElseThrow(() -> new RuntimeException("Homework not found with ID: " + id));
         homeworkRepository.delete(homework);
         log.info("[#deleteHomework] deleted successfully");
+    }
+
+    @Override
+    public List<HomeworkDto> getCompletedHomework(Long classId, Long subjectId) {
+        // Получаем список выполненных домашних заданий по classId и subjectId через уроки и расписание
+        List<Homework> homeworkList = homeworkRepository.findByLesson_Schedule_StudentClass_IdAndLesson_Schedule_Subject_IdAndIsDoneTrue(classId, subjectId);
+
+        // Преобразуем список сущностей в список DTO и возвращаем
+        return homeworkList.stream()
+                .map(homeworkMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public MarkDto gradeHomework(Long homeworkId, MarkDto markDto) {
+        // Находим домашнее задание по ID
+        Homework homework = homeworkRepository.findById(homeworkId)
+                .orElseThrow(() -> new RuntimeException("Homework not found"));
+
+        // Создаем новую оценку или обновляем существующую
+        Mark mark = markMapper.toMark(markDto);
+        mark.setLesson(homework.getLesson());  // Связываем оценку с уроком
+        mark.setStudent(homework.getStudent());  // Связываем оценку с учеником
+        mark = markRepository.save(mark);  // Сохраняем оценку
+
+        // Обновляем статус домашнего задания как выполненного
+        homework.setIsDone(true);
+        homework.setMark(mark.getMark());  // Сохраняем оценку в домашнем задании
+        homeworkRepository.save(homework);  // Сохраняем обновленное домашнее задание
+
+        // Возвращаем DTO оценки
+        return markMapper.toMarkDto(mark);
     }
 }

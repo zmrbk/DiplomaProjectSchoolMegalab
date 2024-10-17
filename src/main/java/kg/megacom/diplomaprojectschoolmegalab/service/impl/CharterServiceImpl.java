@@ -33,15 +33,16 @@ public class CharterServiceImpl implements CharterService {
      * Создание нового устава.
      *
      * @param charterDto объект данных для создания устава, содержащий информацию о сотруднике.
+     * @return
      * @throws AccountNotFoundException если указанный сотрудник не найден.
      */
     @Override
-    public void create(CharterDto charterDto) throws AccountNotFoundException {
+    public CharterDto create(CharterDto charterDto) throws AccountNotFoundException {
         Employee employee = employeeRepository.findById(charterDto.getEmployeeId()).orElseThrow(
                 () -> new AccountNotFoundException("Employee not found")
         );
         Charter charter = charterMapper.toCharter(charterDto, employee);
-        charterRepository.save(charter);
+        return charterMapper.toCharterDto(charterRepository.save(charter));
     }
 
     /**

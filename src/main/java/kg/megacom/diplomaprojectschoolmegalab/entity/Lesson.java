@@ -87,5 +87,7 @@ public class Lesson {
      */
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Mark> marks;
+
+
 }
 

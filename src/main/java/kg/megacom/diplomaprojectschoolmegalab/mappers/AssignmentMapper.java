@@ -51,7 +51,9 @@ public class AssignmentMapper {
         assignment.setId(assignmentDto.getId());
         assignment.setAssignment(assignmentDto.getAssignment());
         assignment.setIsDone(assignmentDto.getIsDone());
-        assignment.setAuthor(toAuthor(assignmentDto.getAuthorId()));
+        assignment.setAuthor(userRepository.findById(assignmentDto.getAuthorId()).orElseThrow((
+                () -> new EntityNotFoundException("Assignment with id " + assignmentDto.getId() + " not found")
+                )));
         assignment.setReceiver(toReceiver(assignmentDto.getReceiverId()));
         return assignment;
     }

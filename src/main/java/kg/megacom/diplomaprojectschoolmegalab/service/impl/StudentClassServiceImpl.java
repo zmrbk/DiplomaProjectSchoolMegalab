@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Реализация сервиса для работы с классами студентов.
  *
@@ -27,11 +29,13 @@ public class StudentClassServiceImpl implements StudentClassService {
      * Создание нового класса студента.
      *
      * @param studentClassDto объект класса студента, который нужно создать.
+     * @return
      */
     @Override
-    public void create(StudentClassDto studentClassDto) {
+    public StudentClassDto create(StudentClassDto studentClassDto) {
         StudentClass studentClass = studentClassMapper.toStudentClass(studentClassDto);
         studentClassRepository.save(studentClass);
+        return studentClassMapper.toStudentClassDto(studentClass);
     }
 
     /**
@@ -57,6 +61,17 @@ public class StudentClassServiceImpl implements StudentClassService {
     @Override
     public void delete(Long id) {
         studentClassRepository.deleteById(id);
+    }
+
+    @Override
+    public List<StudentClassDto> getClassesByTeacherId(Long teacherId) {
+        // Получаем список классов по teacherId
+        List<StudentClass> classes = studentClassRepository.findByEmployee_Id(teacherId);
+
+        // Преобразуем список сущностей в список DTO
+        return classes.stream()
+                .map(studentClassMapper::toStudentClassDto)
+                .collect(Collectors.toList());
     }
 
     /**

@@ -43,5 +43,7 @@ public class StudentDto {
      * Статус родителя студента.
      */
     private String parentStatus;
+
+    private Boolean isClassCaptain;
 }
 

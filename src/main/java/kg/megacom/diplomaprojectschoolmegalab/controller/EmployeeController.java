@@ -1,11 +1,5 @@
 package kg.megacom.diplomaprojectschoolmegalab.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.megacom.diplomaprojectschoolmegalab.dto.EmployeeDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.service.impl.EmployeeServiceImpl;
@@ -26,7 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(value = "/employees")
 @Slf4j
-@Tag(name = "Employee", description = "APIs for managing employees")
 public class EmployeeController {
 
     private final EmployeeServiceImpl employeeService;
@@ -37,12 +30,6 @@ public class EmployeeController {
      * @param employeeCreateRequest DTO с данными нового сотрудника.
      * @return ResponseEntity с сообщением об успешном создании и информацией о созданном сотруднике.
      */
-    @Operation(summary = "Create a new employee", description = "Add a new employee to the system")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Employee created successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeDto.class))),
-            @ApiResponse(responseCode = "400", description = "Incorrect input", content = @Content)
-    })
     @PreAuthorize("hasAnyRole('DIRECTOR')")
     @PostMapping
     public ResponseEntity<Response<EmployeeDto>> create(@RequestBody EmployeeDto employeeCreateRequest) {
@@ -63,12 +50,6 @@ public class EmployeeController {
      * @param id ID сотрудника.
      * @return ResponseEntity с данными сотрудника.
      */
-    @Operation(summary = "Get employee by ID", description = "Retrieve employee details by their ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Employee found successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeDto.class))),
-            @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content)
-    })
     @PreAuthorize("hasAnyRole('DIRECTOR')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<Response<EmployeeDto>> getById(@PathVariable Long id) {
@@ -82,11 +63,6 @@ public class EmployeeController {
      *
      * @return ResponseEntity с списком сотрудников.
      */
-    @Operation(summary = "Get all employees", description = "Retrieve a list of all employees")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "List of employees retrieved successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeDto.class)))
-    })
     @PreAuthorize("hasAnyRole('DIRECTOR')")
     @GetMapping
     public ResponseEntity<Response<List<EmployeeDto>>> getAll() {
@@ -102,12 +78,6 @@ public class EmployeeController {
      * @param id ID сотрудника, информацию о котором нужно обновить.
      * @return ResponseEntity с обновленной информацией о сотруднике.
      */
-    @Operation(summary = "Update employee details", description = "Update an existing employee's information")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Employee updated successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeDto.class))),
-            @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content)
-    })
     @PreAuthorize("hasAnyRole('DIRECTOR')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<Response<EmployeeDto>> update(@RequestBody EmployeeDto employeeCreateRequest, @PathVariable Long id) {
@@ -122,12 +92,6 @@ public class EmployeeController {
      * @param id ID сотрудника, которого нужно удалить.
      * @return ResponseEntity с сообщением об успешном удалении.
      */
-    @Operation(summary = "Delete employee by ID", description = "Remove an employee by their ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Employee deleted successfully",
-                    content = @Content(mediaType = "application/json")),
-            @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content)
-    })
     @PreAuthorize("hasAnyRole('DIRECTOR')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Response<String>> delete(@PathVariable Long id) {
@@ -136,3 +100,4 @@ public class EmployeeController {
         return ResponseEntity.ok(new Response<>("Employee deleted successfully!", "ID: " + id));
     }
 }
+

@@ -1,10 +1,15 @@
 package kg.megacom.diplomaprojectschoolmegalab.service.impl;
 
+import jakarta.transaction.Transactional;
+import kg.megacom.diplomaprojectschoolmegalab.dto.CharterDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.dto.StudentDto;
+import kg.megacom.diplomaprojectschoolmegalab.entity.Charter;
 import kg.megacom.diplomaprojectschoolmegalab.entity.Student;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
+import kg.megacom.diplomaprojectschoolmegalab.mappers.CharterMapper;
 import kg.megacom.diplomaprojectschoolmegalab.mappers.StudentMapper;
+import kg.megacom.diplomaprojectschoolmegalab.repository.CharterRepository;
 import kg.megacom.diplomaprojectschoolmegalab.repository.StudentRepository;
 import kg.megacom.diplomaprojectschoolmegalab.service.MarkService;
 import kg.megacom.diplomaprojectschoolmegalab.service.StudentService;
@@ -13,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Реализация сервиса для работы со студентами.
@@ -27,6 +33,8 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final StudentMapper studentMapper;
     private final MarkService markService;
+    private final CharterRepository charterRepository;
+    private final CharterMapper charterMapper;
 
     /**
      * Создание нового студента.
@@ -79,8 +87,8 @@ public class StudentServiceImpl implements StudentService {
      * @throws EntityNotFoundException если студент не найден.
      */
     @Override
-    public Response<StudentDto> update(StudentDto studentDto) {
-        Student existingStudent = studentRepository.findById(studentDto.getId())
+    public Response<StudentDto> update(StudentDto studentDto, Long id) {
+        Student existingStudent = studentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Student with ID " + studentDto.getId() + " not found"));
         existingStudent.setBirthday(studentDto.getBirthday());
         existingStudent.setParentStatus(studentDto.getParentStatus());
@@ -114,5 +122,60 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void deleteMarksByStudentId(Long studentId) {
         markService.deleteMarksByStudentId(studentId);
+    }
+
+    @Override
+    @Transactional
+    public StudentDto appointClassCaptain(Long id) {
+        // Находим студента по ID
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+
+        // Получаем всех студентов из этого же класса
+        List<Student> classmates = studentRepository.findByStudentClassId(student.getStudentClass().getId());
+
+        // Сбрасываем статус старосты у всех одноклассников
+        classmates.forEach(classmate -> {
+            classmate.setIsClassCaptain(false);
+            studentRepository.save(classmate);
+        });
+
+        // Назначаем текущего студента старостой
+        student.setIsClassCaptain(true);
+        studentRepository.save(student);
+
+        // Возвращаем DTO назначенного старосты
+        return studentMapper.toStudentDto(student);
+    }
+
+    @Override
+    public List<StudentDto> getAllStudentsInClass(Long classId) {
+        // Получаем всех студентов в классе по classId
+        List<Student> students = studentRepository.findByStudentClassId(classId);
+
+        // Преобразуем список студентов в DTO и возвращаем
+        return students.stream()
+                .map(studentMapper::toStudentDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public CharterDto createAutobiography(Long studentId, CharterDto charterDto) {
+        // Находим студента по ID
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+
+        // Создаем сущность Charter (автобиография) на основе DTO
+        Charter charter = new Charter();
+        charter.setTitle("Автобиография студента: " + student.getUser().getFirstName() + " " + student.getUser().getLastName());
+        charter.setDescription(charterDto.getDescription());
+        charter.setCreationDate(charterDto.getCreationDate());
+        charter.setEmployee(charterRepository.findById(charterDto.getEmployeeId()).get().getEmployee());
+
+        // Сохраняем созданную автобиографию
+        charter = charterRepository.save(charter);
+
+        // Возвращаем DTO созданной автобиографии
+        return charterMapper.toCharterDto(charter);
     }
 }

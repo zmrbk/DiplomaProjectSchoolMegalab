@@ -14,4 +14,6 @@ public interface ParentService {
     Response<String> delete(Long id)throws EntityNotFoundException;
     Response<List<ParentDto>> getAll();
     Parent getById(Long id);
+    List<ParentDto> getPendingApplications();
+
 }

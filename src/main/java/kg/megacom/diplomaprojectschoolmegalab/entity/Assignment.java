@@ -52,7 +52,7 @@ public class Assignment {
      */
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
-    private Employee author;
+    private User author;
 
     /**
      * Получатель задания.

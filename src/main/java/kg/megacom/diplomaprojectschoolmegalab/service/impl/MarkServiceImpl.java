@@ -111,4 +111,15 @@ public class MarkServiceImpl implements MarkService {
         List<Mark> marksToDelete = markRepository.findByStudentId(studentId);
         markRepository.deleteAll(marksToDelete);
     }
+
+    @Override
+    public List<MarkDto> getMarksByClassAndSubject(Long classId, Long subjectId) {
+        // Получаем список оценок по classId и subjectId через уроки и расписание
+        List<Mark> marks = markRepository.findByLesson_Schedule_StudentClass_IdAndLesson_Schedule_Subject_Id(classId, subjectId);
+
+        // Преобразуем список сущностей в список DTO и возвращаем
+        return marks.stream()
+                .map(markMapper::toMarkDto)
+                .collect(Collectors.toList());
+    }
 }

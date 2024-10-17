@@ -93,4 +93,8 @@ public class Student {
      */
     @Column(name = "parent_status", nullable = false)
     private String parentStatus;
+
+    @Column(name = "class_captain", nullable = false)
+    private Boolean isClassCaptain;
+
 }

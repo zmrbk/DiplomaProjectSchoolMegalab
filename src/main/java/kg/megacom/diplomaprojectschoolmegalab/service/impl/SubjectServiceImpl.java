@@ -30,16 +30,18 @@ public class SubjectServiceImpl implements SubjectService {
      * Создание нового предмета.
      *
      * @param subjectsDto объект предмета, который нужно создать.
+     * @return
      * @throws EntityAlreadyExistsException если предмет с таким названием уже существует.
      */
     @Override
-    public void create(SubjectsDto subjectsDto) throws EntityNotFoundException {
+    public SubjectsDto create(SubjectsDto subjectsDto) throws EntityNotFoundException {
         if (subjectRepository.existsByTitle(subjectsDto.getTitle())) {
             throw new EntityAlreadyExistsException("A subject with this title already exists");
         }
         Subject subject = subjectMapper.toSubject(subjectsDto);
         log.info("Create subject with title: {}", subjectsDto.getTitle());
         subjectRepository.save(subject);
+        return subjectMapper.toSubjectDto(subject);
     }
 
     /**

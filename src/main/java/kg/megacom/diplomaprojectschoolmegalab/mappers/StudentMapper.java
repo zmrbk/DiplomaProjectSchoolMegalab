@@ -48,6 +48,7 @@ public class StudentMapper {
         Parent parent = parentService.getById(studentDto.getParentId());
         student.setParent(parent);
         student.setParentStatus(studentDto.getParentStatus());
+        student.setIsClassCaptain(studentDto.getIsClassCaptain());
         return student;
     }
 
@@ -65,6 +66,7 @@ public class StudentMapper {
         studentDto.setUserId(student.getUser().getId());
         studentDto.setParentId(student.getParent().getId());
         studentDto.setParentStatus(student.getParentStatus());
+        studentDto.setIsClassCaptain(student.getIsClassCaptain());
         return studentDto;
     }
 

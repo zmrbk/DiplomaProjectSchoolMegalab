@@ -4,6 +4,8 @@ import kg.megacom.diplomaprojectschoolmegalab.dto.UserDto;
 import kg.megacom.diplomaprojectschoolmegalab.entity.Role;
 import kg.megacom.diplomaprojectschoolmegalab.entity.User;
 import kg.megacom.diplomaprojectschoolmegalab.service.RoleService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 
@@ -19,7 +21,8 @@ import java.util.stream.Collectors;
  * </p>
  */
 @Component
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
 public class UserMapper {
 
     private final RoleService roleService;
@@ -91,6 +94,25 @@ public class UserMapper {
         user.setRoles(roles);
         user.setCreationDate(userDto.getCreationDate());
         user.setActive(userDto.isActive());
+        return user;
+    }
+
+    public User toEntity(UserDto assignedBy) {
+
+        User user = new User();
+        user.setId(assignedBy.getId());
+        user.setUsername(assignedBy.getUsername());
+        user.setFirstName(assignedBy.getFirstName());
+        user.setLastName(assignedBy.getLastName());
+        user.setMiddleName(assignedBy.getMiddleName());
+        user.setPhone(assignedBy.getPhone());
+        user.setEmail(assignedBy.getEmail());
+        Set<Role> roles = assignedBy.getRoles().stream()
+                .map(roleService::getRoleByName)
+                .collect(Collectors.toSet());
+        user.setRoles(roles);
+        user.setCreationDate(assignedBy.getCreationDate());
+        user.setActive(assignedBy.isActive());
         return user;
     }
 }

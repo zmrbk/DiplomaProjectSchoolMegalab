@@ -36,10 +36,11 @@ public class ReviewServiceImpl implements ReviewService {
      * Создание нового отзыва.
      *
      * @param reviewDto объект данных отзыва, который нужно создать.
+     * @return
      * @throws AccountNotFoundException если студент или автор отзыва не найдены.
      */
     @Override
-    public void create(ReviewDto reviewDto) throws AccountNotFoundException {
+    public ReviewDto create(ReviewDto reviewDto) throws AccountNotFoundException {
         Review review = new Review();
         review.setReview(reviewDto.getReview());
         review.setStudent(studentRepository.findById(reviewDto.getStudentId())
@@ -48,6 +49,7 @@ public class ReviewServiceImpl implements ReviewService {
                 .orElseThrow(() -> new AccountNotFoundException("Author not found")));
         review.setCreationDate(LocalDateTime.now());
         reviewRepository.save(review);
+        return reviewMapper.toDto(review);
     }
 
     /**
@@ -114,5 +116,27 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Review not found"));
         return new Response<>("Review retrieved successfully", reviewMapper.toDto(review));
+    }
+
+    @Override
+    public List<ReviewDto> getReviewsForStudent(Long studentId) {
+        // Получаем список отзывов для студента
+        List<Review> reviews = reviewRepository.findByStudentId(studentId);
+
+        // Преобразуем сущности Review в ReviewDto и возвращаем список
+        return reviews.stream()
+                .map(reviewMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ReviewDto> getReviewsByCaptain(Long captainId) {
+        // Получаем список отзывов, созданных старостой
+        List<Review> reviews = reviewRepository.findByAuthorId(captainId);
+
+        // Преобразуем сущности в DTO и возвращаем список
+        return reviews.stream()
+                .map(reviewMapper::toDto)
+                .collect(Collectors.toList());
     }
 }

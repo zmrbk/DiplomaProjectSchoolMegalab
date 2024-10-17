@@ -11,4 +11,8 @@ public interface ScheduleService {
     ScheduleDto getById(Long id);
     Response<ScheduleDto> update(Long id, ScheduleDto scheduleDto);
     void delete(Long id);
+
+    Response<ScheduleDto> setApprove(Long id, boolean isApprove);
+    List<ScheduleDto> getScheduleByTeacherId(Long teacherId);
+
 }

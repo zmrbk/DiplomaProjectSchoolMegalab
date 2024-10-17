@@ -8,7 +8,7 @@ import javax.security.auth.login.AccountNotFoundException;
 import java.util.List;
 
 public interface CharterService {
-    void create(CharterDto charterDto) throws AccountNotFoundException;
+    CharterDto create(CharterDto charterDto) throws AccountNotFoundException;
     Response<CharterDto> update(CharterDto charterDto, Long id) throws AccountNotFoundException;
     Response<String> delete(Long id)throws EntityNotFoundException;
     Response<List<CharterDto>> getAll();

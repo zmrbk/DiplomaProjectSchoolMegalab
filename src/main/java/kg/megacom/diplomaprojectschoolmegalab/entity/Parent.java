@@ -43,5 +43,8 @@ public class Parent {
     @OneToOne
     @JoinColumn(referencedColumnName = "id")
     private User user;
+
+    @Column(name = "status")
+    private String status;
 }
 

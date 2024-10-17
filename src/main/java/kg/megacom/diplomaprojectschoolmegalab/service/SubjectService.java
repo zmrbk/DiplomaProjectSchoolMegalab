@@ -8,7 +8,7 @@ import javax.security.auth.login.AccountNotFoundException;
 import java.util.List;
 
 public interface SubjectService {
-    void create(SubjectsDto subjectsDto) throws AccountNotFoundException;
+    SubjectsDto create(SubjectsDto subjectsDto) throws AccountNotFoundException;
     Response<SubjectsDto> update(SubjectsDto subjectsDto, Long id) throws AccountNotFoundException;
     Response<String> delete(Long id)throws EntityNotFoundException;
     Response<List<SubjectsDto>> getAll();

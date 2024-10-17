@@ -12,4 +12,6 @@ public interface MarkService {
     Response<MarkDto> update(Long id, MarkDto markDto);
     void delete(Long id);
     void deleteMarksByStudentId(Long studentId);
+    List<MarkDto> getMarksByClassAndSubject(Long classId, Long subjectId);
+
 }

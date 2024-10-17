@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Реализация сервиса для работы с родителями.
@@ -60,8 +61,11 @@ public class ParentServiceImpl implements ParentService {
         }
         Parent parent = new Parent();
         parent.setId(parentDto.getId());
+
         parent.setUser(userService.getById(parentDto.getUserId()).orElseThrow(() -> new EntityNotFoundException("User not found")));
+        parent.setStatus(parentDto.getStatus());
         parentRepository.save(parent);
+
         return new Response<>("Parent updated successfully", parentMapper.toParentDto(parent));
     }
 
@@ -103,6 +107,17 @@ public class ParentServiceImpl implements ParentService {
     public Parent getById(Long id) {
         return parentRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException("Parent not found"));
+    }
+
+    @Override
+    public List<ParentDto> getPendingApplications() {
+        // Получаем всех родителей со статусом "ожидает"
+        List<Parent> pendingParents = parentRepository.findByStatus("PENDING");
+
+        // Преобразуем список сущностей Parent в ParentDto
+        return pendingParents.stream()
+                .map(parentMapper::toParentDto)
+                .collect(Collectors.toList());
     }
 
     /**

@@ -1,6 +1,7 @@
 package kg.megacom.diplomaprojectschoolmegalab.service.impl;
 
 import kg.megacom.diplomaprojectschoolmegalab.dto.HomeworkDto;
+import kg.megacom.diplomaprojectschoolmegalab.dto.HomeworkSubmissionDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.MarkDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.entity.Homework;
@@ -152,4 +153,53 @@ public class HomeworkServiceImpl implements HomeworkService {
         // Возвращаем DTO оценки
         return markMapper.toMarkDto(mark);
     }
+
+    @Override
+    public List<HomeworkDto> getHomeworkByLessonId(Long lessonId) {
+        log.info("[#getHomeworkByLessonId] is calling with Lesson ID: {}", lessonId);
+
+        // Retrieve homework by lesson ID
+        List<Homework> homeworkList = homeworkRepository.findByLesson_Id(lessonId);
+
+        // Convert the homework entities to DTOs and return them
+        return homeworkList.stream()
+                .map(homeworkMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public HomeworkDto submitHomework(HomeworkSubmissionDto submissionDto) {
+        log.info("[#submitHomework] is calling with Homework ID: {} and Student ID: {}", submissionDto.getHomeworkId(), submissionDto.getStudentId());
+
+        Homework homework = homeworkRepository.findById(submissionDto.getHomeworkId())
+                .orElseThrow(() -> new EntityNotFoundException("Homework not found with ID: " + submissionDto.getHomeworkId()));
+
+        homework.setIsDone(true); // Mark homework as done
+        homework.setCreationDate(LocalDateTime.now()); // Set the submission date
+        homework.setStudent(homeworkMapper.toStudent(submissionDto.getStudentId())); // Link the student to the homework
+
+        homeworkRepository.save(homework); // Save updated homework
+        log.info("[#submitHomework] successfully submitted homework with ID: {}", homework.getId());
+
+        return homeworkMapper.toDto(homework); // Return updated homework DTO
+    }
+
+    @Override
+    public List<HomeworkDto> getHomeworkBySubjectId(Long subjectId) {
+        log.info("[#getHomeworkBySubjectId] is calling with Subject ID: {}", subjectId);
+
+        // Retrieve homework assignments by subject ID
+        List<Homework> homeworkList = homeworkRepository.findByLesson_Schedule_Subject_Id(subjectId);
+
+        // Check if any homework is found
+        if (homeworkList.isEmpty()) {
+            log.warn("No homework found for Subject ID: {}", subjectId);
+        }
+
+        // Convert the homework entities to DTOs and return them
+        return homeworkList.stream()
+                .map(homeworkMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
 }

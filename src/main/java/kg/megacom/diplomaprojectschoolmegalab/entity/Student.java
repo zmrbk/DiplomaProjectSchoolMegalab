@@ -5,7 +5,10 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 /**
  * Класс, представляющий студента в учебном заведении.
  * <p>
@@ -97,4 +100,11 @@ public class Student {
     @Column(name = "class_captain", nullable = false)
     private Boolean isClassCaptain;
 
+    @ManyToMany
+    @JoinTable(
+            name = "m2m_students_subjects",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id")
+    )
+    private Set<Subject> subjects;
 }

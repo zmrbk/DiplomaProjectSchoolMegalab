@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Класс, представляющий предмет в учебном заведении.
  * <p>
@@ -47,4 +51,11 @@ public class Subject {
      */
     @Column(name = "description")
     private String description;
+
+    @ManyToMany(mappedBy = "subjects")
+    private Set<Student> students;
+
+    // Define the OneToMany relationship between Subject and Topic
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Topic> topics;
 }

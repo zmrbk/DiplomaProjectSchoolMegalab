@@ -16,5 +16,6 @@ public interface StudentService {
     StudentDto appointClassCaptain(Long id);
     List<StudentDto> getAllStudentsInClass(Long classId);
     CharterDto createAutobiography(Long studentId, CharterDto charterDto);
-
+    Response<StudentDto> registerChild(StudentDto studentDto);
+    Response<Void> expel(Long studentId);
 }

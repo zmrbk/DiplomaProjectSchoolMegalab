@@ -10,12 +10,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Реализация сервиса аутентификации пользователей.
@@ -82,4 +85,51 @@ public class AuthenticationServiceImpl {
         var jwt = jwtService.generateToken(user);
         return new JwtAuthenticationResponse(jwt, userService.getByUsername(request.getUsername()).getId());
     }
+
+    public String addUserWithOAuth2() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
+            log.info("OAuth2 Token received");
+            OAuth2User oAuth2User = oauthToken.getPrincipal();
+
+            if (oAuth2User != null) {
+                // Extract attributes from OAuth2User
+                Map<String, Object> attributes = oAuth2User.getAttributes();
+                log.info("OAuth2 User Attributes: {}", attributes);
+
+                // Try to find an existing user by OAuth2 ID (e.g., 'sub')
+                Optional<User> optionalUser = userService.getByOAuth2Id((String) attributes.get("sub"));
+
+                if (optionalUser.isEmpty()) {
+                    // If user doesn't exist, create a new one
+                    User user = new User();
+                    user.setUsername((String) attributes.get("given_name"));
+                    user.setFirstName((String) attributes.get("given_name"));
+                    user.setLastName((String) attributes.get("family_name"));
+                    user.setEmail((String) attributes.get("email"));
+//                    user.setOauth2Id((String) attributes.get("sub"));  // Set OAuth2 ID
+
+                    // Generate a random password (just as a placeholder since it's OAuth2)
+                    String randomPassword = UUID.randomUUID().toString();
+                    user.setPassword(passwordEncoder.encode(randomPassword));
+
+                    // Assign a default role
+                    Role userRole = roleRepository.findByRoleName("USER")
+                            .orElseThrow(() -> new RuntimeException("Role 'USER' not found"));
+                    user.setRoles(Set.of(userRole));
+
+                    // Save the new user
+                    userService.create(user);
+                    log.info("New user created: {}", user.getUsername());
+                }
+
+                // Return a welcome message
+                return "Hello, " + attributes.get("given_name");
+            }
+        }
+        return "No OAuth2AuthenticationToken found";
+    }
+
+
 }

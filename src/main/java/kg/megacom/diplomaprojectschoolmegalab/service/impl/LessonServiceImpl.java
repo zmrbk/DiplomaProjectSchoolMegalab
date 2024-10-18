@@ -102,4 +102,12 @@ public class LessonServiceImpl implements LessonService {
         lessonRepository.delete(lesson);
         log.info("Deleted lesson with ID: {}", id);
     }
+
+    @Override
+    public List<LessonDto> getLessonsBySubjectId(Long subjectId) {
+        List<Lesson> lessons = lessonRepository.findBySubjectId(subjectId);
+        return lessons.stream()
+                .map(lessonMapper::toLessonDto)
+                .collect(Collectors.toList());
+    }
 }

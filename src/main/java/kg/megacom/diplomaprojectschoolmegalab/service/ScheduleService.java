@@ -14,5 +14,5 @@ public interface ScheduleService {
 
     Response<ScheduleDto> setApprove(Long id, boolean isApprove);
     List<ScheduleDto> getScheduleByTeacherId(Long teacherId);
-
+    List<ScheduleDto> getScheduleByStudentId(Long studentId);
 }

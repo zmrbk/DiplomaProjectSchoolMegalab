@@ -9,6 +9,7 @@ import kg.megacom.diplomaprojectschoolmegalab.repository.ReviewRepository;
 import kg.megacom.diplomaprojectschoolmegalab.repository.StudentRepository;
 import kg.megacom.diplomaprojectschoolmegalab.repository.UserRepository;
 import kg.megacom.diplomaprojectschoolmegalab.service.ReviewService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
@@ -122,6 +124,10 @@ public class ReviewServiceImpl implements ReviewService {
     public List<ReviewDto> getReviewsForStudent(Long studentId) {
         // Получаем список отзывов для студента
         List<Review> reviews = reviewRepository.findByStudentId(studentId);
+
+        if (reviews.isEmpty()) {
+            log.warn("No feedback found for Student ID: {}", studentId);
+        }
 
         // Преобразуем сущности Review в ReviewDto и возвращаем список
         return reviews.stream()

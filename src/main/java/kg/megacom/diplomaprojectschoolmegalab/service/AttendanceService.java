@@ -11,4 +11,5 @@ public interface AttendanceService {
     Response<List<AttendanceDto>> getAll();
     AttendanceDto getById(Long id);
     void delete(Long id);
+    void deleteAttendancesByStudentId(Long studentId);
 }

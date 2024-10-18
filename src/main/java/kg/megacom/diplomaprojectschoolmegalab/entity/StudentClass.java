@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Класс, представляющий учебный класс в учебном заведении.
@@ -60,4 +61,7 @@ public class StudentClass {
      */
     @Column(name = "creation_date")
     private LocalDateTime creationDate = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "studentClass")
+    private List<Student> students;
 }

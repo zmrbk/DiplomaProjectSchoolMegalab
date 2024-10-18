@@ -2,16 +2,20 @@ package kg.megacom.diplomaprojectschoolmegalab.service.impl;
 
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.dto.SubjectsDto;
+import kg.megacom.diplomaprojectschoolmegalab.dto.TopicDto;
 import kg.megacom.diplomaprojectschoolmegalab.entity.Subject;
+import kg.megacom.diplomaprojectschoolmegalab.entity.Topic;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityAlreadyExistsException;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
 import kg.megacom.diplomaprojectschoolmegalab.mappers.SubjectMapper;
+import kg.megacom.diplomaprojectschoolmegalab.mappers.TopicMapper;
 import kg.megacom.diplomaprojectschoolmegalab.repository.SubjectRepository;
 import kg.megacom.diplomaprojectschoolmegalab.service.SubjectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Реализация сервиса для работы с предметами.
@@ -25,6 +29,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     private final SubjectRepository subjectRepository;
     private final SubjectMapper subjectMapper;
+    private final TopicMapper topicMapper;
 
     /**
      * Создание нового предмета.
@@ -102,5 +107,32 @@ public class SubjectServiceImpl implements SubjectService {
         Subject subject = subjectRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException("Subject not found"));
         return new Response<>("Get Subject ID", subjectMapper.toSubjectDto(subject));
+    }
+
+    @Override
+    public List<SubjectsDto> getSubjectsByStudentId(Long studentId) {
+        List<Subject> subjects = subjectRepository.findSubjectsByStudentId(studentId);
+        if (subjects.isEmpty()) {
+            throw new EntityNotFoundException("No subjects found for student ID: " + studentId);
+        }
+        return subjectMapper.toSubjectsDtoList(subjects);  // Assuming you have a proper mapper here
+    }
+
+    @Override
+    public List<TopicDto> getTopicsBySubjectId(Long subjectId) {
+        Subject subject = subjectRepository.findById(subjectId)
+                .orElseThrow(() -> new EntityNotFoundException("Subject not found with ID: " + subjectId));
+
+        // Retrieve topics from the subject
+        List<Topic> topics = subject.getTopics();
+
+        if (topics.isEmpty()) {
+            throw new EntityNotFoundException("No topics found for subject ID: " + subjectId);
+        }
+
+        // Convert Topic entities to TopicDto and return
+        return topics.stream()
+                .map(topicMapper::toTopicDto)
+                .collect(Collectors.toList());
     }
 }

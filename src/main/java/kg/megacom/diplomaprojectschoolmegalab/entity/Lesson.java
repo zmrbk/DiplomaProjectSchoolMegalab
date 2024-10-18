@@ -67,6 +67,11 @@ public class Lesson {
     @JoinColumn(name = "schedule_id", referencedColumnName = "id", nullable = false)
     private Schedule schedule;
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subject_id", referencedColumnName = "id", nullable = false)
+    private Subject subject;
+
     /**
      * Дата и время создания урока.
      * <p>

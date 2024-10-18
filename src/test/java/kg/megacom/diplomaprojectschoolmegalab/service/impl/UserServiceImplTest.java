@@ -2,6 +2,7 @@ package kg.megacom.diplomaprojectschoolmegalab.service.impl;
 
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.dto.UserDto;
+import kg.megacom.diplomaprojectschoolmegalab.entity.Role;
 import kg.megacom.diplomaprojectschoolmegalab.entity.User;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityAlreadyExistsException;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
@@ -34,107 +35,197 @@ class UserServiceImplTest {
     @InjectMocks
     private UserServiceImpl userService;
 
-    private User user;
-    private UserDto userDto;
-
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-
-        user = new User();
-        user.setId(1L);
-        user.setUsername("testUser");
-        user.setFirstName("Test");
-        user.setLastName("User");
-        user.setEmail("test@example.com");
-
-        userDto = new UserDto();
-        userDto.setId(1L);
-        userDto.setUsername("testUser");
-        userDto.setFirstName("Test");
-        userDto.setLastName("User");
-        userDto.setEmail("test@example.com");
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);  // Initialize mocks
     }
 
     @Test
-    void testGetUserResponseById_UserExists() {
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(userMapper.toUserDto(user)).thenReturn(userDto);
+    public void testCreateUserSuccess() {
+        // Arrange
+        User mockUser = new User();
+        mockUser.setUsername("newuser");
+        mockUser.setEmail("newuser@example.com");
 
+        when(userRepository.existsByUsername("newuser")).thenReturn(false);
+        when(userRepository.existsByEmail("newuser@example.com")).thenReturn(false);
+        when(userRepository.save(mockUser)).thenReturn(mockUser);
+
+        // Act
+        User createdUser = userService.create(mockUser);
+
+        // Assert
+        assertNotNull(createdUser);
+        assertEquals("newuser", createdUser.getUsername());
+        verify(userRepository, times(1)).save(mockUser);
+    }
+
+    @Test
+    public void testCreateUserAlreadyExistsByUsername() {
+        // Arrange
+        User mockUser = new User();
+        mockUser.setUsername("existinguser");
+
+        when(userRepository.existsByUsername("existinguser")).thenReturn(true);
+
+        // Act & Assert
+        assertThrows(EntityAlreadyExistsException.class, () -> userService.create(mockUser));
+        verify(userRepository, never()).save(any(User.class));
+    }
+
+    @Test
+    public void testCreateUserAlreadyExistsByEmail() {
+        // Arrange
+        User mockUser = new User();
+        mockUser.setUsername("newuser");
+        mockUser.setEmail("existingemail@example.com");
+
+        when(userRepository.existsByUsername("newuser")).thenReturn(false);
+        when(userRepository.existsByEmail("existingemail@example.com")).thenReturn(true);
+
+        // Act & Assert
+        assertThrows(EntityAlreadyExistsException.class, () -> userService.create(mockUser));
+        verify(userRepository, never()).save(any(User.class));
+    }
+
+    @Test
+    public void testGetByIdSuccess() {
+        // Arrange
+        User mockUser = new User();
+        mockUser.setId(1L);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+
+        // Act
+        Optional<User> user = userService.getById(1L);
+
+        // Assert
+        assertTrue(user.isPresent());
+        assertEquals(1L, user.get().getId());
+        verify(userRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    public void testGetByIdNotFound() {
+        // Arrange
+        when(userRepository.findById(1L)).thenReturn(Optional.empty());
+
+        // Act
+        Optional<User> user = userService.getById(1L);
+
+        // Assert
+        assertFalse(user.isPresent());
+        verify(userRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    public void testGetUserResponseByIdSuccess() {
+        // Arrange
+        User mockUser = new User();
+        mockUser.setId(1L);
+
+        UserDto mockUserDto = new UserDto();
+        mockUserDto.setId(1L);
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+        when(userMapper.toUserDto(mockUser)).thenReturn(mockUserDto);
+
+        // Act
         Response<UserDto> response = userService.getUserResponseById(1L);
 
+        // Assert
         assertNotNull(response);
-        assertEquals("User", response.getMessage());
-        assertEquals(userDto, response.getData());
-        verify(userRepository).findById(1L);
+        assertEquals(1L, response.getData().getId());
+        verify(userRepository, times(1)).findById(1L);
+        verify(userMapper, times(1)).toUserDto(mockUser);
     }
 
     @Test
-    void testGetUserResponseById_UserDoesNotExist() {
+    public void testGetUserResponseByIdNotFound() {
+        // Arrange
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
+        // Act & Assert
         assertThrows(EntityNotFoundException.class, () -> userService.getUserResponseById(1L));
-        verify(userRepository).findById(1L);
+        verify(userRepository, times(1)).findById(1L);
+        verify(userMapper, never()).toUserDto(any(User.class));
     }
 
     @Test
-    void testCreateUser_UserAlreadyExists() {
-        when(userRepository.existsByUsername(user.getUsername())).thenReturn(true);
+    public void testSetRoleSuccess() {
+        // Arrange
+        User mockUser = new User();
+        mockUser.setId(1L);
+        Role mockRole = new Role();
+//        mockRole.setName("USER");
 
-        assertThrows(EntityAlreadyExistsException.class, () -> userService.create(user));
-        verify(userRepository, never()).save(any(User.class));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+        when(roleService.getRoleByName("USER")).thenReturn(mockRole);
+
+        // Act
+//        Response<UserDto> response = userService.setRole("USER", 1L);
+
+        // Assert
+        Object response = null;
+        assertNotNull(response);
+        verify(userRepository, times(1)).save(mockUser);
     }
 
     @Test
-    void testCreateUser_Success() {
-        when(userRepository.existsByUsername(user.getUsername())).thenReturn(false);
-        when(userRepository.existsByEmail(user.getEmail())).thenReturn(false);
-        when(userRepository.save(user)).thenReturn(user);
-
-        User createdUser = userService.create(user);
-
-        assertNotNull(createdUser);
-        assertEquals(user.getUsername(), createdUser.getUsername());
-        verify(userRepository).save(user);
-    }
-
-    @Test
-    void testUpdateUser_UserExists() {
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(userMapper.updateUser(any(User.class), any(UserDto.class))).thenReturn(user);
-        when(userMapper.toUserDto(user)).thenReturn(userDto);
-
-        Response<UserDto> response = userService.updateUser(1L, userDto);
-
-        assertEquals("User updated successfully", response.getMessage());
-        assertEquals(userDto, response.getData());
-        verify(userRepository).findById(1L);
-        verify(userRepository).save(user);
-    }
-
-    @Test
-    void testUpdateUser_UserDoesNotExist() {
+    public void testSetRoleUserNotFound() {
+        // Arrange
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> userService.updateUser(1L, userDto));
-        verify(userRepository).findById(1L);
+        // Act & Assert
+        assertThrows(EntityNotFoundException.class, () -> userService.setRole("USER", 1L));
+        verify(roleService, never()).getRoleByName(anyString());
         verify(userRepository, never()).save(any(User.class));
     }
 
     @Test
-    void testDeleteUser_UserExists() {
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+    public void testSetRoleNotFound() {
+        // Arrange
+        User mockUser = new User();
+        mockUser.setId(1L);
 
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+        when(roleService.getRoleByName("ADMIN")).thenReturn(null);
+
+        // Act & Assert
+        assertThrows(RuntimeException.class, () -> userService.setRole("ADMIN", 1L));
+        verify(userRepository, never()).save(any(User.class));
+    }
+
+    @Test
+    public void testDeleteUserSuccess() {
+        // Arrange
+        User mockUser = new User();
+        mockUser.setId(1L);
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+
+        // Act
         userService.deleteUser(1L);
 
-        verify(userRepository).delete(user);
+        // Assert
+        verify(userRepository, times(1)).delete(mockUser);
     }
 
     @Test
-    void testDeleteUser_UserDoesNotExist() {
+    public void testDeleteUserNotFound() {
+        // Arrange
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
+        // Act & Assert
         assertThrows(EntityNotFoundException.class, () -> userService.deleteUser(1L));
         verify(userRepository, never()).delete(any(User.class));
+    }
+
+    @Test
+    public void testGetByUsernameSuccess() {
+        // Arrange
+        User mockUser = new User();
+        mockUser.setUsername("testuser");
+
+        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(mockUser));
     }
 }

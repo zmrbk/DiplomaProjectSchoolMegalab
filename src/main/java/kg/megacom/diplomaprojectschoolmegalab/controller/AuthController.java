@@ -87,4 +87,14 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    @GetMapping("/")
+    public String home() {
+        return "Hello!";
+    }
+
+    @GetMapping("/secured")
+    public String secured() {
+        return authenticationService.addUserWithOAuth2();
+    }
 }

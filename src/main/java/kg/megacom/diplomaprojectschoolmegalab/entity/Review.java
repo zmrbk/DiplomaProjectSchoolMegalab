@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.time.LocalDateTime;
 /**
  * Класс, представляющий отзыв.
@@ -49,7 +52,8 @@ public class Review {
      * </p>
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id", nullable = false)
+    @JoinColumn(name = "student_id", nullable = false, foreignKey = @ForeignKey(name = "reviews_student_id_fkey"))
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Student student;
 
     /**

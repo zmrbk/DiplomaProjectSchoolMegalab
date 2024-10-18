@@ -130,4 +130,22 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .map(scheduleMapper::toScheduleDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<ScheduleDto> getScheduleByStudentId(Long studentId) {
+        log.info("[#getScheduleByStudentId] is calling with Student ID: {}", studentId);
+
+        // Retrieve schedules from the repository based on student ID
+        List<Schedule> schedules = scheduleRepository.findByStudentClass_Students_Id(studentId);
+
+        if (schedules.isEmpty()) {
+            log.warn("No schedules found for Student ID: {}", studentId);
+        }
+
+        // Convert the list of Schedule entities to ScheduleDto and return the result
+        return schedules.stream()
+                .map(scheduleMapper::toScheduleDto)
+                .collect(Collectors.toList());
+    }
+
 }

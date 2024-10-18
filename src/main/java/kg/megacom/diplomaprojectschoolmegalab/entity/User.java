@@ -119,6 +119,10 @@ public class User implements UserDetails {
     @Column(name = "is_active", nullable = false)
     private boolean isActive = true;
 
+    // Add a field to store the OAuth2 ID (e.g., 'sub' from OAuth2 token)
+    @Column(name = "oauth2_id", unique = true)
+    private String oauth2Id;
+
     /**
      * Роли, присвоенные пользователю.
      * <p>

@@ -2,6 +2,8 @@ package kg.megacom.diplomaprojectschoolmegalab.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -81,8 +83,9 @@ public class Homework {
      * Указывает, какой ученик выполнил данное домашнее задание.
      * </p>
      */
-    @ManyToOne
-    @JoinColumn(name = "student_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "homeworks_student_id_fkey"))
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Student student;
 
     /**
@@ -92,7 +95,7 @@ public class Homework {
      * Указывает, к какому уроку относится данное домашнее задание.
      * </p>
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lesson_id", referencedColumnName = "id")
     private Lesson lesson;
 }

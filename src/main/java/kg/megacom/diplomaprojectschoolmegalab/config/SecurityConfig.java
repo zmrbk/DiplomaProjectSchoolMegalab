@@ -22,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+import static org.springframework.security.config.http.SessionCreationPolicy.IF_REQUIRED;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 /**
@@ -46,7 +48,7 @@ public class SecurityConfig {
     private final UserServiceImpl userService;
 
     // Конфигурация Jackson, чтобы без ошибок выводил LocalDateTime
-    public class JacksonConfig {
+    public static class JacksonConfig {
         @Bean
         public ObjectMapper objectMapper() {
             ObjectMapper mapper = new ObjectMapper();
@@ -70,12 +72,17 @@ public class SecurityConfig {
                 // Настройка доступа к конечным точкам
                 .authorizeHttpRequests(request -> request
                         // Можно указать конкретный путь, * - 1 уровень вложенности, ** - любое количество уровней вложенности
-                        .requestMatchers("/auth/**").permitAll()
-                     //   .requestMatchers("/endpoint", "/admin/**").hasRole("ADMIN")
+//                        .requestMatchers("/auth/**", "/email/**", "/user/**", "/").permitAll()
+                        .requestMatchers("/auth/**", "/auth", "/").permitAll()
+//                        .requestMatchers("/auth/sign-up").hasRole("ADMIN") // Admins can access sign-up
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                       //  .requestMatchers("/roles/**").hasRole("ADMIN")
                       //  .requestMatchers("/employees/**").hasRole("DIRECTOR")
+                        .requestMatchers("/secured").authenticated() // Добавляем здесь
                         .anyRequest().authenticated())
-                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
+                .oauth2Login(withDefaults())
+                .sessionManagement(manager -> manager.sessionCreationPolicy(IF_REQUIRED)) // Сохраняет сессию OAuth2
+//                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

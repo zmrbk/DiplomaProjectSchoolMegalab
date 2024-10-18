@@ -9,8 +9,8 @@ import kg.megacom.diplomaprojectschoolmegalab.entity.Student;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
 import kg.megacom.diplomaprojectschoolmegalab.mappers.CharterMapper;
 import kg.megacom.diplomaprojectschoolmegalab.mappers.StudentMapper;
-import kg.megacom.diplomaprojectschoolmegalab.repository.CharterRepository;
-import kg.megacom.diplomaprojectschoolmegalab.repository.StudentRepository;
+import kg.megacom.diplomaprojectschoolmegalab.repository.*;
+import kg.megacom.diplomaprojectschoolmegalab.service.AttendanceService;
 import kg.megacom.diplomaprojectschoolmegalab.service.MarkService;
 import kg.megacom.diplomaprojectschoolmegalab.service.StudentService;
 import org.springframework.stereotype.Service;
@@ -35,6 +35,9 @@ public class StudentServiceImpl implements StudentService {
     private final MarkService markService;
     private final CharterRepository charterRepository;
     private final CharterMapper charterMapper;
+    private final AttendanceService attendanceService;
+    private final ReviewRepository reviewRepository;
+    private final HomeworkRepository homeworkRepository;
 
     /**
      * Создание нового студента.
@@ -178,4 +181,45 @@ public class StudentServiceImpl implements StudentService {
         // Возвращаем DTO созданной автобиографии
         return charterMapper.toCharterDto(charter);
     }
+
+    @Override
+    public Response<StudentDto> registerChild(StudentDto studentDto) {
+        log.info("Registering child: {}", studentDto);
+
+        // Add specific logic for registering a child (e.g., associating with a parent)
+        if (studentDto.getParentStatus() == null) {
+            throw new IllegalArgumentException("Parent status must be provided for child registration");
+        }
+
+        // Use the existing create method to handle saving the student entity
+        return create(studentDto);
+    }
+
+    @Override
+    @Transactional
+    public Response<Void> expel(Long studentId) {
+        // Check if the student exists
+        if (!studentRepository.existsById(studentId)) {
+            throw new EntityNotFoundException("Student with ID " + studentId + " not found");
+        }
+
+        // Delete homeworks associated with the student
+        homeworkRepository.deleteByStudentId(studentId);  // Ensure this method exists in the repository
+
+        // Delete reviews associated with the student
+        reviewRepository.deleteByStudentId(studentId);
+
+        // Delete related attendance records
+        attendanceService.deleteAttendancesByStudentId(studentId);
+
+        // Optionally delete other associated data like marks
+        deleteMarksByStudentId(studentId);
+
+        // Delete the student
+        studentRepository.deleteById(studentId);
+
+        log.info("Student with ID {} has been expelled successfully.", studentId);
+        return new Response<>("Student expelled successfully", null);
+    }
+
 }

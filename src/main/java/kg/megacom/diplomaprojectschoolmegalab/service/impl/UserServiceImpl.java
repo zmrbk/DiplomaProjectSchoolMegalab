@@ -217,4 +217,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return this.userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
     }
+
+    public Optional<User> getByOAuth2Id(String oauth2Id) {
+        return userRepository.findByOauth2Id(oauth2Id);
+    }
 }

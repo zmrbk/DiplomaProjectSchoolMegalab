@@ -1,9 +1,8 @@
 package kg.megacom.diplomaprojectschoolmegalab.controller;
 
-import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
-import kg.megacom.diplomaprojectschoolmegalab.dto.StudentDto;
+import kg.megacom.diplomaprojectschoolmegalab.dto.*;
 import kg.megacom.diplomaprojectschoolmegalab.exceptions.EntityNotFoundException;
-import kg.megacom.diplomaprojectschoolmegalab.service.StudentService;
+import kg.megacom.diplomaprojectschoolmegalab.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +16,17 @@ import java.util.List;
  * Предоставляет RESTful API для создания, получения, обновления и удаления студентов.
  */
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/student")
 @RequiredArgsConstructor
 @Slf4j
 public class StudentController {
 
+    private final SubjectService subjectService;
     private final StudentService studentService;
+    private final LessonService lessonService;
+    private final HomeworkService homeworkService;
+    private final MarkService markService;
+    private final ScheduleService scheduleService;
 
     /**
      * Создает нового студента.
@@ -116,5 +120,61 @@ public class StudentController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response<>("An error occurred while deleting the student", null));
         }
+    }
+
+    // 1. Просмотр списка своих предметов
+    @GetMapping("/subjects")
+    public ResponseEntity<List<SubjectsDto>> getStudentSubjects(@RequestParam Long studentId) {
+        List<SubjectsDto> subjects = subjectService.getSubjectsByStudentId(studentId);
+        return ResponseEntity.ok(subjects);
+    }
+
+    // 2. Просмотр списка учеников в классе
+    @GetMapping("/classmates")
+    public ResponseEntity<List<StudentDto>> getAllStudentsInClass(@RequestParam Long classId) {
+        List<StudentDto> classmates = studentService.getAllStudentsInClass(classId);
+        return ResponseEntity.ok(classmates);
+    }
+
+    // 3. Просмотр списка тем по предмету
+    @GetMapping("/subjects/{subjectId}/topics")
+    public ResponseEntity<List<TopicDto>> getSubjectTopics(@PathVariable Long subjectId) {
+        List<TopicDto> topics = subjectService.getTopicsBySubjectId(subjectId);
+        return ResponseEntity.ok(topics);
+    }
+
+    // 4. Просмотр списка уроков
+    @GetMapping("/lessons")
+    public ResponseEntity<List<LessonDto>> getLessonsBySubject(@RequestParam Long subjectId) {
+        List<LessonDto> lessons = lessonService.getLessonsBySubjectId(subjectId);
+        return ResponseEntity.ok(lessons);
+    }
+
+    // 5. Просмотр списка домашних работ по уроку
+    @GetMapping("/homework")
+    public ResponseEntity<List<HomeworkDto>> getHomeworkByLesson(@RequestParam Long lessonId) {
+        List<HomeworkDto> homeworkList = homeworkService.getHomeworkByLessonId(lessonId);
+        return ResponseEntity.ok(homeworkList);
+    }
+
+    // 6. Отправка выполненой домашней работы
+    @PostMapping("/homework/submit")
+    public ResponseEntity<HomeworkDto> submitHomework(@RequestBody HomeworkSubmissionDto submissionDto) {
+        HomeworkDto submittedHomework = homeworkService.submitHomework(submissionDto);
+        return ResponseEntity.ok(submittedHomework);
+    }
+
+    // 7. Просмотр списка оценок
+    @GetMapping("/marks")
+    public ResponseEntity<List<MarkDto>> getMarksByStudent(@RequestParam Long studentId) {
+        List<MarkDto> marks = markService.getMarksByStudentId(studentId);
+        return ResponseEntity.ok(marks);
+    }
+
+    // 8. Получение расписания
+    @GetMapping("/schedule")
+    public ResponseEntity<List<ScheduleDto>> getStudentSchedule(@RequestParam Long studentId) {
+        List<ScheduleDto> schedule = scheduleService.getScheduleByStudentId(studentId);
+        return ResponseEntity.ok(schedule);
     }
 }

@@ -64,4 +64,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new Response<>("You have not permission!", "Error"));
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+    }
 }

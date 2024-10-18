@@ -1,5 +1,6 @@
 package kg.megacom.diplomaprojectschoolmegalab.service.impl;
 
+import jakarta.transaction.Transactional;
 import kg.megacom.diplomaprojectschoolmegalab.dto.AttendanceDto;
 import kg.megacom.diplomaprojectschoolmegalab.dto.Response;
 import kg.megacom.diplomaprojectschoolmegalab.entity.Attendance;
@@ -26,7 +27,6 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     private final AttendanceRepository attendanceRepository;
     private final AttendanceMapper attendanceMapper;
-
     /**
      * Создает новую запись о посещаемости.
      *
@@ -104,5 +104,11 @@ public class AttendanceServiceImpl implements AttendanceService {
                 .orElseThrow(() -> new RuntimeException("Attendance not found with ID: " + id));
         attendanceRepository.delete(attendance);
         log.info("[#deleteAttendance] deleted successfully");
+    }
+
+    @Override
+    @Transactional // Ensure transactions are managed properly
+    public void deleteAttendancesByStudentId(Long studentId) {
+        attendanceRepository.deleteByStudentId(studentId);
     }
 }

@@ -122,4 +122,21 @@ public class MarkServiceImpl implements MarkService {
                 .map(markMapper::toMarkDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<MarkDto> getMarksByStudentId(Long studentId) {
+        log.info("[#getMarksByStudentId] is calling with Student ID: {}", studentId);
+
+        // Retrieve marks from the repository based on student ID
+        List<Mark> marks = markRepository.findByStudentId(studentId);
+
+        if (marks.isEmpty()) {
+            log.warn("No marks found for Student ID: {}", studentId);
+        }
+
+        // Convert the list of Mark entities to MarkDto and return the result
+        return marks.stream()
+                .map(markMapper::toMarkDto)
+                .collect(Collectors.toList());
+    }
 }

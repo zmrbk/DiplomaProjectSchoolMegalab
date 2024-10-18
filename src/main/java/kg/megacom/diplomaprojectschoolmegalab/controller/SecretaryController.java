@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/api/secretary")
+@RequestMapping("/secretary")
 @RequiredArgsConstructor
 public class SecretaryController {
 
